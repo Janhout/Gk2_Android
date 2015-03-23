@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Gk2_Android</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Login</string>
+
+
+    <string name="title_activity_lista_clientes">ListaClientes</string>
+
+    <string name="nombre_empresa">Nombre de la empresa</string>
+    <string name="login">Entrar!</string>
+    <string name="usuario">Usuario / Email</string>
+    <string name="pass">Contraseña</string>
+    <string name="recuperar_pass">Recuperar contraseña</string>
+    <string name="title_activity_recordar_pass">Recuperar Contraseña</string>
+
+    <string name="email">Email</string>
+    <string name="recuperar">Enviar!</string>
+    <string name="volver_login">Ya tengo contraseña. Login</string>
+
+</resources>

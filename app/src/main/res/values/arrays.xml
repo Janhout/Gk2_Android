@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="lista_acciones">
+        <item>Ver facturas</item>
+        <item>Llamar</item>
+        <item>Enviar Email</item>
+    </string-array>
+
+</resources>
