@@ -1,6 +1,7 @@
 package es.gk2.janhout.gk2_android;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -22,6 +23,7 @@ public class FragmentoListaClientes extends Fragment {
     private ListView lv;
     private AdaptadorListaClientes ad;
     private ArrayList<Cliente> listaClientes;
+    private Context contexto;
 
     public FragmentoListaClientes() {
     }
@@ -41,7 +43,7 @@ public class FragmentoListaClientes extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        this.contexto = getActivity();
         //listaClientes = (ArrayList<Cliente>)getActivity().getIntent().getBundleExtra("datos").getSerializable("clientes");
         /*listaClientes = new ArrayList<>();
         listaClientes.add(new Cliente("Empresa1", "78585452C", "985585858", "644887788", "rafa@fjamil.com1"));
@@ -52,7 +54,6 @@ public class FragmentoListaClientes extends Fragment {
             lv = (ListView) getActivity().findViewById(R.id.lvClientes);
             ad = new AdaptadorListaClientes(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
             lv.setAdapter(ad);
-            Log.v("mio", String.valueOf(listaClientes.size()));
         }
     }
 
@@ -98,7 +99,7 @@ public class FragmentoListaClientes extends Fragment {
         }
 
         private void cargarDialogoProgreso(){
-            progreso = new ProgressDialog(FragmentoListaClientes.getActivity());
+            progreso = new ProgressDialog(contexto);
             progreso.setMessage(getString(R.string.cargar_lista_clientes));
             progreso.setCancelable(false);
             progreso.show();

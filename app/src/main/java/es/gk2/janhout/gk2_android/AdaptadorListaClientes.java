@@ -36,11 +36,14 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
+
         vh.nombreComercial.setText(datos.get(position).getNombre_comercial());
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(contexto, R.array.lista_acciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vh.acciones.setAdapter(adapter);
+        convertView.setTag(vh);
+
         return convertView;
     }
 
