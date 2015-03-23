@@ -23,7 +23,10 @@ public class Login extends ActionBarActivity {
         String usuario = etUsuario.getText().toString();
         String pass = etPass.getText().toString();
 
-        hacerLogin(usuario, pass);
+        if(hacerLogin(usuario, pass)){
+            Intent i = new Intent(this, Principal.class);
+            startActivity(i);
+        }
     }
 
     public void recuperaPass(View v){

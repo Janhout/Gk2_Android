@@ -22,6 +22,11 @@
             android:name=".RecordarPass"
             android:label="@string/title_activity_recordar_pass" >
         </activity>
+
+        <activity
+            android:name=".Principal"
+            android:label="@string/title_activity_principal" >
+        </activity>
     </application>
 
 </manifest>

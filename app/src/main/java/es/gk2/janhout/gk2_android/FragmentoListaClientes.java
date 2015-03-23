@@ -35,11 +35,16 @@ public class FragmentoListaClientes extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        listaClientes = (ArrayList<Cliente>)getActivity().getIntent().getBundleExtra("datos").getSerializable("clientes");
-
+        //listaClientes = (ArrayList<Cliente>)getActivity().getIntent().getBundleExtra("datos").getSerializable("clientes");
+        listaClientes = new ArrayList<>();
+        listaClientes.add(new Cliente("Empresa1", "78585452C", "985585858", "644887788", "rafa@fjamil.com1"));
+        listaClientes.add(new Cliente("Empresa2", "78585452D", "985585859", "644887789", "rafa@fjamil.com2"));
+        listaClientes.add(new Cliente("Empresa3", "78585452E", "985585850", "644887780", "rafa@fjamil.com3"));
         lv = (ListView)getActivity().findViewById(R.id.lvClientes);
         ad = new AdaptadorListaClientes(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
         lv.setAdapter(ad);
     }
+
+
 
 }

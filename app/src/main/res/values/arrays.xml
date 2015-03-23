@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name="lista_acciones">
+        <item>Acciones</item>
         <item>Ver facturas</item>
         <item>Llamar</item>
         <item>Enviar Email</item>

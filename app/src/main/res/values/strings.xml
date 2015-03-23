@@ -3,6 +3,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_principal">Principal</string>
 
 
     <string name="title_activity_lista_clientes">ListaClientes</string>
@@ -17,5 +18,7 @@
     <string name="email">Email</string>
     <string name="recuperar">Enviar!</string>
     <string name="volver_login">Ya tengo contraseña. Login</string>
+
+    <string name="bienvenido">Bienvenido</string>
 
 </resources>
