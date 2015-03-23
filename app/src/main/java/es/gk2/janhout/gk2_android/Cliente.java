@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 public class Cliente {
 
+    private int id;
     private String nombre_comercial;
     private String nif;
     private String telefono01;
@@ -16,7 +17,8 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String nombre_comercial, String nif, String telefono01, String telefono02, String email) {
+    public Cliente(int id, String nombre_comercial, String nif, String telefono01, String telefono02, String email) {
+        this.id = id;
         this.nombre_comercial = nombre_comercial;
         this.nif = nif;
         this.telefono01 = telefono01;
@@ -26,6 +28,7 @@ public class Cliente {
 
     public Cliente(JSONObject clienteJSON){
         try {
+            this.id = clienteJSON.getInt("CLIENTE");
             this.nombre_comercial = clienteJSON.getString("NOMBRE_COMERCIAL");
             this.nif = clienteJSON.getString("NIF");
             this.telefono01 = clienteJSON.getString("TELEFONO01");

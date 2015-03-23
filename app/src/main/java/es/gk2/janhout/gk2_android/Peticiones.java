@@ -20,6 +20,8 @@ public class Peticiones {
             u = new URL(url);
             conexion = u.openConnection();
             conexion.setDoOutput(false);
+            String token ="";
+            conexion.setRequestProperty("Authorization", "Bearer " + token);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
 

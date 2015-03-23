@@ -33,6 +33,7 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
             vh = new ViewHolder();
             vh.nombreComercial = (TextView) convertView.findViewById(R.id.nombre_cliente);
             vh.acciones = (Spinner) convertView.findViewById(R.id.sp_acciones);
+            convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
@@ -42,7 +43,6 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(contexto, R.array.lista_acciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vh.acciones.setAdapter(adapter);
-        convertView.setTag(vh);
 
         return convertView;
     }
