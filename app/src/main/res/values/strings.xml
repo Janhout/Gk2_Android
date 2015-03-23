@@ -19,6 +19,10 @@
     <string name="recuperar">Enviar!</string>
     <string name="volver_login">Ya tengo contraseña. Login</string>
 
+
     <string name="bienvenido">Bienvenido</string>
+
+    <string name="cargar_lista_clientes">Cargando lista de clientes</string>
+
 
 </resources>

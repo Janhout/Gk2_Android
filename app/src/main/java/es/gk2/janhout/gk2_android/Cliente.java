@@ -1,5 +1,10 @@
 package es.gk2.janhout.gk2_android;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Cliente {
 
     private String nombre_comercial;
@@ -17,6 +22,18 @@ public class Cliente {
         this.telefono01 = telefono01;
         this.telefono02 = telefono02;
         this.email = email;
+    }
+
+    public Cliente(JSONObject clienteJSON){
+        try {
+            this.nombre_comercial = clienteJSON.getString("NOMBRE_COMERCIAL");
+            this.nif = clienteJSON.getString("NIF");
+            this.telefono01 = clienteJSON.getString("TELEFONO01");
+            this.telefono02 = clienteJSON.getString("TELEFONO02");
+            this.email = clienteJSON.getString("EMAIL");
+        } catch (JSONException e) {
+            Log.e("error mio", e.toString());
+        }
     }
 
     public String getNombre_comercial() {

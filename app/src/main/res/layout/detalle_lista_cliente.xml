@@ -9,14 +9,17 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/nombre_cliente"/>
+            android:id="@+id/nombre_cliente"
+            android:layout_gravity="start"/>
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sp_acciones"></Spinner>
+            android:id="@+id/sp_acciones"
+            android:layout_gravity="end"
+            ></Spinner>
 
     </LinearLayout>
 
