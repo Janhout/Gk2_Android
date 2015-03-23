@@ -24,5 +24,7 @@
 
     <string name="cargar_lista_clientes">Cargando lista de clientes</string>
 
+    <string name="preferencias_compartidas">es.gk2.janhout.gk2_android.preferencias_compartidas</string>
+    <string name="token_session">token</string>
 
 </resources>

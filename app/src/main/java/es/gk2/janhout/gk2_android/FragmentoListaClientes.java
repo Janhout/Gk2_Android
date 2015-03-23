@@ -74,7 +74,7 @@ public class FragmentoListaClientes extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            return Peticiones.peticionGetJSON(Constantes.clientesPrueba);
+            return Peticiones.peticionGetJSON(contexto, Constantes.clientesPrueba);
         }
 
         @Override
