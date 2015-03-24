@@ -1,11 +1,10 @@
 package es.gk2.janhout.gk2_android;
 
 import android.app.Fragment;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +19,7 @@ public class Principal extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private String[] titulos;
-    private ActionBarDrawerToggle drawerToggle;
-    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +37,18 @@ public class Principal extends ActionBarActivity {
 
         drawerList.setAdapter(new AdaptadorListaNavigationDrawer(this, R.layout.detelle_elemento_drawer, items));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
     }
 
