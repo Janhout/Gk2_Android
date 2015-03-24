@@ -49,9 +49,7 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
 
         vh.nombreComercial.setText(datos.get(position).getNombre_comercial());
         String[] list = contexto.getResources().getStringArray(R.array.lista_acciones);
-        AdaptadorSpinnerAcciones ad = new AdaptadorSpinnerAcciones(contexto, R.layout.detalle_spinner, list);
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(contexto, R.array.lista_acciones, android.R.layout.simple_spinner_item);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        AdaptadorSpinnerAcciones ad = new AdaptadorSpinnerAcciones(contexto, R.layout.detalle_spinner, R.id.tvSpinner, list);
         ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         vh.acciones.setAdapter(ad);
@@ -80,7 +78,7 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
 
     }
 
-    public static class ViewHolder {
+    private static class ViewHolder {
         public TextView nombreComercial;
         public Spinner acciones;
     }
