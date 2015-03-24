@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android;
+package es.gk2.janhout.gk2_android.Actividades;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import es.gk2.janhout.gk2_android.R;
 
 
 public class RecordarPass extends ActionBarActivity {

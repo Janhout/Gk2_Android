@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android;
+package es.gk2.janhout.gk2_android.Fragmentos;
 
 
 import android.app.Fragment;
@@ -18,6 +18,12 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
+
+import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
+import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.Peticiones;
+import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.Util.Factura;
 
 
 /**

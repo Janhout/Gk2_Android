@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android;
+package es.gk2.janhout.gk2_android.Adaptadores;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -14,6 +14,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import es.gk2.janhout.gk2_android.Util.Cliente;
+import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
+import es.gk2.janhout.gk2_android.R;
 
 public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spinner.OnItemSelectedListener {
 

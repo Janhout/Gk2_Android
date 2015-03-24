@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android;
+package es.gk2.janhout.gk2_android.Util;
 
 import android.util.Log;
 

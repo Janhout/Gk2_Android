@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android;
+package es.gk2.janhout.gk2_android.Estaticas;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+
+import es.gk2.janhout.gk2_android.R;
 
 public class Peticiones {
 

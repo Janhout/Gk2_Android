@@ -1,7 +1,9 @@
-package es.gk2.janhout.gk2_android;
+package es.gk2.janhout.gk2_android.Estaticas;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import es.gk2.janhout.gk2_android.R;
 
 public class Metodos {
 

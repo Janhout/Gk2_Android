@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android;
+package es.gk2.janhout.gk2_android.Adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import es.gk2.janhout.gk2_android.Util.Factura;
+import es.gk2.janhout.gk2_android.R;
 
 /**
  * Created by usuario on 23/03/2015.
