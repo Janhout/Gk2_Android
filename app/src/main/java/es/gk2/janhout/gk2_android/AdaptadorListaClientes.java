@@ -1,16 +1,21 @@
 package es.gk2.janhout.gk2_android;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
+public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spinner.OnItemSelectedListener {
 
     private Context contexto;
     private ArrayList<Cliente> datos;
@@ -39,12 +44,32 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
         }
 
         vh.nombreComercial.setText(datos.get(position).getNombre_comercial());
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(contexto, R.array.lista_acciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vh.acciones.setAdapter(adapter);
+        vh.acciones.setOnItemSelectedListener(this);
+        vh.acciones.setTag(position);
 
         return convertView;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String[] accion = contexto.getResources().getStringArray(R.array.lista_acciones);
+        if(accion[position].equalsIgnoreCase("Ver facturas")){
+            Fragment newFragment = new FragmentoListaFacturas();
+            FragmentTransaction transaction = ((ActionBarActivity)contexto).getFragmentManager().beginTransaction();
+            transaction.replace(R.id.relativeLayoutPrincipal, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else if(accion[position].compareTo("Acciones")!=0) {
+            Log.v("mio", parent.getTag() +  " " +accion[position]);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     public static class ViewHolder {

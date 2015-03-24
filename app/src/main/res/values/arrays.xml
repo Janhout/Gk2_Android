@@ -13,4 +13,9 @@
         <item>Ver PDF</item>
     </string-array>
 
+    <string-array name="lista_navigation_drawer">
+        <item>Clientes</item>
+        <item>Gastos</item>
+    </string-array>
+
 </resources>

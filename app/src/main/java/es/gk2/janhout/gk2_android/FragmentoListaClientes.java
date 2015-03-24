@@ -61,6 +61,8 @@ public class FragmentoListaClientes extends Fragment {
         listaClientes = new ArrayList<>();
         HebraCargarLista h = new HebraCargarLista();
         h.execute();
+        HebraCargarLista hg = new HebraCargarLista();
+        hg.execute();
     }
 
     private class HebraCargarLista extends AsyncTask<Void, Void, String> {
