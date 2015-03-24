@@ -1,10 +1,11 @@
 package es.gk2.janhout.gk2_android;
 
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,16 @@ public class FragmentoListaFacturas extends Fragment {
     private ListView lv;
     private AdaptadorListaFacturas ad;
     private ArrayList<Factura> listaFacturas;
+    private Context contexto;
 
     public FragmentoListaFacturas() {
 
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,9 +48,10 @@ public class FragmentoListaFacturas extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        this.contexto = getActivity();
         cargarLista();
         if(listaFacturas != null) {
-            lv = (ListView) getActivity().findViewById(R.id.lvClientes);
+            lv = (ListView) getActivity().findViewById(R.id.lvFacturas);
             ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);
             lv.setAdapter(ad);
         }
@@ -67,7 +74,7 @@ public class FragmentoListaFacturas extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            return Peticiones.peticionGetJSON(Constantes.facturasPrueba);
+            return Peticiones.peticionGetJSON(contexto, Constantes.facturasPrueba);
         }
 
         @Override
@@ -86,16 +93,17 @@ public class FragmentoListaFacturas extends Fragment {
                     }
                 }
             } catch (JSONException e) {
-                Log.e("error carga clientes", e.toString());
+                Log.e("error carga facturas", e.toString());
                 listaFacturas = null;
             }
         }
 
         private void cargarDialogoProgreso(){
-            progreso = new ProgressDialog(FragmentoListaFacturas.getActivity());
+            progreso = new ProgressDialog(contexto);
             progreso.setMessage(getString(R.string.cargar_lista_clientes));
             progreso.setCancelable(false);
             progreso.show();
         }
     }
 }
+

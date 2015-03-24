@@ -44,8 +44,8 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
 
         vh.numeroFactura.setText(datos.get(position).getNumeroFactura());
         vh.fechaFactura.setText(datos.get(position).getFechaFactura().toString());
-        vh.importeFactura.setText(datos.get(position).getImporteFactura());
-        vh.importePagado.setText(datos.get(position).getImportePagado());
+        vh.importeFactura.setText(Float.toString(datos.get(position).getImporteFactura()));
+        vh.importePagado.setText(Float.toString(datos.get(position).getImportePagado()));
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(contexto, R.array.lista_acciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
