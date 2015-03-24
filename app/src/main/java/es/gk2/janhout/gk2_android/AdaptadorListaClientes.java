@@ -44,9 +44,13 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
         }
 
         vh.nombreComercial.setText(datos.get(position).getNombre_comercial());
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(contexto, R.array.lista_acciones, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        vh.acciones.setAdapter(adapter);
+        String[] list = contexto.getResources().getStringArray(R.array.lista_acciones);
+        AdaptadorSpinnerAcciones ad = new AdaptadorSpinnerAcciones(contexto, R.layout.detalle_spinner, list);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(contexto, R.array.lista_acciones, android.R.layout.simple_spinner_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        vh.acciones.setAdapter(ad);
         vh.acciones.setOnItemSelectedListener(this);
         vh.acciones.setTag(position);
 

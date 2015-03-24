@@ -21,16 +21,12 @@ public class Principal extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private String[] titulos;
-    private ActionBarDrawerToggle drawerToggle;
-    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-
-        toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
 
         titulos = getResources().getStringArray(R.array.lista_navigation_drawer);
 
@@ -44,35 +40,17 @@ public class Principal extends ActionBarActivity {
         drawerList.setAdapter(new AdaptadorListaNavigationDrawer(this, R.layout.detelle_elemento_drawer, items));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-
-        drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.bienvenido,
-                R.string.usuario
-        ) {
-            public void onDrawerClosed(View view) {
-                toolbar.setTitle("item");
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                toolbar.setTitle("hola");
-            }
-        };
-        drawerLayout.setDrawerListener(drawerToggle);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -88,9 +66,7 @@ public class Principal extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
