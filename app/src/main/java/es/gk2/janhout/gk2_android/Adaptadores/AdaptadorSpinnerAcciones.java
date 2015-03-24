@@ -1,7 +1,6 @@
 package es.gk2.janhout.gk2_android.Adaptadores;
 
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,12 +43,12 @@ public class AdaptadorSpinnerAcciones extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position, convertView, parent);
+        return getCustomView(position, parent);
     }
 
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
+    public View getCustomView(int position, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(recurso, parent, false);
+        View convertView = inflater.inflate(recurso, parent, false);
 
         holder.accion = (TextView) convertView.findViewById(R.id.tvSpinner);
         holder.accion.setText(lista[position]);

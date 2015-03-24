@@ -20,14 +20,14 @@ public class AdaptadorListaNavigationDrawer extends ArrayAdapter {
     private static LayoutInflater inflador;
 
     public AdaptadorListaNavigationDrawer(Context contexto, int recurso, List objects) {
-        super(contexto, 0, objects);
+        super(contexto, recurso, objects);
         this.recurso = recurso;
-        this.inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder vh = null;
+        ViewHolder vh;
         if (convertView == null) {
             convertView = inflador.inflate(recurso, null);
             vh = new ViewHolder();
@@ -43,7 +43,6 @@ public class AdaptadorListaNavigationDrawer extends ArrayAdapter {
 
         return convertView;
     }
-
     public static class ViewHolder {
         public TextView titulo;
         public ImageView icono;

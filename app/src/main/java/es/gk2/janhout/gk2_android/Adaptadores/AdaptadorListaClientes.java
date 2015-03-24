@@ -3,6 +3,7 @@ package es.gk2.janhout.gk2_android.Adaptadores;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,12 +32,12 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
         this.contexto = contexto;
         this.recurso = recurso;
         this.datos = datos;
-        this.inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder vh = null;
+        ViewHolder vh;
         if (convertView == null) {
             convertView = inflador.inflate(recurso, null);
             vh = new ViewHolder();
@@ -54,7 +55,7 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
 
         vh.acciones.setAdapter(ad);
         vh.acciones.setOnItemSelectedListener(this);
-        vh.acciones.setTag(position);
+        vh.acciones.setTag(datos.get(position).getId());
 
         return convertView;
     }
@@ -63,9 +64,12 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String[] accion = contexto.getResources().getStringArray(R.array.lista_acciones);
         if(accion[position].equalsIgnoreCase("Ver facturas")){
-            Fragment newFragment = new FragmentoListaFacturas();
+            Bundle bundle = new Bundle();
+            bundle.putInt("idCliente", (int)parent.getTag());
+            Fragment fragmento = new FragmentoListaFacturas();
+            fragmento.setArguments(bundle);
             FragmentTransaction transaction = ((ActionBarActivity)contexto).getFragmentManager().beginTransaction();
-            transaction.replace(R.id.relativeLayoutPrincipal, newFragment);
+            transaction.replace(R.id.relativeLayoutPrincipal, fragmento);
             transaction.addToBackStack(null);
             transaction.commit();
         } else if(accion[position].compareTo("Acciones")!=0) {
@@ -75,7 +79,6 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     private static class ViewHolder {
