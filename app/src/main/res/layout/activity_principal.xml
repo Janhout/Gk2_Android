@@ -9,7 +9,7 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="es.gk2.janhout.gk2_android.FragmentoListaClientes"
+        android:name="es.gk2.janhout.gk2_android.FragmentoListaFacturas"
         android:id="@+id/fragment"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

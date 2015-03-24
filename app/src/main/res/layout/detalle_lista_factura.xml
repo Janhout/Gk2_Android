@@ -6,27 +6,36 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/filaFactura" >
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/numeroFactura"/>
+            android:id="@+id/numeroFactura"
+            android:layout_alignParentLeft="true"
+           />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/fechaFactura" />
+            android:id="@+id/fechaFactura"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/numeroFactura"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/importeFactura" />
+            android:id="@+id/importeFactura"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/fechaFactura"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/importePagado" />
+            android:id="@+id/importePagado"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/importeFactura"/>
 
         <Spinner
             android:layout_width="wrap_content"

@@ -8,4 +8,9 @@
         <item>Enviar Email</item>
     </string-array>
 
+    <string-array name="lista_acciones_facturas">
+        <item>Enviar al cliente</item>
+        <item>Ver PDF</item>
+    </string-array>
+
 </resources>

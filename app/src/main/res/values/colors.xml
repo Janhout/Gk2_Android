@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="rojo" type="color">#FFB6B6</item>
+    <item name="verde" type="color">#B6FFB6</item>
+    <item name="amarillo" type="color">#FFFFCC</item>
+</resources>
