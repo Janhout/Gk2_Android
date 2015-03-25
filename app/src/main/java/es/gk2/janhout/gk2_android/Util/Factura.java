@@ -5,30 +5,28 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by usuario on 23/03/2015.
  */
 public class Factura {
     private String numeroFactura;
-    private String fechaFactura;
+    private Date fechaFactura;
     // 0: impagada | 1: pagada | 2: borrador
     private Integer estadoFactura;
     private Float importeFactura;
     private Float importePagado;
 
-    public Factura(String numeroFactura, String fechaFactura, Integer estadoFactura, Float importeFactura, Float importePagado) {
-        this.numeroFactura = numeroFactura;
-        this.fechaFactura = fechaFactura;
-        this.estadoFactura = estadoFactura;
-        this.importeFactura = importeFactura;
-        this.importePagado = importePagado;
-    }
-
     public Factura(JSONObject facturaJSON) {
         try {
             this.numeroFactura = facturaJSON.getString("NUMERO");
             String stringFecha = facturaJSON.getString("FECHA");
-            this.fechaFactura = stringFecha.substring(8, 10)+"/"+stringFecha.substring(5, 7)+"/"+stringFecha.substring(0, 4);
+            SimpleDateFormat toDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            this.fechaFactura = toDateFormatter.parse(stringFecha);
+            //this.fechaFactura = stringFecha.substring(8, 10) + "/" + stringFecha.substring(5, 7) + "/" + stringFecha.substring(0, 4);
             String estadoFacturaTemp = facturaJSON.getString("ESTADO");
             if (estadoFacturaTemp.equals("Impagada"))
                 this.estadoFactura = 0;
@@ -40,6 +38,8 @@ public class Factura {
             this.importePagado = Float.parseFloat(facturaJSON.getString("PENDIENTE"));
         } catch (JSONException e) {
             Log.e("error mio", e.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
@@ -52,10 +52,12 @@ public class Factura {
     }
 
     public String getFechaFactura() {
-        return fechaFactura;
+        SimpleDateFormat toStringFormatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        return toStringFormatter.format(fechaFactura);
     }
 
-    public void setFechaFactura(String fechaFactura) {
+    public void setFechaFactura(Date fechaFactura) {
         this.fechaFactura = fechaFactura;
     }
 

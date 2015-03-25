@@ -57,7 +57,7 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         }
 
         vh.numeroFactura.setText(datos.get(position).getNumeroFactura());
-        vh.fechaFactura.setText(datos.get(position).getFechaFactura().toString());
+        vh.fechaFactura.setText(datos.get(position).getFechaFactura());
         vh.importeFactura.setText("Importe: "+Float.toString(datos.get(position).getImporteFactura()));
         if(datos.get(position).getEstadoFactura() == 0)
             vh.importePagado.setText("Pagado: "+Float.toString(datos.get(position).getImportePagado()));
