@@ -27,4 +27,11 @@
     <string name="preferencias_compartidas">es.gk2.janhout.gk2_android.preferencias_compartidas</string>
     <string name="token_session">token</string>
 
+    <string name="close_drawer">Drawer cerrado</string>
+    <string name="open_drawer">Drawer abierto</string>
+
+    <string name="titulo_navigation_drawer">Selecciona opción</string>
+
+
+
 </resources>

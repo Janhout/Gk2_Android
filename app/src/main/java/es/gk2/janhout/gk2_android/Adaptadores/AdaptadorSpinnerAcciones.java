@@ -14,21 +14,51 @@ public class AdaptadorSpinnerAcciones extends ArrayAdapter<String> {
     private Context contexto;
     private int recurso;
     private String[] lista;
+    ViewHolder holder;
 
-    public AdaptadorSpinnerAcciones(Context contexto, int resource, String[] lista) {
-        super(contexto, resource, lista);
-        this.contexto = contexto;
+    public AdaptadorSpinnerAcciones(Context context, int resource, int tv, String[] objects) {
+        super(context, tv, objects);
+        this.contexto = context;
         this.recurso = resource;
-        this.lista = lista;
+        this.lista = objects;
+        this.holder = new ViewHolder();
     }
 
-
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
-
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View sp = inflater.inflate(recurso, parent, false);
-        TextView ts = (TextView) sp.findViewById(R.id.tvSpinner);
-        ts.setText(lista[position]);
-        return sp;
+        convertView = inflater.inflate(recurso, parent, false);
+
+        holder.accion = (TextView) convertView.findViewById(R.id.tvSpinner);
+        holder.accion.setText(lista[position]);
+
+        if(position==0){
+            holder.accion.setVisibility(View.GONE);
+        }
+        else{
+            holder.accion.setVisibility(View.VISIBLE);
+        }
+        return convertView;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        return getCustomView(position, parent);
+    }
+
+    public View getCustomView(int position, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View convertView = inflater.inflate(recurso, parent, false);
+
+        holder.accion = (TextView) convertView.findViewById(R.id.tvSpinner);
+        holder.accion.setText(lista[position]);
+
+        holder.accion.setVisibility(View.VISIBLE);
+
+        return convertView;
+    }
+
+    private static class ViewHolder{
+        TextView accion;
     }
 }

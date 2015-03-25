@@ -1,6 +1,5 @@
 package es.gk2.janhout.gk2_android.Fragmentos;
 
-
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,10 +24,6 @@ import es.gk2.janhout.gk2_android.Estaticas.Peticiones;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Factura;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FragmentoListaFacturas extends Fragment {
     private ListView lv;
     private AdaptadorListaFacturas ad;
@@ -47,7 +42,6 @@ public class FragmentoListaFacturas extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_lista_facturas, container, false);
     }
 
@@ -55,7 +49,8 @@ public class FragmentoListaFacturas extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.contexto = getActivity();
-        cargarLista();
+        getArguments().getInt("idCliente");
+        cargarLista(getArguments().getInt("idCliente"));
         if(listaFacturas != null) {
             lv = (ListView) getActivity().findViewById(R.id.lvFacturas);
             ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);
@@ -63,13 +58,13 @@ public class FragmentoListaFacturas extends Fragment {
         }
     }
 
-    private void cargarLista(){
+    private void cargarLista(int idCliente){
         listaFacturas = new ArrayList<>();
         HebraCargarListaFacturas h = new HebraCargarListaFacturas();
-        h.execute();
+        h.execute(new Integer[]{idCliente});
     }
 
-    private class HebraCargarListaFacturas extends AsyncTask<Void, Void, String> {
+    private class HebraCargarListaFacturas extends AsyncTask<Integer, Void, String> {
 
         private ProgressDialog progreso;
 
@@ -79,7 +74,9 @@ public class FragmentoListaFacturas extends Fragment {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected String doInBackground(Integer... params) {
+            int idCliente = params[0];
+            Log.v("mio", idCliente+"");
             return Peticiones.peticionGetJSON(contexto, Constantes.facturasPrueba);
         }
 

@@ -3,9 +3,12 @@ package es.gk2.janhout.gk2_android.Actividades;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +30,9 @@ public class Principal extends ActionBarActivity {
     private ListView drawerList;
     private String[] titulos;
 
+    private ActionBarDrawerToggle drawerToggle;
+    private String tituloActividad;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +40,9 @@ public class Principal extends ActionBarActivity {
         setContentView(R.layout.activity_principal);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(tituloActividad == null)
+            tituloActividad = getTitle().toString();
         titulos = getResources().getStringArray(R.array.lista_navigation_drawer);
-
 
         drawerList = (ListView) findViewById(R.id.lista_drawer);
 
@@ -46,18 +53,46 @@ public class Principal extends ActionBarActivity {
         drawerList.setAdapter(new AdaptadorListaNavigationDrawer(this, R.layout.detelle_elemento_drawer, items));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
+
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                null, R.string.open_drawer,
+                R.string.close_drawer) {
+
+            public void onDrawerClosed(View view) {
+                getSupportActionBar().setTitle(tituloActividad);
+                supportInvalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getSupportActionBar().setTitle(getString(R.string.titulo_navigation_drawer));
+                supportInvalidateOptionsMenu();
+            }
+        };
+
+        drawerLayout.setDrawerListener(drawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
+        drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+        //ocultar todas las opocines de menu o mostrarlas
+        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -68,19 +103,21 @@ public class Principal extends ActionBarActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("tituloActividad", tituloActividad);
+        Log.v("mio", tituloActividad);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        tituloActividad = savedInstanceState.getString("tituloActividad");
+        getSupportActionBar().setTitle(tituloActividad);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*// Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-        */
         switch (item.getItemId()) {
             case R.id.action_drawer:
                 if(drawerLayout.isDrawerOpen(Gravity.LEFT))
@@ -93,6 +130,16 @@ public class Principal extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+
+
+
+
+
+
+
+
 
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -115,7 +162,8 @@ public class Principal extends ActionBarActivity {
             getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
 
             drawerList.setItemChecked(position, true);
-            setTitle(titulos[position]);
+            tituloActividad = titulos[position];
+            getSupportActionBar().setTitle(tituloActividad);
             drawerLayout.closeDrawer(drawerList);
         }
     }
