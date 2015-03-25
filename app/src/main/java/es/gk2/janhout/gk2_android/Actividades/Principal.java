@@ -3,12 +3,11 @@ package es.gk2.janhout.gk2_android.Actividades;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Gravity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaNavigationDrawer;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
+import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaCompras;
 import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
 
@@ -47,8 +46,8 @@ public class Principal extends ActionBarActivity {
         drawerList = (ListView) findViewById(R.id.lista_drawer);
 
         ArrayList<ItemNavigationDrawer> items = new ArrayList<>();
-        items.add(new ItemNavigationDrawer(titulos[0],R.mipmap.ic_launcher));
-        items.add(new ItemNavigationDrawer(titulos[1],R.mipmap.ic_launcher));
+        items.add(new ItemNavigationDrawer(titulos[0],R.drawable.ic_action_user));
+        items.add(new ItemNavigationDrawer(titulos[1],R.drawable.ic_action_paste));
 
         drawerList.setAdapter(new AdaptadorListaNavigationDrawer(this, R.layout.detelle_elemento_drawer, items));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -155,7 +154,7 @@ public class Principal extends ActionBarActivity {
                     fragment = new FragmentoListaClientes();
                     break;
                 case 1:
-                    fragment = new FragmentoListaFacturas();
+                    fragment = new FragmentoListaCompras();
                     break;
             }
 

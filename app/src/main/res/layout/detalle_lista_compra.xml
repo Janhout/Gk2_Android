@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/compra_fila" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/compra_id"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/compra_proveedor"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/compra_id"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/compra_fecha"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/compra_proveedor"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/compra_importe"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/compra_fecha"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/compra_pendiente"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/compra_importe"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sp_acciones_compras"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+</LinearLayout>

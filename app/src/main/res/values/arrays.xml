@@ -14,8 +14,8 @@
     </string-array>
 
     <string-array name="lista_navigation_drawer">
-        <item>Clientes</item>
-        <item>Gastos</item>
+        <item>Mis clientes</item>
+        <item>Mis compras</item>
     </string-array>
 
 </resources>

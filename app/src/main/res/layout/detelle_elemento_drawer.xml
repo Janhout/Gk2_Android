@@ -4,16 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tituloElemento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#fff" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/iconoElemento"
         android:layout_marginRight="16dp" />
+
+    <TextView
+        android:id="@+id/tituloElemento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ff020202"
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>

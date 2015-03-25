@@ -9,14 +9,14 @@
         android:orientation="vertical" >
 
         <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-            android:text="CLIENTE"
+            android:text="GASTOS"
             android:textSize="24dp"
             android:layout_marginBottom="5dp"/>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/lvFacturas"
+            android:id="@+id/lvCompras"
             android:layout_gravity="center_horizontal|top">
         </ListView>
 
