@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,9 +33,10 @@ public class Principal extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         titulos = getResources().getStringArray(R.array.lista_navigation_drawer);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         drawerList = (ListView) findViewById(R.id.lista_drawer);
 
         ArrayList<ItemNavigationDrawer> items = new ArrayList<>();
@@ -67,7 +69,7 @@ public class Principal extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        /*// Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
@@ -78,6 +80,18 @@ public class Principal extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+        */
+        switch (item.getItemId()) {
+            case R.id.action_drawer:
+                if(drawerLayout.isDrawerOpen(Gravity.LEFT))
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                else
+                    drawerLayout.openDrawer(Gravity.LEFT);
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
