@@ -7,9 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by usuario on 25/03/2015.
- */
 public class Compra {
     private String compra_id;
     private String compra_idProveedor;

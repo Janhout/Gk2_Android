@@ -45,6 +45,7 @@ public class FragmentoListaCompras extends Fragment {
         return inflater.inflate(R.layout.fragment_lista_compras, container, false);
     }
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

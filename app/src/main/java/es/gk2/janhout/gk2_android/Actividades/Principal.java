@@ -1,13 +1,13 @@
 package es.gk2.janhout.gk2_android.Actividades;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,22 +32,25 @@ public class Principal extends ActionBarActivity {
     private ActionBarDrawerToggle drawerToggle;
     private String tituloActividad;
 
+    private String fragmentoActual = "ninguno";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(tituloActividad == null)
             tituloActividad = getTitle().toString();
+
         titulos = getResources().getStringArray(R.array.lista_navigation_drawer);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.lista_drawer);
 
         ArrayList<ItemNavigationDrawer> items = new ArrayList<>();
-        items.add(new ItemNavigationDrawer(titulos[0],R.drawable.ic_action_user));
-        items.add(new ItemNavigationDrawer(titulos[1],R.drawable.ic_action_paste));
+        items.add(new ItemNavigationDrawer(titulos[0],R.mipmap.ic_launcher));
+        items.add(new ItemNavigationDrawer(titulos[1],R.mipmap.ic_launcher));
 
         drawerList.setAdapter(new AdaptadorListaNavigationDrawer(this, R.layout.detelle_elemento_drawer, items));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -72,6 +75,7 @@ public class Principal extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -91,6 +95,11 @@ public class Principal extends ActionBarActivity {
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         //ocultar todas las opocines de menu o mostrarlas
         menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        if(fragmentoActual.equals("compras")){
+            menu.findItem(R.id.action_nuevoGasto).setVisible(true);
+        }else{
+            menu.findItem(R.id.action_nuevoGasto).setVisible(false);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -117,29 +126,19 @@ public class Principal extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_drawer:
-                if(drawerLayout.isDrawerOpen(Gravity.LEFT))
-                    drawerLayout.closeDrawer(Gravity.LEFT);
-                else
-                    drawerLayout.openDrawer(Gravity.LEFT);
-            case R.id.action_settings:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+
+        int id = item.getItemId();
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
         }
+        if (id == R.id.action_settings) {
+            return true;
+        } else if(id == R.id.action_nuevoGasto) {
+            nuevoGasto();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-
-
-
-
-
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -152,9 +151,11 @@ public class Principal extends ActionBarActivity {
             switch (position){
                 case 0:
                     fragment = new FragmentoListaClientes();
+                    fragmentoActual = "clientes";
                     break;
                 case 1:
                     fragment = new FragmentoListaCompras();
+                    fragmentoActual = "compras";
                     break;
             }
 
@@ -165,5 +166,10 @@ public class Principal extends ActionBarActivity {
             getSupportActionBar().setTitle(tituloActividad);
             drawerLayout.closeDrawer(drawerList);
         }
+    }
+
+    public void nuevoGasto() {
+        Intent intent = new Intent(this, NuevoGasto.class);
+        startActivity(intent);
     }
 }

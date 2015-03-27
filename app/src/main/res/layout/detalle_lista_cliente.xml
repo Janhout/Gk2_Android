@@ -12,13 +12,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/nombre_cliente"
-            android:layout_gravity="start"/>
+            android:layout_margin="8dp"
+            android:layout_gravity="start"
+            android:layout_centerVertical="true"/>
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sp_acciones"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:layout_centerVertical="true">
             </Spinner>
 
     </RelativeLayout>
