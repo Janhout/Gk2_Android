@@ -13,6 +13,7 @@
                 android:layout_height="0dp"
                 android:id="@+id/lvClientes"
                 android:layout_weight="1"
+                android:choiceMode="singleChoice"
                 >
             </ListView>
 

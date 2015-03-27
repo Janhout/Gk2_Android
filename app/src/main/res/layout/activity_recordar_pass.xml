@@ -33,17 +33,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etUsuario"
+            android:background="@drawable/edit_text_login"
             android:hint="@string/email"
             android:layout_marginBottom="@dimen/margin_bottom_login"
             android:layout_marginRight="@dimen/margin_lateral_login"
-            android:layout_marginLeft="@dimen/margin_lateral_login"/>
+            android:layout_marginLeft="@dimen/margin_lateral_login"
+            android:padding="@dimen/campos_texto"
+            android:singleLine="true"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btRecuperar"
             android:text="@string/recuperar"
-            android:textColor="@color/letra_blanca"
+            android:textColor="@color/blanco"
             android:background="@drawable/boton_login"
             android:layout_gravity="center_horizontal"
             android:onClick="recuperar"

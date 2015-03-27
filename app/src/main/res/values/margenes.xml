@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_bottom_login">24dp</dimen>
+    <dimen name="margin_bottom_login_campos_texto">16dp</dimen>
     <dimen name="margin_lateral_login">24dp</dimen>
+    <dimen name="campos_texto">12dp</dimen>
 
 </resources>

@@ -1,5 +1,6 @@
 package es.gk2.janhout.gk2_android.Actividades;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
@@ -26,6 +28,8 @@ public class Login extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.activity_login);
         Login.contexto = getApplicationContext();
     }
@@ -39,6 +43,8 @@ public class Login extends ActionBarActivity {
         if(hacerLogin(usuario, pass)){
             Intent i = new Intent(this, Principal.class);
             startActivity(i);
+        } else{
+            Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -25,18 +25,27 @@
             android:layout_height="wrap_content"
             android:id="@+id/etUsuario"
             android:hint="@string/usuario"
+            android:background="@drawable/edit_text_login"
+            android:layout_marginBottom="@dimen/margin_bottom_login_campos_texto"
             android:layout_marginRight="@dimen/margin_lateral_login"
-            android:layout_marginLeft="@dimen/margin_lateral_login"/>
+            android:layout_marginLeft="@dimen/margin_lateral_login"
+            android:padding="@dimen/campos_texto"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/etPass"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:background="@drawable/edit_text_login"
             android:id="@+id/etPass"
             android:hint="@string/pass"
             android:layout_marginBottom="@dimen/margin_bottom_login"
             android:layout_marginRight="@dimen/margin_lateral_login"
             android:layout_marginLeft="@dimen/margin_lateral_login"
+            android:padding="@dimen/campos_texto"
+            android:singleLine="true"
             />
 
         <Button
@@ -45,7 +54,7 @@
             android:id="@+id/btLogin"
             android:text="@string/login"
             android:onClick="login"
-            android:textColor="@color/letra_blanca"
+            android:textColor="@color/blanco"
             android:background="@drawable/boton_login"
             android:layout_marginBottom="@dimen/margin_bottom_login"
             android:layout_marginRight="@dimen/margin_lateral_login"
@@ -59,6 +68,7 @@
             android:onClick="recuperaPass"
             android:background="@drawable/bt_recordar"
             android:textColor="@color/azul_logo"
+            android:textSize="16sp"
             />
     </LinearLayout>
 
