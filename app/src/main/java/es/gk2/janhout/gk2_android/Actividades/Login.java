@@ -1,20 +1,33 @@
 package es.gk2.janhout.gk2_android.Actividades;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.EditText;
 
+import java.util.concurrent.ExecutionException;
+
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.R;
 
 
 public class Login extends ActionBarActivity {
 
+    private static Context contexto;
+    private AsyncTask<String, String, String> asyncTask;
+    private String response;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Login.contexto = getApplicationContext();
     }
 
     public void login(View v){
@@ -35,28 +48,27 @@ public class Login extends ActionBarActivity {
     }
 
     private boolean hacerLogin(String usuario, String pass){
-        return true;
-    }
+        AsyncTaskPost runner=new AsyncTaskPost();
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        asyncTask=runner.execute(usuario, pass);
+        try {
+            String asyncResultText=asyncTask.get();
+            response = asyncResultText.trim();
+        } catch (InterruptedException e1) {
+            response = e1.getMessage();
+        } catch (ExecutionException e1) {
+            response = e1.getMessage();
+        } catch (Exception e1) {
+            response = e1.getMessage();
         }
+        if(response.contains("Clientes")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        return super.onOptionsItemSelected(item);
-    }*/
+    public static Context getAppContext() {
+        return Login.contexto;
+    }
 }

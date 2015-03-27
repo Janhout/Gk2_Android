@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -17,11 +18,14 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.Peticiones;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 
 public class FragmentoListaClientes extends Fragment {
@@ -31,12 +35,16 @@ public class FragmentoListaClientes extends Fragment {
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
 
+    private static final int LIMITE_CONSULTA = 50;
+    private static final int ITEMS_BAJO_LISTA = 20;
+
     public FragmentoListaClientes() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listaClientes = new ArrayList<>();
     }
 
     @Override
@@ -50,67 +58,52 @@ public class FragmentoListaClientes extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.contexto = getActivity();
-        //listaClientes = (ArrayList<Cliente>)getActivity().getIntent().getBundleExtra("datos").getSerializable("clientes");
-        /*listaClientes = new ArrayList<>();
-        listaClientes.add(new Cliente("Empresa1", "78585452C", "985585858", "644887788", "rafa@fjamil.com1"));
-        listaClientes.add(new Cliente("Empresa2", "78585452D", "985585859", "644887789", "rafa@fjamil.com2"));
-        listaClientes.add(new Cliente("Empresa3", "78585452E", "985585850", "644887780", "rafa@fjamil.com3"));*/
-        cargarLista();
+        cargarLista(0);
         if(listaClientes != null) {
             lv = (ListView) getActivity().findViewById(R.id.lvClientes);
             ad = new AdaptadorListaClientes(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
             lv.setAdapter(ad);
-        }
-    }
-
-    private void cargarLista(){
-        listaClientes = new ArrayList<>();
-        HebraCargarLista h = new HebraCargarLista();
-        h.execute();
-        HebraCargarLista hg = new HebraCargarLista();
-        hg.execute();
-    }
-
-    private class HebraCargarLista extends AsyncTask<Void, Void, String> {
-
-        private ProgressDialog progreso;
-
-        @Override
-        protected void onPreExecute() {
-            cargarDialogoProgreso();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            return Peticiones.peticionGetJSON(contexto, Constantes.clientesPrueba);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            progreso.dismiss();
-            JSONTokener token = new JSONTokener(s);
-            JSONArray array = null;
-            try {
-                array = new JSONArray(token);
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject obj = array.getJSONObject(i);
-                    listaClientes.add(new Cliente(obj));
-                    if(ad != null) {
-                        ad.notifyDataSetChanged();
-                    }
+            lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA){
+                @Override
+                public void loadMore(int page, int totalItemsCount) {
+                    cargarLista(page);
                 }
-            } catch (JSONException e) {
-                Log.e("error carga clientes", e.toString());
-                listaClientes = null;
-            }
+            });
+        }
+    }
+
+    private void cargarLista(int pagina){
+        AsyncTaskGet runner=new AsyncTaskGet();
+        String response;
+        Log.v("mio", Constantes.clientes + "&page=" + pagina + "&limite=" + LIMITE_CONSULTA);
+        AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.clientes + "&page=" + pagina + "&limit=" + LIMITE_CONSULTA);
+        try {
+            String asyncResultText = asyncTask.get();
+            response = asyncResultText.trim();
+        } catch (InterruptedException e1) {
+            response = e1.getMessage();
+        } catch (ExecutionException e1) {
+            response = e1.getMessage();
+        } catch (Exception e1) {
+            response = e1.getMessage();
         }
 
-        private void cargarDialogoProgreso(){
-            progreso = new ProgressDialog(contexto);
-            progreso.setMessage(getString(R.string.cargar_lista_clientes));
-            progreso.setCancelable(false);
-            progreso.show();
+        JSONTokener token = new JSONTokener(response);
+        JSONArray array = null;
+        try {
+            array = new JSONArray(token);
+            Log.v("mio antes del for", array.length()+"");
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                listaClientes.add(new Cliente(obj));
+                if(ad != null) {
+                    ad.notifyDataSetChanged();
+                }
+            }
+
+        } catch (JSONException e) {
+            Log.e("error carga clientes", e.toString());
+            listaClientes = null;
         }
     }
 }

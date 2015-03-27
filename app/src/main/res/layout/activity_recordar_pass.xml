@@ -10,16 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvNombreEmpresa"
-            android:text="@string/nombre_empresa"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:textSize="20sp"
+            android:src="@drawable/logo"
+            android:layout_marginBottom="@dimen/margin_bottom_login"
             />
 
         <TextView
@@ -37,16 +34,22 @@
             android:layout_height="wrap_content"
             android:id="@+id/etUsuario"
             android:hint="@string/email"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btRecuperar"
             android:text="@string/recuperar"
+            android:textColor="@color/letra_blanca"
+            android:background="@drawable/boton_login"
             android:layout_gravity="center_horizontal"
             android:onClick="recuperar"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -56,7 +59,7 @@
             android:onClick="volverLogin"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/bt_recordar"
-            android:textColor="@android:color/holo_blue_light"
+            android:textColor="@color/azul_logo"
             />
 
     </LinearLayout>

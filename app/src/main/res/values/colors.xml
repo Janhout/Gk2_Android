@@ -3,4 +3,16 @@
     <item name="rojo" type="color">#FFB6B6</item>
     <item name="verde" type="color">#B6FFB6</item>
     <item name="amarillo" type="color">#FFFFCC</item>
+    <item name="morado" type="color">#7061C2</item>
+    <item name="azul_logo" type="color">#0091C2</item>
+    <item name="rojo2" type="color">#FF847C</item>
+    <item name="verde2" type="color">#C0E886</item>
+    <item name="amarillo2" type="color">#FFF699</item>
+
+    <color name="button_background_enabled_start">#08C</color>
+    <color name="button_background_enabled_end">#04C</color>
+    <color name="button_background_pulsado_start">#003399</color>
+    <color name="button_background_pulsado_end">#003399</color>
+    <color name="letra_blanca">#FFF</color>
+
 </resources>

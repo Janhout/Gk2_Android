@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,12 +41,12 @@ public class Principal extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(tituloActividad == null)
             tituloActividad = getTitle().toString();
 
         titulos = getResources().getStringArray(R.array.lista_navigation_drawer);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.lista_drawer);
 
         ArrayList<ItemNavigationDrawer> items = new ArrayList<>();
@@ -75,7 +76,6 @@ public class Principal extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -139,6 +139,17 @@ public class Principal extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+
+
+
+
+
+
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
