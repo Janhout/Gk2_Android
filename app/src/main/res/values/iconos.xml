@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="icono_clientes">&#xf0c0;</string>
+    <string name="icono_facturas">&#xf15c;</string>
+    <string name="icono_ver">&#xf06e;</string>
+    <string name="icono_enviado">&#xf1d8;</string>
+    <string name="icono_impreso">&#xf02f;</string>
+    
+</resources>

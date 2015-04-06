@@ -1,15 +1,13 @@
 package es.gk2.janhout.gk2_android.Fragmentos;
 
-import android.app.ProgressDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -23,7 +21,6 @@ import java.util.concurrent.ExecutionException;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.Peticiones;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Cliente;
@@ -35,8 +32,8 @@ public class FragmentoListaClientes extends Fragment {
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
 
-    private static final int LIMITE_CONSULTA = 50;
-    private static final int ITEMS_BAJO_LISTA = 20;
+    private static final int LIMITE_CONSULTA = 10;
+    private static final int ITEMS_BAJO_LISTA = 5;
 
     public FragmentoListaClientes() {
     }
