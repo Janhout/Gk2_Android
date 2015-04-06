@@ -34,6 +34,12 @@
 
     <string name="error_login">Usuario o contraseña inválidos</string>
 
+    <string name="fuente_awesome">fontawesome.ttf</string>
+
+
+
+    <string name="icon_heart">&#xf004;</string>
+
 
 
 

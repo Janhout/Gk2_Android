@@ -1,14 +1,11 @@
 package es.gk2.janhout.gk2_android.Actividades;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
 
 

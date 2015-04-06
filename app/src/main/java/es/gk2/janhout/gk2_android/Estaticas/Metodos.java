@@ -1,19 +1,26 @@
 package es.gk2.janhout.gk2_android.Estaticas;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.Util.FontCache;
 
 public class Metodos {
 
-    public static String leerPreferenciasCompartidasString(Context contexto, String key){
+    public static String leerPreferenciasCompartidasString(Context contexto, String key) {
         SharedPreferences sharedPref = contexto.getSharedPreferences(contexto.getString(R.string.preferencias_compartidas), Context.MODE_PRIVATE);
         String resultado = sharedPref.getString(key, "");
         return resultado;
     }
 
-    public static void escribirPreferenciasCompartidasString(Context contexto, String key, String valor){
+    public static void escribirPreferenciasCompartidasString(Context contexto, String key, String valor) {
         SharedPreferences sharedPref = contexto.getSharedPreferences(contexto.getString(R.string.preferencias_compartidas), Context.MODE_PRIVATE);
         String resultado = sharedPref.getString(key, "");
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -21,16 +28,58 @@ public class Metodos {
         editor.apply();
     }
 
-    public static int leerPreferenciasCompartidasInt(Context contexto, String key){
+    public static int leerPreferenciasCompartidasInt(Context contexto, String key) {
         SharedPreferences sharedPref = contexto.getSharedPreferences(contexto.getString(R.string.preferencias_compartidas), Context.MODE_PRIVATE);
         int resultado = sharedPref.getInt(key, 0);
         return resultado;
     }
 
-    public static void escribirPreferenciasCompartidasInt(Context contexto, String key, int valor){
+    public static void escribirPreferenciasCompartidasInt(Context contexto, String key, int valor) {
         SharedPreferences sharedPref = contexto.getSharedPreferences(contexto.getString(R.string.preferencias_compartidas), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(key, valor);
         editor.apply();
+    }
+
+    /**
+     * Método para asignar un tipo de fuente a un componente
+     *
+     * @param contexto
+     * @param id               0-boton, 1-editText, 2-textView
+     * @param fuente
+     * @param codigoComponente
+     * @param texto
+     */
+    public static void asignarFuente(Context contexto, int id, String fuente, int codigoComponente, String texto) {
+        try {
+            Typeface t = FontCache.get(fuente, contexto);
+            switch (codigoComponente) {
+                case 0:
+                    Button b = (Button) ((Activity) contexto).findViewById(id);
+                    b.setTypeface(t);
+                    b.setText(texto);
+                    break;
+                case 1:
+                    EditText e = (EditText) ((Activity) contexto).findViewById(id);
+                    e.setTypeface(t);
+                    e.setText(texto);
+                    break;
+                case 2:
+                    TextView tv = (TextView) ((Activity) contexto).findViewById(id);
+                    tv.setTypeface(t);
+                    tv.setText(texto);
+                    break;
+            }
+        }catch (Exception e){
+            Log.v("error mio", "componente incorrecto");
+        }
+    }
+
+    public static void botonAwesome(Context contexto, int id, String texto) {
+        Metodos.asignarFuente(contexto, id, contexto.getString(R.string.fuente_awesome), 0, texto);
+    }
+
+    public static void textViewAwesome(Context contexto, int id, String texto) {
+        Metodos.asignarFuente(contexto, id, contexto.getString(R.string.fuente_awesome), 2, texto);
     }
 }
