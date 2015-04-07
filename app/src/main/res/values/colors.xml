@@ -13,13 +13,13 @@
     <color name="button_background_enabled_end">#04C</color>
     <color name="button_background_pulsado_start">#003399</color>
     <color name="button_background_pulsado_end">#003399</color>
-    <color name="blanco">#FFF</color>
-    <color name="negro">#000</color>
 
     <color name="button_ver_background_enabled_start">#5BC0DE</color>
     <color name="button_ver_background_enabled_end">#2F96B4</color>
     <color name="button_ver_background_pulsado_start">#24748c</color>
     <color name="button_ver_background_pulsado_end">#24748c</color>
 
+    <color name="blanco">#FFF</color>
+    <color name="negro">#000</color>
     <color name="gris_borde">#ffcccccc</color>
 </resources>
