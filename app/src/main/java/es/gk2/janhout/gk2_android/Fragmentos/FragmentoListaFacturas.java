@@ -49,8 +49,9 @@ public class FragmentoListaFacturas extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.contexto = getActivity();
-        getArguments().getInt("idCliente");
-        cargarLista(getArguments().getInt("idCliente"));
+        //getArguments().getInt("idCliente");
+        //cargarLista(getArguments().getInt("idCliente"));
+        cargarLista(1);
         if(listaFacturas != null) {
             lv = (ListView) getActivity().findViewById(R.id.lvFacturas);
             ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);

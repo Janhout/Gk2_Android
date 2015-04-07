@@ -5,14 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import es.gk2.janhout.gk2_android.Util.Factura;
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.Util.Factura;
 
 /**
  * Created by usuario on 23/03/2015.
@@ -37,11 +38,14 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         if (convertView == null) {
             convertView = inflador.inflate(recurso, null);
             vh = new ViewHolder();
-            vh.filaFactura = (RelativeLayout) convertView.findViewById(R.id.filaFactura);
+            vh.filaFactura = (LinearLayout) convertView.findViewById(R.id.filaFactura);
             vh.numeroFactura = (TextView) convertView.findViewById(R.id.numeroFactura);
             vh.fechaFactura = (TextView) convertView.findViewById(R.id.fechaFactura);
             vh.importeFactura = (TextView) convertView.findViewById(R.id.importeFactura);
             vh.importePagado = (TextView) convertView.findViewById(R.id.importePagado);
+            vh.iconoEnviado = (TextView) convertView.findViewById(R.id.detalle_factura_iconoEnviado);
+            vh.iconoImpreso = (TextView) convertView.findViewById(R.id.detalle_factura_iconoImpreso);
+            vh.verFactura = (Button) convertView.findViewById(R.id.detalle_factura_botonVerFactura);
 
             if(datos.get(position).getEstadoFactura() == 0)
                 vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.rojo));
@@ -49,7 +53,10 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
                 vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.verde));
             else if(datos.get(position).getEstadoFactura() == 2)
                 vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.amarillo));
-            vh.acciones = (Spinner) convertView.findViewById(R.id.sp_acciones_facturas);
+
+            Metodos.textViewAwesomeComponente(contexto, vh.iconoEnviado, contexto.getString(R.string.icono_enviado));
+            Metodos.textViewAwesomeComponente(contexto, vh.iconoImpreso, contexto.getString(R.string.icono_impreso));
+            Metodos.botonAwesomeComponente(contexto, vh.verFactura, contexto.getString(R.string.icono_ver));
 
             convertView.setTag(vh);
         } else {
@@ -63,17 +70,18 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
             vh.importePagado.setText("Pagado: "+Float.toString(datos.get(position).getImportePagado()));
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(contexto, R.array.lista_acciones_facturas, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        vh.acciones.setAdapter(adapter);
+        //vh.acciones.setAdapter(adapter);
         return convertView;
     }
 
     public static class ViewHolder {
-        public Integer estadoFactura;
-        public RelativeLayout filaFactura;
+        public LinearLayout filaFactura;
         public TextView numeroFactura;
         public TextView fechaFactura;
         public TextView importeFactura;
         public TextView importePagado;
-        public Spinner acciones;
+        public TextView iconoEnviado;
+        public TextView iconoImpreso;
+        public Button verFactura;
     }
 }
