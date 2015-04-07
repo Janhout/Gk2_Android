@@ -8,15 +8,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-            android:text="CLIENTE"
-            android:textSize="24dp"
-            android:layout_marginBottom="5dp"/>
-
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/lvFacturas"
+            android:divider="@color/negro"
+            android:dividerHeight="2dp"
             android:layout_gravity="center_horizontal|top">
         </ListView>
 

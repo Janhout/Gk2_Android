@@ -1,59 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/filaFactura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/filaFactura" >
+        android:padding="@dimen/padding_lista">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/numeroFactura"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_alignParentLeft="true"
-           />
+            android:layout_weight="1.5"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/numeroFactura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margen_entre_componentes"
+                android:text="raya1" />
+
+            <TextView
+                android:id="@+id/fechaFactura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="raya2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/fechaFactura"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@+id/numeroFactura"/>
+            android:layout_weight="1.5"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/importeFactura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margen_entre_componentes"
+                android:text="raya3"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/importePagado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="raya4" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/importeFactura"
-            android:textStyle="bold"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@+id/fechaFactura"/>
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/importeFactuppra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margen_entre_componentes"
+                android:text="r"
+                />
+
+
+            <TextView
+                android:id="@+id/importePagadpo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="a"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/importePagado"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@+id/importeFactura"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sp_acciones_facturas"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            android:layout_centerVertical="true"/>
+            <Button
+                android:id="@+id/detalle_factura_botonVerFactura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ver" />
+        </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
