@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class Cliente {
 
-    private int id;
+    private Integer id;
     private String nombre_comercial;
     private String nif;
     private String telefono01;
@@ -17,7 +17,7 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int id, String nombre_comercial, String nif, String telefono01, String telefono02, String email) {
+    public Cliente(Integer id, String nombre_comercial, String nif, String telefono01, String telefono02, String email) {
         this.id = id;
         this.nombre_comercial = nombre_comercial;
         this.nif = nif;
@@ -39,11 +39,11 @@ public class Cliente {
         }
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
