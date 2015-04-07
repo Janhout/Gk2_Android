@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -81,5 +82,38 @@ public class Metodos {
 
     public static void textViewAwesome(Context contexto, int id, String texto) {
         Metodos.asignarFuente(contexto, id, contexto.getString(R.string.fuente_awesome), 2, texto);
+    }
+
+    public static void asignarFuenteComponente(Context contexto, View v, String fuente, int codigoComponente, String texto) {
+        try {
+            Typeface t = FontCache.get(fuente, contexto);
+            switch (codigoComponente) {
+                case 0:
+                    Button b = (Button) v;
+                    b.setTypeface(t);
+                    b.setText(texto);
+                    break;
+                case 1:
+                    EditText e = (EditText) v;
+                    e.setTypeface(t);
+                    e.setText(texto);
+                    break;
+                case 2:
+                    TextView tv = (TextView) v;
+                    tv.setTypeface(t);
+                    tv.setText(texto);
+                    break;
+            }
+        }catch (Exception e){
+            Log.v("error mio", "componente incorrecto");
+        }
+    }
+
+    public static void botonAwesomeComponente(Context contexto, View v, String texto) {
+        Metodos.asignarFuenteComponente(contexto, v, contexto.getString(R.string.fuente_awesome), 0, texto);
+    }
+
+    public static void textViewAwesomeComponente(Context contexto, View v, String texto) {
+        Metodos.asignarFuenteComponente(contexto, v, contexto.getString(R.string.fuente_awesome), 2, texto);
     }
 }

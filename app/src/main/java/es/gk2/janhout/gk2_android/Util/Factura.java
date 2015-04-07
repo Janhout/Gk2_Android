@@ -19,6 +19,8 @@ public class Factura {
     private Integer estadoFactura;
     private Float importeFactura;
     private Float importePagado;
+    private Integer impreso;
+    private Integer enviado;
 
     public Factura(JSONObject facturaJSON) {
         try {
@@ -28,14 +30,15 @@ public class Factura {
             this.fechaFactura = toDateFormatter.parse(stringFecha);
             //this.fechaFactura = stringFecha.substring(8, 10) + "/" + stringFecha.substring(5, 7) + "/" + stringFecha.substring(0, 4);
             String estadoFacturaTemp = facturaJSON.getString("ESTADO");
-            if (estadoFacturaTemp.equals("Impagada"))
+            if(estadoFacturaTemp.equals("Impagada"))
                 this.estadoFactura = 0;
-            else if (estadoFacturaTemp.equals("Pagada"))
+            else if(estadoFacturaTemp.equals("Pagada"))
                 this.estadoFactura = 1;
-            else if (estadoFacturaTemp.equals("Borrador"))
+            else if(estadoFacturaTemp.equals("Borrador"))
                 this.estadoFactura = 2;
             this.importeFactura = Float.parseFloat(facturaJSON.getString("LIQUIDO"));
             this.importePagado = Float.parseFloat(facturaJSON.getString("PENDIENTE"));
+
         } catch (JSONException e) {
             Log.e("error mio", e.toString());
         } catch (ParseException e) {
