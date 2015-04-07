@@ -11,16 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.R;
 
-public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spinner.OnItemSelectedListener {
+public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
 
     private Context contexto;
     private ArrayList<Cliente> datos;
@@ -42,25 +44,55 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
             convertView = inflador.inflate(recurso, null);
             vh = new ViewHolder();
             vh.nombreComercial = (TextView) convertView.findViewById(R.id.nombre_cliente);
-            vh.acciones = (Spinner) convertView.findViewById(R.id.sp_acciones);
+            vh.btEmail = (Button)convertView.findViewById(R.id.bt_enviar_email);
+            vh.btTelefono = (Button)convertView.findViewById(R.id.bt_telefono);
+            vh.btFacturas = (Button)convertView.findViewById(R.id.bt_ver_facturas);
+
+            Metodos.botonAwesomeComponente(contexto, vh.btEmail, contexto.getString(R.string.icono_email));
+            Metodos.botonAwesomeComponente(contexto, vh.btFacturas, contexto.getString(R.string.icono_facturas));
+            Metodos.botonAwesomeComponente(contexto, vh.btTelefono, contexto.getString(R.string.icono_telefono));
+
+            vh.btFacturas.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idCliente", (int)v.getTag());
+                    Fragment fragmento = new FragmentoListaFacturas();
+                    fragmento.setArguments(bundle);
+                    FragmentTransaction transaction = ((ActionBarActivity)contexto).getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.relativeLayoutPrincipal, fragmento);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
+
+            vh.btTelefono.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v("mio", (int)v.getTag()+" telefono");
+                }
+            });
+
+            vh.btEmail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v("mio", (int)v.getTag()+" email");
+                }
+            });
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
 
         vh.nombreComercial.setText(datos.get(position).getNombre_comercial());
-        String[] list = contexto.getResources().getStringArray(R.array.lista_acciones);
-        AdaptadorSpinnerAcciones ad = new AdaptadorSpinnerAcciones(contexto, R.layout.detalle_spinner, R.id.tvSpinner, list);
-        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        vh.acciones.setAdapter(ad);
-        vh.acciones.setOnItemSelectedListener(this);
-        vh.acciones.setTag(datos.get(position).getId());
+        vh.btFacturas.setTag(datos.get(position).getId());
+        vh.btTelefono.setTag(datos.get(position).getId());
+        vh.btEmail.setTag(datos.get(position).getId());
 
         return convertView;
     }
 
-    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String[] accion = contexto.getResources().getStringArray(R.array.lista_acciones);
         if(accion[position].equalsIgnoreCase("Ver facturas")){
@@ -77,12 +109,25 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Spi
         }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void llamarTelefono() {
+
     }
 
+    public void enviarEmail(){
+
+    }
     private static class ViewHolder {
         public TextView nombreComercial;
-        public Spinner acciones;
+        public Button btTelefono;
+        public Button btEmail;
+        public Button btFacturas;
     }
 }
+
+/* String[] list = contexto.getResources().getStringArray(R.array.lista_acciones);
+        AdaptadorSpinnerAcciones ad = new AdaptadorSpinnerAcciones(contexto, R.layout.detalle_spinner, R.id.tvSpinner, list);
+        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        vh.acciones.setAdapter(ad);
+        vh.acciones.setOnItemSelectedListener(this);
+        vh.acciones.setTag(datos.get(position).getId());*/

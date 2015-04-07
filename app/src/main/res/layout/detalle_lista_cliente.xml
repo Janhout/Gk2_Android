@@ -7,47 +7,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/padding_lista">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/nombre_cliente"
-            android:layout_margin="8dp"
-            android:layout_gravity="start"
-            android:layout_centerVertical="true"
-            android:layout_weight="4"/>
+            android:layout_weight="6"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/bt_ver_facturas"
             android:layout_weight="1"
-            android:background="@drawable/boton_ver"/>
+            android:background="@drawable/boton_ver"
+            android:textSize="@dimen/size_icono_botones"
+            android:textColor="@color/blanco"
+            />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/bt_enviar_email"
             android:layout_weight="1"
-            android:background="@drawable/boton_ver"/>
+            android:background="@drawable/boton_ver"
+            android:textSize="@dimen/size_icono_botones"
+            android:textColor="@color/blanco"
+            />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/bt_telefono"
             android:layout_weight="1"
-            android:background="@drawable/boton_ver"/>
-
+            android:background="@drawable/boton_ver"
+            android:textSize="@dimen/size_icono_botones"
+            android:textColor="@color/blanco"
+            />
     </LinearLayout>
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sp_acciones"
-            android:layout_alignParentRight="true"
-            android:layout_margin="8dp"
-            android:layout_centerVertical="true">
-            </Spinner>
-
 </LinearLayout>

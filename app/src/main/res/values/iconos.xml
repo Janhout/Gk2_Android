@@ -5,5 +5,7 @@
     <string name="icono_ver">&#xf06e;</string>
     <string name="icono_enviado">&#xf1d8;</string>
     <string name="icono_impreso">&#xf02f;</string>
+    <string name="icono_email">&#xf0e0;</string>
+    <string name="icono_telefono">&#xf095;</string>
 
 </resources>
