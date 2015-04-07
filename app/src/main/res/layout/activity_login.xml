@@ -32,7 +32,8 @@
             android:padding="@dimen/campos_texto"
             android:singleLine="true"
             android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/etPass"/>
+            android:nextFocusForward="@+id/etPass"
+            android:text="jadelgado"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -46,7 +47,7 @@
             android:layout_marginLeft="@dimen/margin_lateral_login"
             android:padding="@dimen/campos_texto"
             android:singleLine="true"
-            />
+            android:text="jadj"/>
 
         <Button
             android:layout_width="match_parent"

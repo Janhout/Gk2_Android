@@ -14,6 +14,7 @@
     <color name="button_background_pulsado_start">#003399</color>
     <color name="button_background_pulsado_end">#003399</color>
     <color name="blanco">#FFF</color>
+    <color name="negro">#000</color>
 
     <color name="gris_borde">#ffcccccc</color>
 

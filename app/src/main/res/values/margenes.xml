@@ -5,4 +5,8 @@
     <dimen name="margin_lateral_login">24dp</dimen>
     <dimen name="campos_texto">12dp</dimen>
 
+    <!-- PADDINGS -->
+    <dimen name="padding_lista">8dp</dimen>
+    <dimen name="margen_entre_componentes">6dp</dimen>
+
 </resources>
