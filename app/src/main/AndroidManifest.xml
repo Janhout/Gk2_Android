@@ -2,12 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="es.gk2.janhout.gk2_android" >
 
-    <uses-feature   android:name="android.hardware.camera"
-                    android:required="true" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -34,6 +33,10 @@
         <activity
             android:name=".Actividades.NuevoGasto"
             android:label="@string/title_activity_nuevo_gasto" >
+        </activity>
+        <activity
+            android:name=".Actividades.LectorPDF"
+            android:label="@string/title_activity_lector_pdf" >
         </activity>
     </application>
 

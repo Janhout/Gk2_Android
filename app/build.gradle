@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:support-v4:22.0.0'
     compile files('libs/picasso-2.5.2.jar')
+    compile 'com.joanzapata.pdfview:android-pdfview:1.0.+@aar'
 }

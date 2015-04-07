@@ -35,13 +35,9 @@
     <string name="error_login">Usuario o contraseña inválidos</string>
 
     <string name="fuente_awesome">fontawesome.ttf</string>
+    <string name="title_activity_lector_pdf">LectorPDF</string>
 
-
-
-    <string name="icon_heart">&#xf004;</string>
-
-
-
-
+    <string name="compartir">Compartir</string>
+    <string name="guardar">Guardar</string>
 
 </resources>
