@@ -21,14 +21,12 @@
                 android:id="@+id/numeroFactura"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_entre_componentes"
-                android:text="raya1" />
+                android:layout_marginBottom="@dimen/margen_entre_componentes" />
 
             <TextView
                 android:id="@+id/fechaFactura"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="raya2" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -43,15 +41,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margen_entre_componentes"
-                android:text="raya3"
                 android:textStyle="bold" />
 
 
             <TextView
                 android:id="@+id/importePagado"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="raya4" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -68,7 +64,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margen_entre_componentes"
                 android:textSize="16sp"
-                android:text="r"
                 />
 
 
@@ -77,8 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:layout_gravity="bottom|center_horizontal"
-                android:text="a"/>
+                android:layout_gravity="bottom|center_horizontal"/>
 
         </LinearLayout>
 

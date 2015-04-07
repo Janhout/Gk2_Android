@@ -14,8 +14,10 @@
     <color name="button_background_pulsado_start">#003399</color>
     <color name="button_background_pulsado_end">#003399</color>
 
-    <color name="button_ver_background_enabled_start">#5BC0DE</color>
-    <color name="button_ver_background_enabled_end">#2F96B4</color>
+    <!--<color name="button_ver_background_enabled_start">#5BC0DE</color>-->
+    <color name="button_ver_background_enabled_start">#A0B7E8</color>
+    <!--<color name="button_ver_background_enabled_end">#2F96B4</color>-->
+    <color name="button_ver_background_enabled_end">#ff7d91bd</color>
     <color name="button_ver_background_pulsado_start">#24748c</color>
     <color name="button_ver_background_pulsado_end">#24748c</color>
 

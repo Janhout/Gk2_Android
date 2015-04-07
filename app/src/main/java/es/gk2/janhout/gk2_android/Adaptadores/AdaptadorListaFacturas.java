@@ -54,8 +54,11 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
             else if(datos.get(position).getEstadoFactura() == 2)
                 vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.amarillo));
 
-            Metodos.textViewAwesomeComponente(contexto, vh.iconoEnviado, contexto.getString(R.string.icono_enviado));
-            Metodos.textViewAwesomeComponente(contexto, vh.iconoImpreso, contexto.getString(R.string.icono_impreso));
+            if(datos.get(position).getEnviado() == 1)
+                Metodos.textViewAwesomeComponente(contexto, vh.iconoEnviado, contexto.getString(R.string.icono_enviado));
+            if(datos.get(position).getImpreso() == 1)
+                Metodos.textViewAwesomeComponente(contexto, vh.iconoImpreso, contexto.getString(R.string.icono_impreso));
+
             Metodos.botonAwesomeComponente(contexto, vh.verFactura, contexto.getString(R.string.icono_ver));
 
             convertView.setTag(vh);

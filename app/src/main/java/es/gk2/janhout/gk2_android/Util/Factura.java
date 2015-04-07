@@ -19,7 +19,9 @@ public class Factura {
     private Integer estadoFactura;
     private Float importeFactura;
     private Float importePagado;
+    //0: no impresa | 1: impresa
     private Integer impreso;
+    //0: no enviada | 1: enviada
     private Integer enviado;
 
     public Factura(JSONObject facturaJSON) {
@@ -28,7 +30,7 @@ public class Factura {
             String stringFecha = facturaJSON.getString("FECHA");
             SimpleDateFormat toDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             this.fechaFactura = toDateFormatter.parse(stringFecha);
-            //this.fechaFactura = stringFecha.substring(8, 10) + "/" + stringFecha.substring(5, 7) + "/" + stringFecha.substring(0, 4);
+
             String estadoFacturaTemp = facturaJSON.getString("ESTADO");
             if(estadoFacturaTemp.equals("Impagada"))
                 this.estadoFactura = 0;
@@ -38,11 +40,13 @@ public class Factura {
                 this.estadoFactura = 2;
             this.importeFactura = Float.parseFloat(facturaJSON.getString("LIQUIDO"));
             this.importePagado = Float.parseFloat(facturaJSON.getString("PENDIENTE"));
+            this.impreso = facturaJSON.getInt("PRINTED");
+            this.enviado = facturaJSON.getInt("SENT");
 
         } catch (JSONException e) {
             Log.e("error mio", e.toString());
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.v("mio2", e.toString());
         }
     }
 
@@ -86,5 +90,26 @@ public class Factura {
 
     public void setImportePagado(Float importePagado) {
         this.importePagado = importePagado;
+    }
+
+    public Integer getImpreso() {
+        return impreso;
+    }
+
+    public Integer getEnviado() {
+        return enviado;
+    }
+
+    @Override
+    public String toString() {
+        return "Factura{" +
+                "numeroFactura='" + numeroFactura + '\'' +
+                ", fechaFactura=" + fechaFactura +
+                ", estadoFactura=" + estadoFactura +
+                ", importeFactura=" + importeFactura +
+                ", importePagado=" + importePagado +
+                ", impreso=" + impreso +
+                ", enviado=" + enviado +
+                '}';
     }
 }
