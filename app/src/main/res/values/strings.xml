@@ -40,4 +40,8 @@
     <string name="compartir">Compartir</string>
     <string name="guardar">Guardar</string>
 
+    <string name="no_app_disponible">No hay APP disponible para realizar esa acción</string>
+    <string name="enviar_email">Selecciona APP para enviar email</string>
+    <string name="title_activity_mostrar_cliente">MostrarCliente</string>
+
 </resources>

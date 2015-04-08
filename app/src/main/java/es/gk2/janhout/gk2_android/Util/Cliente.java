@@ -1,23 +1,47 @@
 package es.gk2.janhout.gk2_android.Util;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Cliente {
+import java.io.Serializable;
 
-    private Integer id;
+public class Cliente implements Parcelable, Serializable {
+
+    private int id;
     private String nombre_comercial;
     private String nif;
     private String telefono01;
     private String telefono02;
     private String email;
 
+    public static final Parcelable.Creator<Cliente> CREATOR = new Parcelable.Creator<Cliente>() {
+        @Override
+        public Cliente createFromParcel(Parcel parcel) {
+            return new Cliente(parcel);
+        }
+        @Override
+        public Cliente[] newArray(int i) {
+            return new Cliente[i];
+        }
+    };
+
+    public Cliente(Parcel parcel) {
+        this.id = parcel.readInt();
+        this.nombre_comercial = parcel.readString();
+        this.nif = parcel.readString();
+        this.telefono01 = parcel.readString();
+        this.telefono02 = parcel.readString();
+        this.email = parcel.readString();
+    }
+
     public Cliente() {
     }
 
-    public Cliente(Integer id, String nombre_comercial, String nif, String telefono01, String telefono02, String email) {
+    public Cliente(int id, String nombre_comercial, String nif, String telefono01, String telefono02, String email) {
         this.id = id;
         this.nombre_comercial = nombre_comercial;
         this.nif = nif;
@@ -39,11 +63,11 @@ public class Cliente {
         }
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -85,5 +109,63 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(nombre_comercial);
+        parcel.writeString(nif);
+        parcel.writeString(telefono01);
+        parcel.writeString(telefono02);
+        parcel.writeString(email);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Cliente cliente = (Cliente) o;
+
+        if (id != cliente.id) return false;
+        if (email != null ? !email.equals(cliente.email) : cliente.email != null) return false;
+        if (nif != null ? !nif.equals(cliente.nif) : cliente.nif != null) return false;
+        if (nombre_comercial != null ? !nombre_comercial.equals(cliente.nombre_comercial) : cliente.nombre_comercial != null)
+            return false;
+        if (telefono01 != null ? !telefono01.equals(cliente.telefono01) : cliente.telefono01 != null)
+            return false;
+        if (telefono02 != null ? !telefono02.equals(cliente.telefono02) : cliente.telefono02 != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (nombre_comercial != null ? nombre_comercial.hashCode() : 0);
+        result = 31 * result + (nif != null ? nif.hashCode() : 0);
+        result = 31 * result + (telefono01 != null ? telefono01.hashCode() : 0);
+        result = 31 * result + (telefono02 != null ? telefono02.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", nombre_comercial='" + nombre_comercial + '\'' +
+                ", nif='" + nif + '\'' +
+                ", telefono01='" + telefono01 + '\'' +
+                ", telefono02='" + telefono02 + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

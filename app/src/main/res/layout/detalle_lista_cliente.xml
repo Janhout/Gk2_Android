@@ -21,9 +21,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/bt_ver_facturas"
             android:layout_weight="1"
-            android:background="@drawable/boton_ver"
+            android:background="@drawable/botones_clientes"
             android:textSize="@dimen/size_icono_botones"
             android:textColor="@color/blanco"
+            android:focusable="false"
+            android:layout_marginRight="@dimen/margin_button_clientes"
             />
 
         <Button
@@ -31,9 +33,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/bt_enviar_email"
             android:layout_weight="1"
-            android:background="@drawable/boton_ver"
+            android:background="@drawable/botones_clientes"
             android:textSize="@dimen/size_icono_botones"
             android:textColor="@color/blanco"
+            android:focusable="false"
+            android:layout_marginRight="@dimen/margin_button_clientes"
             />
 
         <Button
@@ -41,9 +45,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/bt_telefono"
             android:layout_weight="1"
-            android:background="@drawable/boton_ver"
+            android:background="@drawable/botones_clientes"
             android:textSize="@dimen/size_icono_botones"
             android:textColor="@color/blanco"
+            android:focusable="false"
             />
     </LinearLayout>
 </LinearLayout>
