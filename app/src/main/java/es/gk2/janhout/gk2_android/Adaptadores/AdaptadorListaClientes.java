@@ -1,8 +1,12 @@
 package es.gk2.janhout.gk2_android.Adaptadores;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -14,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -38,8 +43,8 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder vh;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder vh;
         if (convertView == null) {
             convertView = inflador.inflate(recurso, null);
             vh = new ViewHolder();
@@ -48,86 +53,117 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
             vh.btTelefono = (Button)convertView.findViewById(R.id.bt_telefono);
             vh.btFacturas = (Button)convertView.findViewById(R.id.bt_ver_facturas);
 
-            Metodos.botonAwesomeComponente(contexto, vh.btEmail, contexto.getString(R.string.icono_email));
-            Metodos.botonAwesomeComponente(contexto, vh.btFacturas, contexto.getString(R.string.icono_facturas));
-            Metodos.botonAwesomeComponente(contexto, vh.btTelefono, contexto.getString(R.string.icono_telefono));
-
-            vh.btFacturas.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("idCliente", (int)v.getTag());
-                    Fragment fragmento = new FragmentoListaFacturas();
-                    fragmento.setArguments(bundle);
-                    FragmentTransaction transaction = ((ActionBarActivity)contexto).getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.relativeLayoutPrincipal, fragmento);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
-            });
-
-            vh.btTelefono.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.v("mio", (int)v.getTag()+" telefono");
-                }
-            });
-
-            vh.btEmail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.v("mio", (int)v.getTag()+" email");
-                }
-            });
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
 
+
+
+        Metodos.botonAwesomeComponente(contexto, vh.btEmail, contexto.getString(R.string.icono_email));
+        Metodos.botonAwesomeComponente(contexto, vh.btFacturas, contexto.getString(R.string.icono_facturas));
+        Metodos.botonAwesomeComponente(contexto, vh.btTelefono, contexto.getString(R.string.icono_telefono));
+        vh.btFacturas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickFacturas(position);
+            }
+        });
+
+        vh.btTelefono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickTelefono(position);
+            }
+        });
+
+        vh.btEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickEmail(position);
+            }
+        });
+
+        if(datos.get(position).getTelefono01().trim().equals("") && datos.get(position).getTelefono02().trim().equals("")){
+            vh.btTelefono.setEnabled(false);
+        }else{
+            vh.btTelefono.setEnabled(true);
+        }
+        if(datos.get(position).getEmail().trim().equals("")){
+            vh.btEmail.setEnabled(false);
+        }else{
+            vh.btEmail.setEnabled(true);
+        }
         vh.nombreComercial.setText(datos.get(position).getNombre_comercial());
-
-        vh.btFacturas.setTag(datos.get(position).getId());
-        vh.btTelefono.setTag(datos.get(position).getId());
-        vh.btEmail.setTag(datos.get(position).getId());
-
         return convertView;
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String[] accion = contexto.getResources().getStringArray(R.array.lista_acciones);
-        if(accion[position].equalsIgnoreCase("Ver facturas")){
-            Bundle bundle = new Bundle();
-            bundle.putInt("idCliente", (int)parent.getTag());
-            Fragment fragmento = new FragmentoListaFacturas();
-            fragmento.setArguments(bundle);
-            FragmentTransaction transaction = ((ActionBarActivity)contexto).getFragmentManager().beginTransaction();
-            transaction.replace(R.id.relativeLayoutPrincipal, fragmento);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        } else if(accion[position].compareTo("Acciones")!=0) {
-            Log.v("mio", parent.getTag() +  " " +accion[position]);
+    private void clickEmail(int position){
+        if(!datos.get(position).getEmail().trim().equals("")){
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("message/rfc822");
+            i.putExtra(Intent.EXTRA_EMAIL  , new String[]{datos.get(position).getEmail().trim()});
+            try {
+                contexto.startActivity(Intent.createChooser(i, contexto.getString(R.string.enviar_email)));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(contexto, contexto.getString(R.string.no_app_disponible), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    public void llamarTelefono() {
-
+    private void clickFacturas(int position){
+        Bundle bundle = new Bundle();
+        bundle.putInt("idCliente", datos.get(position).getId());
+        Fragment fragmento = new FragmentoListaFacturas();
+        fragmento.setArguments(bundle);
+        FragmentTransaction transaction = ((ActionBarActivity)contexto).getFragmentManager().beginTransaction();
+        transaction.replace(R.id.relativeLayoutPrincipal, fragmento);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
-    public void enviarEmail(){
+    private void clickTelefono(int position){
+        String telefono01 = datos.get(position).getTelefono01().trim();
+        String telefono02 = datos.get(position).getTelefono02().trim();
 
+        Log.v("mio", telefono01 + " - " + telefono02);
+
+        String uri = "";
+        if(!telefono01.equals("") && !telefono02.equals("")){
+            seleccionarTelefono(telefono01, telefono02);
+        } else if(!telefono01.equals("")) {
+            uri = "tel:" + telefono01;
+        } else if(!telefono01.equals("")) {
+            uri = "tel:" + telefono02;
+        }
+
+        if(!uri.equals("")) {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse(uri));
+            contexto.startActivity(intent);
+        }
     }
+
+    private void seleccionarTelefono(String telefono1, String telefono2){
+        final CharSequence telfs[] = new CharSequence[] {telefono1, telefono2};
+        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+        builder.setTitle("Selecciona telefono");
+        builder.setItems(telfs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String uri = "tel:" + telfs[which].toString();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse(uri));
+                contexto.startActivity(intent);
+            }
+        });
+        builder.show();
+    }
+
     private static class ViewHolder {
-        public TextView nombreComercial;
-        public Button btTelefono;
-        public Button btEmail;
-        public Button btFacturas;
+        private TextView nombreComercial;
+        private Button btTelefono;
+        private Button btEmail;
+        private Button btFacturas;
     }
 }
-
-/* String[] list = contexto.getResources().getStringArray(R.array.lista_acciones);
-        AdaptadorSpinnerAcciones ad = new AdaptadorSpinnerAcciones(contexto, R.layout.detalle_spinner, R.id.tvSpinner, list);
-        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        vh.acciones.setAdapter(ad);
-        vh.acciones.setOnItemSelectedListener(this);
-        vh.acciones.setTag(datos.get(position).getId());*/

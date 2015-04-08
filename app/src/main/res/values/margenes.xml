@@ -8,6 +8,8 @@
     <dimen name="campos_texto">12dp</dimen>
     <dimen name="margen_entre_componentes">6dp</dimen>
 
+    <dimen name="margin_button_clientes">6dp</dimen>
+
     <!-- PADDINGS -->
     <dimen name="padding_lista">12dp</dimen>
 
