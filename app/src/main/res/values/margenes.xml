@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- MARGENES -->
     <dimen name="margin_bottom_login">24dp</dimen>
     <dimen name="margin_bottom_login_campos_texto">16dp</dimen>
     <dimen name="margin_lateral_login">24dp</dimen>
     <dimen name="campos_texto">12dp</dimen>
+    <dimen name="margen_entre_componentes">6dp</dimen>
 
     <!-- PADDINGS -->
-    <dimen name="padding_lista">8dp</dimen>
-    <dimen name="margen_entre_componentes">6dp</dimen>
+    <dimen name="padding_lista">12dp</dimen>
+
+    <!-- DIVIDERS -->
+    <dimen name="standard_divider_size">2dp</dimen>
 
 </resources>

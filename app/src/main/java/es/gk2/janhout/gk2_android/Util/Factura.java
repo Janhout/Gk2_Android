@@ -9,20 +9,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by usuario on 23/03/2015.
- */
 public class Factura {
     private String numeroFactura;
     private Date fechaFactura;
     // 0: impagada | 1: pagada | 2: borrador
-    private Integer estadoFactura;
-    private Float importeFactura;
-    private Float importePagado;
+    private int estadoFactura;
+    private float importeFactura;
+    private float importePagado;
     //0: no impresa | 1: impresa
-    private Integer impreso;
+    private int impreso;
     //0: no enviada | 1: enviada
-    private Integer enviado;
+    private int enviado;
+    private int idImpresion;
 
     public Factura(JSONObject facturaJSON) {
         try {
@@ -42,6 +40,7 @@ public class Factura {
             this.importePagado = Float.parseFloat(facturaJSON.getString("PENDIENTE"));
             this.impreso = facturaJSON.getInt("PRINTED");
             this.enviado = facturaJSON.getInt("SENT");
+            this.idImpresion = facturaJSON.getInt("ID_S");
 
         } catch (JSONException e) {
             Log.e("error mio", e.toString());
@@ -68,7 +67,7 @@ public class Factura {
         this.fechaFactura = fechaFactura;
     }
 
-    public Integer getEstadoFactura() {
+    public int getEstadoFactura() {
         return estadoFactura;
     }
 
@@ -76,7 +75,7 @@ public class Factura {
         this.estadoFactura = estadoFactura;
     }
 
-    public Float getImporteFactura() {
+    public float getImporteFactura() {
         return importeFactura;
     }
 
@@ -84,7 +83,7 @@ public class Factura {
         this.importeFactura = importeFactura;
     }
 
-    public Float getImportePagado() {
+    public float getImportePagado() {
         return importePagado;
     }
 
@@ -92,11 +91,11 @@ public class Factura {
         this.importePagado = importePagado;
     }
 
-    public Integer getImpreso() {
+    public int getImpreso() {
         return impreso;
     }
 
-    public Integer getEnviado() {
+    public int getEnviado() {
         return enviado;
     }
 
@@ -111,5 +110,13 @@ public class Factura {
                 ", impreso=" + impreso +
                 ", enviado=" + enviado +
                 '}';
+    }
+
+    public int getIdImpresion() {
+        return idImpresion;
+    }
+
+    public void setIdImpresion(int idImpresion) {
+        this.idImpresion = idImpresion;
     }
 }

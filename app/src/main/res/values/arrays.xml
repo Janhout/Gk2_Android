@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <string-array name="lista_acciones">
         <item>Acciones</item>
@@ -13,13 +13,19 @@
         <item>Ver PDF</item>
     </string-array>
 
-    <string-array name="lista_navigation_drawer">
+    <string-array name="lista_titulos_navigation_drawer">
         <item>Mis clientes</item>
         <item>Mis compras</item>
+    </string-array>
+
+    <string-array name="lista_iconos_navigation_drawer">
+        <item>@string/icono_clientes</item>
+        <item>@string/icono_compras</item>
     </string-array>
 
     <string-array name="nuevoGasto_concepto">
         <item>Gasolina</item>
         <item>Comida</item>
     </string-array>
+
 </resources>

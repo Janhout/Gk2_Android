@@ -7,5 +7,6 @@
     <string name="icono_impreso">&#xf02f;</string>
     <string name="icono_email">&#xf0e0;</string>
     <string name="icono_telefono">&#xf095;</string>
+    <string name="icono_compras">&#xf1b3;</string>
 
 </resources>

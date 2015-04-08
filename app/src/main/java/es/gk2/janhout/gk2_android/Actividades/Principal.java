@@ -28,6 +28,7 @@ public class Principal extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private String[] titulos;
+    private String[] iconos;
 
     private ActionBarDrawerToggle drawerToggle;
     private String tituloActividad;
@@ -44,13 +45,15 @@ public class Principal extends ActionBarActivity {
         if(tituloActividad == null)
             tituloActividad = getTitle().toString();
 
-        titulos = getResources().getStringArray(R.array.lista_navigation_drawer);
+        titulos = getResources().getStringArray(R.array.lista_titulos_navigation_drawer);
+        iconos = getResources().getStringArray(R.array.lista_iconos_navigation_drawer);
 
         drawerList = (ListView) findViewById(R.id.lista_drawer);
 
         ArrayList<ItemNavigationDrawer> items = new ArrayList<>();
-        items.add(new ItemNavigationDrawer(titulos[0],R.mipmap.ic_launcher));
-        items.add(new ItemNavigationDrawer(titulos[1],R.mipmap.ic_launcher));
+        for(int i = 0; i < titulos.length; i++)
+            items.add(new ItemNavigationDrawer(titulos[i], iconos[i]));
+
 
         drawerList.setAdapter(new AdaptadorListaNavigationDrawer(this, R.layout.detelle_elemento_drawer, items));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -138,7 +141,6 @@ public class Principal extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 

@@ -32,7 +32,7 @@ public class FragmentoListaClientes extends Fragment {
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
 
-    private static final int LIMITE_CONSULTA = 10;
+    private static final int LIMITE_CONSULTA = 50;
     private static final int ITEMS_BAJO_LISTA = 5;
 
     public FragmentoListaClientes() {

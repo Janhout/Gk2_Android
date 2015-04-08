@@ -40,4 +40,8 @@
     <string name="compartir">Compartir</string>
     <string name="guardar">Guardar</string>
 
+    <string name="moneda">€</string>
+
+    <string name="descargando">Descargando PDF...</string>
+
 </resources>

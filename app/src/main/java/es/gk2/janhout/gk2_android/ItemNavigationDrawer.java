@@ -4,9 +4,9 @@ package es.gk2.janhout.gk2_android;
 public class ItemNavigationDrawer {
 
     private String nombre;
-    private int icono;
+    private String icono;
 
-    public ItemNavigationDrawer(String nombre, int icono) {
+    public ItemNavigationDrawer(String nombre, String icono) {
         this.nombre = nombre;
         this.icono = icono;
     }
@@ -19,11 +19,11 @@ public class ItemNavigationDrawer {
         this.nombre = nombre;
     }
 
-    public int getIcono() {
+    public String getIcono() {
         return icono;
     }
 
-    public void setIcono(int icono) {
+    public void setIcono(String icono) {
         this.icono = icono;
     }
 }

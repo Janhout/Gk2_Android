@@ -22,6 +22,7 @@ import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Factura;
 
 public class FragmentoListaFacturas extends Fragment {
@@ -29,6 +30,10 @@ public class FragmentoListaFacturas extends Fragment {
     private AdaptadorListaFacturas ad;
     private ArrayList<Factura> listaFacturas;
     private Context contexto;
+    private int page;
+    private int idCliente;
+
+    private static final int ITEMS_BAJO_LISTA = 5;
 
     public FragmentoListaFacturas() {
 
@@ -50,21 +55,28 @@ public class FragmentoListaFacturas extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.contexto = getActivity();
-        //getArguments().getInt("idCliente");
-        //cargarLista(getArguments().getInt("idCliente"));
-        cargarLista(27);
-        if(listaFacturas != null) {
+        idCliente = getArguments().getInt("idCliente");
+        cargarLista();
+        if (listaFacturas != null) {
             lv = (ListView) getActivity().findViewById(R.id.lvFacturas);
             ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);
             lv.setAdapter(ad);
+            lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
+                @Override
+                public void loadMore(int page, int totalItemsCount) {
+                    FragmentoListaFacturas.this.page = page;
+                    cargarLista();
+                }
+            });
         }
     }
 
-    private void cargarLista(int idCliente){
-        AsyncTaskGet runner=new AsyncTaskGet();
+    private void cargarLista() {
+        AsyncTaskGet runner = new AsyncTaskGet();
         String response;
-        Log.v("mio", Constantes.facturas + "q=cliente:" + idCliente + "&page=0&orderBy=&orderDir=&formato=json");
-        AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.facturas + "q=cliente:" + idCliente + "&page=0&orderBy=&orderDir=&formato=json");
+        Log.v("mio", Constantes.facturas + "q=cliente:" + idCliente + "&page=" + page + "&orderBy=&orderDir=&formato=json");
+        AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.facturas + "q=cliente:" + idCliente + "&page=" + page + "&orderBy=&orderDir=&formato=json");
+        //AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.facturasPrueba);
         try {
             String asyncResultText = asyncTask.get();
             response = asyncResultText.trim();
@@ -75,20 +87,18 @@ public class FragmentoListaFacturas extends Fragment {
         } catch (Exception e1) {
             response = e1.getMessage();
         }
-        Log.v("mio response", response);
         JSONTokener token = new JSONTokener(response);
         JSONArray array = null;
 
         try {
             array = new JSONArray(token);
-            Log.v("mio antes del for", array.length()+"");
+            Log.v("mio antes del for", array.length() + "");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 listaFacturas.add(new Factura(obj));
-                if(ad != null) {
+                if (ad != null) {
                     ad.notifyDataSetChanged();
                 }
-                Log.v("mio", listaFacturas.get(i).toString());
             }
 
         } catch (JSONException e) {

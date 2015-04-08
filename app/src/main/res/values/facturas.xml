@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="string_facturas_importe">Importe:&#160;</string>
+    <string name="string_facturas_pendiente">Pendiente:&#160;</string>
+</resources>
