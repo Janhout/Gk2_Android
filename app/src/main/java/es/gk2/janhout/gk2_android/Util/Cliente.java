@@ -2,7 +2,6 @@ package es.gk2.janhout.gk2_android.Util;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +58,7 @@ public class Cliente implements Parcelable, Serializable {
             this.telefono02 = clienteJSON.getString("TELEFONO02");
             this.email = clienteJSON.getString("EMAIL");
         } catch (JSONException e) {
-            Log.e("error mio", e.toString());
+            e.getMessage();
         }
     }
 
