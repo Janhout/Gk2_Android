@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Compra;
 
-/**
- * Created by usuario on 25/03/2015.
- */
 public class AdaptadorListaCompras extends ArrayAdapter<Compra> {
     private Context contexto;
     private ArrayList<Compra> datos;
@@ -28,12 +25,12 @@ public class AdaptadorListaCompras extends ArrayAdapter<Compra> {
         this.contexto = contexto;
         this.recurso = recurso;
         this.datos = datos;
-        this.inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder vh = null;
+        ViewHolder vh;
         if (convertView == null) {
             convertView = inflador.inflate(recurso, null);
             vh = new ViewHolder();
@@ -69,7 +66,6 @@ public class AdaptadorListaCompras extends ArrayAdapter<Compra> {
     }
 
     public static class ViewHolder {
-        public Integer compra_estadoFactura;
         public RelativeLayout compra_fila;
         public TextView compra_id;
         public TextView compra_proveedor;

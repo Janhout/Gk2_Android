@@ -4,4 +4,25 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     </style>
 
+    <!-- ACTIVIDAD MOSTRAR CLIENTE -->
+    <style name="fila_normal">
+        <item name="android:layout_marginTop">@dimen/margen_entre_filas</item>
+        <item name="android:layout_marginBottom">@dimen/margen_entre_filas</item>
+    </style>
+
+    <style name="texto_columna_valores">
+        <item name="android:textSize">@dimen/standard_size</item>
+        <item name="android:layout_centerVertical">true</item>
+
+    </style>
+
+    <style name="texto_columna_propiedades" parent="texto_columna_valores">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginRight">@dimen/margen_entre_filas</item>
+    </style>
+
+
+
+
+
 </resources>

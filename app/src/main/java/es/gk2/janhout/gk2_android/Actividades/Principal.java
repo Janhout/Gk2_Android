@@ -4,10 +4,10 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +29,6 @@ public class Principal extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private String[] titulos;
-    private String[] iconos;
 
     private ActionBarDrawerToggle drawerToggle;
     private String tituloActividad;
@@ -47,7 +46,7 @@ public class Principal extends ActionBarActivity {
             tituloActividad = getTitle().toString();
 
         titulos = getResources().getStringArray(R.array.lista_titulos_navigation_drawer);
-        iconos = getResources().getStringArray(R.array.lista_iconos_navigation_drawer);
+        String[] iconos = getResources().getStringArray(R.array.lista_iconos_navigation_drawer);
 
         drawerList = (ListView) findViewById(R.id.lista_drawer);
 
@@ -119,7 +118,7 @@ public class Principal extends ActionBarActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         tituloActividad = savedInstanceState.getString("tituloActividad");
         getSupportActionBar().setTitle(tituloActividad);

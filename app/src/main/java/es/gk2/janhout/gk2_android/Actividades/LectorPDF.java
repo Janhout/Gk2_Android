@@ -25,7 +25,6 @@ import es.gk2.janhout.gk2_android.R;
 public class LectorPDF extends ActionBarActivity implements OnPageChangeListener {
 
     private Integer pageNumber;
-    private ShareActionProvider shareActionProvider;
     private Intent intentCompartir;
     private String fichero;
 
@@ -67,7 +66,7 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
 
         MenuItem item = menu.findItem(R.id.action_compartir);
 
-        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 
         if (shareActionProvider != null) {
             shareActionProvider.setShareIntent(intentCompartir);

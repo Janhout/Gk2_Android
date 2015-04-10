@@ -25,9 +25,8 @@ public class NuevoGasto extends ActionBarActivity {
 
     ImageView fotoTomada;
 
-    private final int ACTIVIDAD_CAMARA = 0;;
+    private final int ACTIVIDAD_CAMARA = 0;
 
-    private ImageButton boton_tomarFoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +38,7 @@ public class NuevoGasto extends ActionBarActivity {
         nuevoGasto_spinner.setAdapter(adapter);
 
         fotoTomada = (ImageView) findViewById(R.id.nuevoGasto_imagen);
-        boton_tomarFoto = (ImageButton) findViewById(R.id.nuevoGasto_tomarFoto);
+        ImageButton boton_tomarFoto = (ImageButton) findViewById(R.id.nuevoGasto_tomarFoto);
         boton_tomarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

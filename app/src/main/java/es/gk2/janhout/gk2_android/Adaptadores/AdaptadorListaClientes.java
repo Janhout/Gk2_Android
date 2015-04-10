@@ -13,19 +13,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
-import es.gk2.janhout.gk2_android.Util.Cliente;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.Util.Cliente;
 
 public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
 
@@ -147,7 +145,7 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
     private void seleccionarTelefono(String telefono1, String telefono2){
         final CharSequence telfs[] = new CharSequence[] {telefono1, telefono2};
         AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
-        builder.setTitle("Selecciona telefono");
+        builder.setTitle(contexto.getString(R.string.selecciona_telefono));
         builder.setItems(telfs, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

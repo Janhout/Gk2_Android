@@ -4,4 +4,7 @@
     <dimen name="size_icono_botones">24sp</dimen>
 
     <dimen name="drawer_font_size">16sp</dimen>
+
+    <dimen name="title_size">22sp</dimen>
+    <dimen name="standard_size">16sp</dimen>
 </resources>

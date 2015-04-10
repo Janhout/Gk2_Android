@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mostrarCliente_informacion_cliente">Información del cliente</string>
+    <string name="mostrarCliente_acciones">Acciones</string>
+    <string name="s_mostrarCliente_nombre_comercial">Nombre comercial</string>
+    <string name="s_mostrarCliente_nif">NIF/CIF</string>
+    <string name="s_mostrarCliente_direccion">Dirección</string>
+    <string name="s_mostrarCliente_telefonos">Teléfonos</string>
+    <string name="s_mostrarCliente_email">Email</string>
+</resources>

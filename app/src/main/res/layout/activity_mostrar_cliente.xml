@@ -1,16 +1,141 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="es.gk2.janhout.gk2_android.Actividades.MostrarCliente">
+    android:orientation="vertical"
+    android:padding="@dimen/padding_lista">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvCliente"/>
+        android:text="@string/mostrarCliente_informacion_cliente"
+        android:textColor="@color/azul_logo"
+        android:textSize="@dimen/title_size" />
 
-</RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/azul_logo" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        android:shrinkColumns="1"
+        android:layout_marginBottom="@dimen/margen_final_tabla">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="@dimen/margen_entre_filas"
+            android:layout_marginTop="@dimen/margen_entre_filas">
+
+            <TextView
+                style="@style/texto_columna_propiedades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/s_mostrarCliente_nombre_comercial" />
+
+            <TextView
+                android:id="@+id/mostrarCliente_nombrecomercial"
+                style="@style/texto_columna_valores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pepe el Loco" />
+        </TableRow>
+
+        <TableRow
+            style="@style/fila_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                style="@style/texto_columna_propiedades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/s_mostrarCliente_nif" />
+
+            <TextView
+                android:id="@+id/mostrarCliente_nif"
+                style="@style/texto_columna_valores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12345678A" />
+        </TableRow>
+
+        <TableRow
+            style="@style/fila_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/texto_columna_propiedades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/s_mostrarCliente_telefonos" />
+
+            <TextView
+                android:id="@+id/mostrarCliente_telefonos"
+                style="@style/texto_columna_valores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="69669669 / 958988744" />
+        </TableRow>
+
+        <TableRow
+            style="@style/fila_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                style="@style/texto_columna_propiedades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/s_mostrarCliente_direccion" />
+
+            <TextView
+                android:id="@+id/mostrarCliente_direccion"
+                style="@style/texto_columna_valores"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="CC asdf 03786 ADSUBIA (AJUNTAMENT ADSUBIA)" />
+        </TableRow>
+
+        <TableRow
+            style="@style/fila_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                style="@style/texto_columna_propiedades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/s_mostrarCliente_email" />
+
+            <TextView
+                android:id="@+id/mostrarCliente_email"
+                style="@style/texto_columna_valores"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="pepe@toloquepuedas.com" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mostrarCliente_acciones"
+        android:textColor="@color/azul_logo"
+        android:textSize="@dimen/title_size" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/azul_logo" />
+
+</LinearLayout>

@@ -2,7 +2,6 @@ package es.gk2.janhout.gk2_android.Fragmentos;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,19 +15,15 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Factura;
 
 public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnProcessCompleteListener{
 
-    private ListView lv;
     private AdaptadorListaFacturas ad;
     private ArrayList<Factura> listaFacturas;
     private Context contexto;
@@ -61,7 +56,7 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
         idCliente = getArguments().getInt("idCliente");
         cargarLista();
         if (listaFacturas != null) {
-            lv = (ListView) getActivity().findViewById(R.id.lvFacturas);
+            ListView lv = (ListView) getActivity().findViewById(R.id.lvFacturas);
             ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);
             lv.setAdapter(ad);
             /*lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {

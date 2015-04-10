@@ -3,9 +3,7 @@ package es.gk2.janhout.gk2_android.Fragmentos;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +16,16 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
-import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 
 public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnProcessCompleteListener {
 
-    private ListView lv;
     private AdaptadorListaClientes ad;
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
@@ -52,8 +45,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_lista_clientes, container, false);
-        return v;
+        return inflater.inflate(R.layout.fragment_lista_clientes, container, false);
     }
 
     @Override
@@ -63,7 +55,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
         page = 0;
         cargarLista();
         if(listaClientes != null) {
-            lv = (ListView) getActivity().findViewById(R.id.lvClientes);
+            ListView lv = (ListView) getActivity().findViewById(R.id.lvClientes);
             ad = new AdaptadorListaClientes(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
             lv.setAdapter(ad);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

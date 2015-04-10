@@ -2,9 +2,6 @@ package es.gk2.janhout.gk2_android.Adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +10,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import es.gk2.janhout.gk2_android.Actividades.LectorPDF;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
@@ -45,7 +30,7 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> implements Get
         this.contexto = contexto;
         this.recurso = recurso;
         this.datos = datos;
-        this.inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override

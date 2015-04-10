@@ -19,9 +19,9 @@ public class MostrarCliente extends ActionBarActivity {
         setContentView(R.layout.activity_mostrar_cliente);
 
         Cliente c = getIntent().getExtras().getParcelable("cliente");
-        tvCliente = (TextView)findViewById(R.id.tvCliente);
+        //tvCliente = (TextView)findViewById(R.id.tvCliente);
 
-        tvCliente.setText(c.toString());
+        //tvCliente.setText(c.toString());
     }
 
     @Override
