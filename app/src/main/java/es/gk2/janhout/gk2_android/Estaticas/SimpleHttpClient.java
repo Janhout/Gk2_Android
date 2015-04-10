@@ -1,5 +1,7 @@
 package es.gk2.janhout.gk2_android.Estaticas;
 
+import android.os.Environment;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
@@ -18,8 +20,11 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 
@@ -102,6 +107,34 @@ public class SimpleHttpClient {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static String executeHttpGetb(String url) throws Exception {
+        try {
+            HttpClient client = getHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI(url));
+            HttpResponse response = client.execute(request);
+
+            InputStream input = response.getEntity().getContent();
+
+            OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM).getAbsolutePath() + "/factura.tmp");
+
+            byte data[] = new byte[1024];
+
+            int count;
+            while ((count = input.read(data)) != -1) {
+                output.write(data, 0, count);
+            }
+            output.flush();
+            output.close();
+            input.close();
+
+            return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + "/factura.tmp";
+        } catch (Exception e) {
+            return null;
         }
     }
 }

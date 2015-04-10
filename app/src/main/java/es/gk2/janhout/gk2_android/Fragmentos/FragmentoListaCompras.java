@@ -21,10 +21,11 @@ import java.util.concurrent.ExecutionException;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaCompras;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Compra;
 
-public class FragmentoListaCompras extends Fragment {
+public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnProcessCompleteListener{
     private ListView lv;
     private AdaptadorListaCompras ad;
     private ArrayList<Compra> listaCompras;
@@ -60,40 +61,32 @@ public class FragmentoListaCompras extends Fragment {
     }
 
     private void cargarLista(){
-        AsyncTaskGet runner = new AsyncTaskGet();
-        String response;
-        //Log.v("mio", Constantes.facturas + "q=cliente:" + idCliente + "&page=" + page + "&orderBy=&orderDir=&formato=json");
-        AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.comprasPruebas);
-        //AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.facturasPrueba);
-        try {
-            String asyncResultText = asyncTask.get();
-            response = asyncResultText.trim();
-        } catch (InterruptedException e1) {
-            response = e1.getMessage();
-        } catch (ExecutionException e1) {
-            response = e1.getMessage();
-        } catch (Exception e1) {
-            response = e1.getMessage();
-        }
-        JSONTokener token = new JSONTokener(response);
-        JSONArray array = null;
-
-        try {
-            array = new JSONArray(token);
-            Log.v("mio antes del for", array.length() + "");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                listaCompras.add(new Compra(obj));
-                if (ad != null) {
-                    ad.notifyDataSetChanged();
-                }
-            }
-
-        } catch (JSONException e) {
-            Log.e("error carga facturas", e.toString());
-            listaCompras = null;
-        }
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.compras, false);
+        a.execute();
     }
 
+    @Override
+    public void resultado(String respuesta){
+        if(respuesta != null){
+            JSONTokener token = new JSONTokener(respuesta);
+            JSONArray array;
+
+            try {
+                array = new JSONArray(token);
+                Log.v("mio antes del for", array.length() + "");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject obj = array.getJSONObject(i);
+                    listaCompras.add(new Compra(obj));
+                    if (ad != null) {
+                        ad.notifyDataSetChanged();
+                    }
+                }
+
+            } catch (JSONException e) {
+                Log.e("error carga facturas", e.toString());
+                listaCompras = null;
+            }
+        }
+    }
 
 }

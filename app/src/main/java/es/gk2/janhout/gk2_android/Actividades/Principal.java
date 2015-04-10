@@ -17,6 +17,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaNavigationDrawer;
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaCompras;
 import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
@@ -107,7 +108,6 @@ public class Principal extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_principal, menu);
         return true;
     }
@@ -116,7 +116,6 @@ public class Principal extends ActionBarActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("tituloActividad", tituloActividad);
-        Log.v("mio", tituloActividad);
     }
 
     @Override
@@ -142,15 +141,11 @@ public class Principal extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
-
-
-
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Metodos.borrarPreferenciasCompartidas(this);
+    }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override

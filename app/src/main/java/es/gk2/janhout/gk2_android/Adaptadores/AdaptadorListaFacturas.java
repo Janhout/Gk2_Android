@@ -1,7 +1,9 @@
 package es.gk2.janhout.gk2_android.Adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +13,28 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
+import es.gk2.janhout.gk2_android.Actividades.LectorPDF;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Factura;
 
-/**
- * Created by usuario on 23/03/2015.
- */
-public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
+public class AdaptadorListaFacturas extends ArrayAdapter<Factura> implements GetAsyncTask.OnProcessCompleteListener{
     private Context contexto;
     private ArrayList<Factura> datos;
     private int recurso;
@@ -59,10 +71,7 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         vh.verFactura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskGet runner = new AsyncTaskGet();
-                String response;
-                Log.v("mio", Constantes.pdfUrl+Integer.toString(datos.get(position).getIdImpresion()));
-                AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.pdfUrl+Integer.toString(datos.get(position).getIdImpresion()));
+                verFactura(position);
             }
         });
         if (datos.get(position).getEstadoFactura() == 0)
@@ -91,8 +100,21 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         else
             vh.importePagado.setText("");
 
-
         return convertView;
+    }
+
+    private void verFactura(int position){
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.pdfUrl+String.valueOf(datos.get(position).getIdImpresion()), true);
+        a.execute();
+    }
+
+    @Override
+    public void resultado(String respuesta){
+        if(respuesta!=null) {
+            Intent intentCompartir = new Intent(contexto, LectorPDF.class);
+            intentCompartir.putExtra("pdf", respuesta);
+            contexto.startActivity(intentCompartir);
+        }
     }
 
     public static class ViewHolder {

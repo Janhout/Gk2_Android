@@ -42,6 +42,13 @@ public class Metodos {
         editor.apply();
     }
 
+    public static void borrarPreferenciasCompartidas(Context contexto){
+        SharedPreferences sharedPref = contexto.getSharedPreferences(contexto.getString(R.string.preferencias_compartidas), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.commit();
+    }
+
     /**
      * Método para asignar un tipo de fuente a un componente
      *

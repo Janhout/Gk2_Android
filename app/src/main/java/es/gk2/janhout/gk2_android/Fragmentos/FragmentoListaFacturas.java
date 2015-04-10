@@ -21,11 +21,13 @@ import java.util.concurrent.ExecutionException;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Factura;
 
-public class FragmentoListaFacturas extends Fragment {
+public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnProcessCompleteListener{
+
     private ListView lv;
     private AdaptadorListaFacturas ad;
     private ArrayList<Factura> listaFacturas;
@@ -55,55 +57,46 @@ public class FragmentoListaFacturas extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.contexto = getActivity();
+        page = 0;
         idCliente = getArguments().getInt("idCliente");
         cargarLista();
         if (listaFacturas != null) {
             lv = (ListView) getActivity().findViewById(R.id.lvFacturas);
             ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);
             lv.setAdapter(ad);
-            lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
+            /*lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
                 @Override
                 public void loadMore(int page, int totalItemsCount) {
                     FragmentoListaFacturas.this.page = page;
                     cargarLista();
                 }
-            });
+            });*/
         }
     }
 
     private void cargarLista() {
-        AsyncTaskGet runner = new AsyncTaskGet();
-        String response;
-        Log.v("mio", Constantes.facturas + "q=cliente:" + idCliente + "&page=" + page + "&orderBy=&orderDir=&formato=json");
-        AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.facturas + "q=cliente:" + idCliente + "&page=" + page + "&orderBy=&orderDir=&formato=json");
-        //AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.facturasPrueba);
-        try {
-            String asyncResultText = asyncTask.get();
-            response = asyncResultText.trim();
-        } catch (InterruptedException e1) {
-            response = e1.getMessage();
-        } catch (ExecutionException e1) {
-            response = e1.getMessage();
-        } catch (Exception e1) {
-            response = e1.getMessage();
-        }
-        JSONTokener token = new JSONTokener(response);
-        JSONArray array = null;
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente + "&page=" + page + "&orderBy=&orderDir=&formato=json", false);
+        a.execute();
+    }
 
-        try {
-            array = new JSONArray(token);
-            Log.v("mio antes del for", array.length() + "");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                listaFacturas.add(new Factura(obj));
-                if (ad != null) {
-                    ad.notifyDataSetChanged();
+    @Override
+    public void resultado(String respuesta){
+        if(respuesta != null) {
+            JSONTokener token = new JSONTokener(respuesta);
+            JSONArray array;
+            try {
+                array = new JSONArray(token);
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject obj = array.getJSONObject(i);
+                    listaFacturas.add(new Factura(obj));
+                    if (ad != null) {
+                        ad.notifyDataSetChanged();
+                    }
                 }
+            } catch (JSONException e) {
+                Log.e("error carga facturas", e.toString());
+                listaFacturas = null;
             }
-
-        } catch (JSONException e) {
-            Log.e("error carga facturas", e.toString());
-            listaFacturas = null;
         }
     }
 }

@@ -24,11 +24,13 @@ import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
+import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 
-public class FragmentoListaClientes extends Fragment {
+public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnProcessCompleteListener {
 
     private ListView lv;
     private AdaptadorListaClientes ad;
@@ -85,36 +87,28 @@ public class FragmentoListaClientes extends Fragment {
     }
 
     private void cargarLista(){
-        AsyncTaskGet runner=new AsyncTaskGet();
-        String response;
-        Log.v("mio", Constantes.clientes + "&page=" + page + "&limit=" + LIMITE_CONSULTA);
-        AsyncTask<String, String, String> asyncTask = runner.execute(Constantes.clientes + "&page=" + page + "&limit=" + LIMITE_CONSULTA);
-        try {
-            String asyncResultText = asyncTask.get();
-            response = asyncResultText.trim();
-        } catch (InterruptedException e1) {
-            response = e1.getMessage();
-        } catch (ExecutionException e1) {
-            response = e1.getMessage();
-        } catch (Exception e1) {
-            response = e1.getMessage();
-        }
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.clientes + "?q=&page=" + page + "&limit=" + LIMITE_CONSULTA, false);
+        a.execute();
+    }
 
-        JSONTokener token = new JSONTokener(response);
-        JSONArray array = null;
-        try {
-            array = new JSONArray(token);
-            Log.v("mio ", array.length()+"");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                listaClientes.add(new Cliente(obj));
-            }
-            if(ad != null) {
-                ad.notifyDataSetChanged();
-            }
+    @Override
+    public void resultado(String respuesta) {
+        if(respuesta != null) {
+            JSONTokener token = new JSONTokener(respuesta);
+            JSONArray array;
+            try {
+                array = new JSONArray(token);
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject obj = array.getJSONObject(i);
+                    listaClientes.add(new Cliente(obj));
+                }
+                if (ad != null) {
+                    ad.notifyDataSetChanged();
+                }
 
-        } catch (JSONException e) {
-            listaClientes = null;
+            } catch (JSONException e) {
+                listaClientes = null;
+            }
         }
     }
 }

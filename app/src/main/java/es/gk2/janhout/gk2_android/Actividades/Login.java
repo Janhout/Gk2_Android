@@ -11,13 +11,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Hashtable;
 import java.util.concurrent.ExecutionException;
 
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
+import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
+import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 
 
-public class Login extends ActionBarActivity {
+public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessCompleteListener{
 
     private static Context contexto;
     private AsyncTask<String, String, String> asyncTask;
@@ -38,12 +42,7 @@ public class Login extends ActionBarActivity {
         String usuario = etUsuario.getText().toString();
         String pass = etPass.getText().toString();
 
-        if(hacerLogin(usuario, pass)){
-            Intent i = new Intent(this, Principal.class);
-            startActivity(i);
-        } else{
-            Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();
-        }
+        hacerLogin(usuario, pass);
     }
 
     public void recuperaPass(View v){
@@ -51,28 +50,22 @@ public class Login extends ActionBarActivity {
         startActivity(i);
     }
 
-    private boolean hacerLogin(String usuario, String pass){
-        AsyncTaskPost runner=new AsyncTaskPost();
-
-        asyncTask=runner.execute(usuario, pass);
-        try {
-            String asyncResultText=asyncTask.get();
-            response = asyncResultText.trim();
-        } catch (InterruptedException e1) {
-            response = e1.getMessage();
-        } catch (ExecutionException e1) {
-            response = e1.getMessage();
-        } catch (Exception e1) {
-            response = e1.getMessage();
-        }
-        if(response.contains("Clientes")) {
-            return true;
-        } else {
-            return false;
-        }
+    private void hacerLogin(String usuario, String pass){
+        Hashtable<String, String> parametros = new Hashtable<>();
+        parametros.put("usuario", usuario);
+        parametros.put("pass", pass);
+        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.urlLogin);
+        a.execute(parametros);
     }
 
-    public static Context getAppContext() {
-        return Login.contexto;
+    @Override
+    public void resultado(String respuesta) {
+        if(respuesta != null) {
+            Intent i = new Intent(this, Principal.class);
+            startActivity(i);
+            finish();
+        } else{
+            Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();
+        }
     }
 }
