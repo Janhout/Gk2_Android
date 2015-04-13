@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import es.gk2.janhout.gk2_android.Actividades.Principal;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.R;
@@ -117,14 +118,13 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
         FragmentTransaction transaction = ((ActionBarActivity)contexto).getFragmentManager().beginTransaction();
         transaction.replace(R.id.relativeLayoutPrincipal, fragmento);
         transaction.addToBackStack(null);
+        Principal.fragmentoActual = Principal.ListaFragmentos.facturas;
         transaction.commit();
     }
 
     private void clickTelefono(int position){
         String telefono01 = datos.get(position).getTelefono01().trim();
         String telefono02 = datos.get(position).getTelefono02().trim();
-
-        Log.v("mio", telefono01 + " - " + telefono02);
 
         String uri = "";
         if(!telefono01.equals("") && !telefono02.equals("")){

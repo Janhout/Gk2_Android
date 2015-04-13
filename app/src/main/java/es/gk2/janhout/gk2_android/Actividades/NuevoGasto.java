@@ -20,12 +20,28 @@ import java.io.File;
 
 import es.gk2.janhout.gk2_android.R;
 
-
 public class NuevoGasto extends ActionBarActivity {
 
-    ImageView fotoTomada;
+    private ImageView fotoTomada;
 
     private final int ACTIVIDAD_CAMARA = 0;
+
+    /* *************************************************************************
+    **************************** Métodos on... ********************************
+    *************************************************************************** */
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Activity.RESULT_OK){
+            switch (requestCode){
+                case ACTIVIDAD_CAMARA:
+                    Log.v("Ruta: ", getExternalFilesDir("/")+"/fotoprueba.jpg");
+                    fotoTomada.setImageBitmap(BitmapFactory.decodeFile(getExternalFilesDir("/")+"/fotoprueba.jpg"));
+                    break;
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,31 +54,18 @@ public class NuevoGasto extends ActionBarActivity {
         nuevoGasto_spinner.setAdapter(adapter);
 
         fotoTomada = (ImageView) findViewById(R.id.nuevoGasto_imagen);
-        ImageButton boton_tomarFoto = (ImageButton) findViewById(R.id.nuevoGasto_tomarFoto);
-        boton_tomarFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nuevaFoto();
-            }
-        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_nuevo_gasto, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -70,28 +73,17 @@ public class NuevoGasto extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void nuevaFoto(){
+    /* *************************************************************************
+    **************************** Auxiliares ************************************
+    *************************************************************************** */
+
+    public void nuevaFoto(View v){
         Intent tomaFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (tomaFoto.resolveActivity(getPackageManager()) != null) {
             File fichero = new File(getExternalFilesDir("/"), "fotoprueba.jpg");
             if (fichero != null) {
                 tomaFoto.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fichero));
                 startActivityForResult(tomaFoto, ACTIVIDAD_CAMARA);
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode== Activity.RESULT_OK){
-            switch (requestCode){
-                case ACTIVIDAD_CAMARA:
-                    Log.v("Ruta: ", getExternalFilesDir("/")+"/fotoprueba.jpg");
-                    fotoTomada.setImageBitmap(BitmapFactory.decodeFile(getExternalFilesDir("/")+"/fotoprueba.jpg"));
-
-                    break;
             }
         }
     }

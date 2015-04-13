@@ -31,15 +31,13 @@ public class PostAsyncTask extends AsyncTask<Hashtable<String, String>, Void, St
     }
 
     @Override
-    protected String doInBackground(Hashtable<String, String>... params) {
-        String resultado = Peticiones.peticionPostJSON(contexto, url, params[0]);
-        return resultado;
+    protected final String doInBackground(Hashtable<String, String>... params) {
+        return Peticiones.peticionPostJSON(contexto, url, params[0]);
     }
 
     @Override
     protected void onPostExecute(String s) {
         listener.resultado(s);
-
         if(progreso != null && progreso.isShowing()){
             progreso.dismiss();
         }

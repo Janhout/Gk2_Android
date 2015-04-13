@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s_nuevoGasto_insertar">Añadir gasto</string>
+    <string name="s_nuevoGasto_otros_detalles">Otros detalles</string>
+    <string name="s_nuevoGasto_importe">Importe</string>
+</resources>

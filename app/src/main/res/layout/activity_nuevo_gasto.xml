@@ -11,55 +11,90 @@
         android:layout_height="fill_parent"
         android:id="@+id/nuevoGasto_layout"
         android:orientation="vertical"
-        android:weightSum="1">
-
-        <ImageView
-            android:id="@+id/nuevoGasto_imagen"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center" />
+        android:gravity="center_horizontal"
+        >
 
         <Spinner
-            android:id="@+id/nuevoGasto_concepto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <ImageButton
-            android:layout_width="66dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/nuevoGasto_tomarFoto"
-            android:src="@drawable/ic_action_photo"
-            android:onClick="nuevoGasto"
+            android:id="@+id/nuevoGasto_concepto"
+            android:background="@drawable/edit_text_login"
+            android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"
+            android:padding="@dimen/campos_texto"
             />
 
         <EditText
-            android:id="@+id/nuevoGasto_importe"
-            android:layout_width="118dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="Importe"
-            android:inputType="number" />
+            android:id="@+id/nuevoGasto_importe"
+            android:hint="@string/s_nuevoGasto_importe"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edit_text_login"
+            android:layout_marginBottom="@dimen/margin_bottom_login_campos_texto"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"
+            android:padding="@dimen/campos_texto"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/nuevoGasto_otros"/>
 
         <EditText
-            android:id="@+id/nuevoGasto_otros"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="Otros detalles" />
+            android:id="@+id/nuevoGasto_otros"
+            android:hint="@string/s_nuevoGasto_otros_detalles"
+            android:background="@drawable/edit_text_login"
+            android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"
+            android:padding="@dimen/campos_texto"
+            android:singleLine="true"/>
 
         <EditText
             android:id="@+id/nuevoGasto_iva"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:background="@drawable/edit_text_login"
+            android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"
+            android:padding="@dimen/campos_texto"
+            android:singleLine="true"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Añadir "
+            android:text="@string/s_nuevoGasto_insertar"
             android:id="@+id/nuevoGasto_button_submit"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:onClick="nuevoGasto"
+            android:background="@drawable/botones_clientes"
+            android:textColor="@color/blanco"
+            android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nuevoGasto_tomarFoto"
+            android:src="@drawable/ic_action_photo"
+            android:onClick="nuevaFoto"
+            android:background="@drawable/botones_clientes"
+            android:textColor="@color/blanco"
+            android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"
+            />
+
+        <ImageView
+            android:id="@+id/nuevoGasto_imagen"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
     </LinearLayout>
 
 </RelativeLayout>

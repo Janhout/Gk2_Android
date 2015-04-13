@@ -8,5 +8,5 @@
     <string name="icono_email">&#xf0e0;</string>
     <string name="icono_telefono">&#xf095;</string>
     <string name="icono_compras">&#xf1b3;</string>
-
+    <string name="icono_camara">&#xf030;</string>
 </resources>

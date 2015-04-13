@@ -19,7 +19,6 @@
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,5 +43,4 @@
             android:label="@string/title_activity_mostrar_cliente" >
         </activity>
     </application>
-
 </manifest>

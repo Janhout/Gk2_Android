@@ -33,7 +33,6 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
     private static final int ITEMS_BAJO_LISTA = 5;
 
     public FragmentoListaFacturas() {
-
     }
 
     @Override
