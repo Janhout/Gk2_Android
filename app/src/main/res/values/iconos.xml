@@ -9,4 +9,6 @@
     <string name="icono_telefono">&#xf095;</string>
     <string name="icono_compras">&#xf1b3;</string>
     <string name="icono_camara">&#xf030;</string>
+    <string name="icono_cerrar_sesion">&#xf08b;</string>
+    <string name="icono_clientes_favoritos">&#xf005;</string>
 </resources>

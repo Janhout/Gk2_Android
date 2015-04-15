@@ -10,6 +10,7 @@ import android.widget.Toast;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 
@@ -18,7 +19,12 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        String cookie = Metodos.leerPreferenciasCompartidasString(this, "cookieSesion");
+        if (cookie.equals("")){
+            setContentView(R.layout.activity_login);
+        } else {
+            loginCorrecto();
+        }
     }
 
     public void login(View v){
@@ -46,11 +52,16 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
     @Override
     public void resultado(String respuesta) {
         if(respuesta != null) {
-            Intent i = new Intent(this, Principal.class);
-            startActivity(i);
-            finish();
+            loginCorrecto();
         } else{
             Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void loginCorrecto(){
+        Intent i = new Intent(this, Principal.class);
+        i.putExtra("favorito", true);
+        startActivity(i);
+        finish();
     }
 }

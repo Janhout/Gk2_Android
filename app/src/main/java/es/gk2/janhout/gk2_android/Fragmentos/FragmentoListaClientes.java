@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
 
+    private boolean favoritos;
+
     private int page;
     private static final int LIMITE_CONSULTA = 50;
     private static final int ITEMS_BAJO_LISTA = 5;
@@ -53,6 +56,11 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
         super.onActivityCreated(savedInstanceState);
         this.contexto = getActivity();
         page = 0;
+        if(savedInstanceState != null) {
+            favoritos = savedInstanceState.getBoolean("fav");
+        } else {
+            favoritos = getArguments().getBoolean("favorito");
+        }
         cargarLista();
         if(listaClientes != null) {
             ListView lv = (ListView) getActivity().findViewById(R.id.lvClientes);
@@ -78,8 +86,20 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("fav", favoritos);
+    }
+
     private void cargarLista(){
-        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.clientes + "?q=&page=" + page + "&limit=" + LIMITE_CONSULTA, false);
+        String url;
+        if (favoritos){
+            url = Constantes.clientes_favoritos + "?q=&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
+        } else {
+            url = Constantes.clientes + "?q=&page=" + page + "&limit=" + LIMITE_CONSULTA;
+        }
+        GetAsyncTask a = new GetAsyncTask(contexto, this, url, false);
         a.execute();
     }
 

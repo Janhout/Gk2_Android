@@ -3,4 +3,21 @@
     android:layout_height="match_parent"
     tools:context="es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaGastos">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lvGastos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:choiceMode="singleChoice"
+            android:divider="@color/negro"
+            android:dividerHeight="@dimen/standard_divider_size"></ListView>
+
+    </LinearLayout>
+
 </FrameLayout>

@@ -37,6 +37,7 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         fichero = intent.getStringExtra("pdf");
 
@@ -82,6 +83,9 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         int id = item.getItemId();
         if (id == R.id.action_guardar) {
             guardarFichero();
+            return true;
+        } else if (id == android.R.id.home) {
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

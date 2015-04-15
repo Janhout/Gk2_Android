@@ -18,8 +18,10 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaNavigationDrawer;
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaCompras;
+import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
 
@@ -28,6 +30,7 @@ public class Principal extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private String[] titulos;
+    private boolean inicio;
 
     private ActionBarDrawerToggle drawerToggle;
     private String tituloActividad;
@@ -68,6 +71,11 @@ public class Principal extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+        if(savedInstanceState != null) {
+            inicio = savedInstanceState.getBoolean("fav");
+        } else {
+            inicio = true;
+        }
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
@@ -76,9 +84,14 @@ public class Principal extends ActionBarActivity {
             tituloActividad = getTitle().toString();
         }
         inicializarDrawer();
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        if(inicio) {
+            Fragment fragment = fragmentoClientes(true);
+            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
+            drawerList.setItemChecked(1, true);
+            setTituloActividad(tituloActividad + " - " + titulos[1]);
+        }
     }
 
     @Override
@@ -91,12 +104,6 @@ public class Principal extends ActionBarActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //Metodos.borrarPreferenciasCompartidas(this);
     }
 
     @Override
@@ -142,6 +149,7 @@ public class Principal extends ActionBarActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("tituloActividad", tituloActividad);
+        outState.putBoolean("fav", inicio);
     }
 
     /* *************************************************************************
@@ -203,22 +211,42 @@ public class Principal extends ActionBarActivity {
 
     private void seleccionarItem(int position) {
         Fragment fragment = null;
+        inicio = false;
         switch (position){
             case 0:
-                fragment = new FragmentoListaClientes();
-                fragmentoActual = ListaFragmentos.clientes;
+                fragment = fragmentoClientes(false);
                 break;
             case 1:
+                fragment = fragmentoClientes(true);
+                break;
+            case 2:
                 fragment = new FragmentoListaCompras();
                 fragmentoActual = ListaFragmentos.compras;
                 break;
+            case 3:
+                Metodos.borrarPreferenciasCompartidas(this);
+                Intent i = new Intent(this, Login.class);
+                startActivity(i);
+                this.finish();
+                break;
         }
 
-        getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
+        if(position != 3) {
+            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
 
-        drawerList.setItemChecked(position, true);
-        setTituloActividad(titulos[position]);
-        drawerLayout.closeDrawer(drawerList);
+            drawerList.setItemChecked(position, true);
+            setTituloActividad(titulos[position]);
+            drawerLayout.closeDrawer(drawerList);
+        }
+    }
+
+    private Fragment fragmentoClientes(boolean favorito){
+        Fragment fragment = new FragmentoListaClientes();
+        fragmentoActual = ListaFragmentos.clientes;
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("favorito", favorito);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 }
 
@@ -234,5 +262,6 @@ public class Principal extends ActionBarActivity {
     Base de datos????
     ActionBar, estilos titulos e iconos
     menus - eliminar los innecesarios
+    Logout
     Compras
  */
