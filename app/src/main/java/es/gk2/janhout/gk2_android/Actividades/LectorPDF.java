@@ -7,6 +7,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,12 +28,15 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
     private Integer pageNumber;
     private Intent intentCompartir;
     private String fichero;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lector_pdf);
-
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setLogo(R.mipmap.ic_launcher);
+        setSupportActionBar(toolbar);
         Intent intent = getIntent();
         fichero = intent.getStringExtra("pdf");
 
@@ -46,9 +50,7 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
                 .enableSwipe(true)
                 .load();
 
-
         intentCompartir = new Intent();
-
         intentCompartir = new Intent();
         intentCompartir.setAction(Intent.ACTION_SEND);
         intentCompartir.setType("application/pdf");

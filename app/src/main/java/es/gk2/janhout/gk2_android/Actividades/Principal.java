@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaNavigationDrawer;
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaCompras;
 import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
@@ -40,6 +40,8 @@ public class Principal extends ActionBarActivity {
         gastos
     }
     public static ListaFragmentos fragmentoActual;
+
+    private Toolbar toolbar;
 
     /* *************************************************************************
      **************************** Métodos on... ********************************
@@ -66,6 +68,9 @@ public class Principal extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setLogo(R.mipmap.ic_launcher);
+        setSupportActionBar(toolbar);
         fragmentoActual = ListaFragmentos.ninguno;
         if(tituloActividad == null) {
             tituloActividad = getTitle().toString();
@@ -91,7 +96,7 @@ public class Principal extends ActionBarActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Metodos.borrarPreferenciasCompartidas(this);
+        //Metodos.borrarPreferenciasCompartidas(this);
     }
 
     @Override
@@ -158,7 +163,7 @@ public class Principal extends ActionBarActivity {
         drawerList.setAdapter(new AdaptadorListaNavigationDrawer(this, R.layout.detelle_elemento_drawer, items));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.open_drawer, R.string.close_drawer) {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer) {
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(tituloActividad);
                 supportInvalidateOptionsMenu();
@@ -169,6 +174,11 @@ public class Principal extends ActionBarActivity {
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    public void setTituloActividad(String tituloActividad){
+        this.tituloActividad = tituloActividad;
+        getSupportActionBar().setTitle(this.tituloActividad);
     }
 
     /* *************************************************************************
@@ -194,8 +204,6 @@ public class Principal extends ActionBarActivity {
     private void seleccionarItem(int position) {
         Fragment fragment = null;
         switch (position){
-            case -1:
-                break;
             case 0:
                 fragment = new FragmentoListaClientes();
                 fragmentoActual = ListaFragmentos.clientes;
@@ -209,8 +217,7 @@ public class Principal extends ActionBarActivity {
         getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
 
         drawerList.setItemChecked(position, true);
-        tituloActividad = titulos[position];
-        getSupportActionBar().setTitle(tituloActividad);
+        setTituloActividad(titulos[position]);
         drawerLayout.closeDrawer(drawerList);
     }
 }

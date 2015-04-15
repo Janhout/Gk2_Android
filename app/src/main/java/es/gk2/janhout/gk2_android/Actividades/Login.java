@@ -2,7 +2,6 @@ package es.gk2.janhout.gk2_android.Actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -14,15 +13,11 @@ import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 
-
 public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessCompleteListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME);
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.activity_login);
     }
 

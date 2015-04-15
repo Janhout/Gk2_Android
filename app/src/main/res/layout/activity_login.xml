@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="es.aplicacion.janhout.login.Login">
 
 
@@ -16,61 +18,59 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo"
             android:layout_marginBottom="@dimen/margin_bottom_login"
-            />
+            android:src="@drawable/logo" />
 
         <EditText
+            android:id="@+id/etUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etUsuario"
-            android:hint="@string/usuario"
-            android:background="@drawable/edit_text_login"
             android:layout_marginBottom="@dimen/margin_bottom_login_campos_texto"
-            android:layout_marginRight="@dimen/margin_lateral_login"
             android:layout_marginLeft="@dimen/margin_lateral_login"
-            android:padding="@dimen/campos_texto"
-            android:singleLine="true"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:background="@drawable/edit_text_login"
+            android:hint="@string/usuario"
             android:imeOptions="actionNext"
             android:nextFocusForward="@+id/etPass"
-            android:text="jadelgado"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:background="@drawable/edit_text_login"
-            android:id="@+id/etPass"
-            android:hint="@string/pass"
-            android:layout_marginBottom="@dimen/margin_bottom_login"
-            android:layout_marginRight="@dimen/margin_lateral_login"
-            android:layout_marginLeft="@dimen/margin_lateral_login"
             android:padding="@dimen/campos_texto"
             android:singleLine="true"
-            android:text="jadj"/>
+            android:text="jadelgado" />
 
-        <Button
+        <EditText
+            android:id="@+id/etPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btLogin"
-            android:text="@string/login"
-            android:onClick="login"
-            android:textColor="@color/blanco"
-            android:background="@drawable/boton_login"
             android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"
             android:layout_marginRight="@dimen/margin_lateral_login"
-            android:layout_marginLeft="@dimen/margin_lateral_login"/>
+            android:background="@drawable/edit_text_login"
+            android:hint="@string/pass"
+            android:inputType="textPassword"
+            android:padding="@dimen/campos_texto"
+            android:singleLine="true"
+            android:text="jadj" />
 
         <Button
+            android:id="@+id/btLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_bottom_login"
+            android:layout_marginLeft="@dimen/margin_lateral_login"
+            android:layout_marginRight="@dimen/margin_lateral_login"
+            android:background="@drawable/boton_login"
+            android:onClick="login"
+            android:text="@string/login"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/btRecuperaPass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btRecuperaPass"
-            android:text="@string/recuperar_pass"
-            android:onClick="recuperaPass"
             android:background="@drawable/bt_recordar"
+            android:onClick="recuperaPass"
+            android:text="@string/recuperar_pass"
             android:textColor="@color/azul_logo"
-            android:textSize="16sp"
-            />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </RelativeLayout>

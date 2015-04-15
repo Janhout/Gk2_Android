@@ -1,7 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/rojo</item>
+        <item name="colorPrimaryDark">@color/amarillo</item>
+        <item name="colorAccent">@color/azul_logo</item>
+    </style>
+
+    <style name="action_bar_styles" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColorPrimary">@color/blanco</item>
+        <item name="android:textColorSecondary">@color/blanco</item>
+        <item name="actionMenuTextColor">@color/verde</item>
     </style>
 
     <!-- ACTIVIDAD MOSTRAR CLIENTE -->
@@ -20,9 +29,4 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginRight">@dimen/margen_entre_filas</item>
     </style>
-
-
-
-
-
 </resources>

@@ -14,6 +14,9 @@
                 android:id="@+id/lvClientes"
                 android:layout_weight="1"
                 android:choiceMode="singleChoice"
+                android:divider="@color/negro"
+                android:dividerHeight="@dimen/standard_divider_size"
+                android:layout_gravity="center"
                 >
             </ListView>
 
