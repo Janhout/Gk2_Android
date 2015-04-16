@@ -14,20 +14,23 @@ public class PostAsyncTask extends AsyncTask<Hashtable<String, String>, Void, St
     private String url;
     private ProgressDialog progreso;
     private OnProcessCompleteListener listener;
+    private boolean mostrarProgreso;
 
-    public PostAsyncTask(Context contexto, OnProcessCompleteListener listener, String url){
+    public PostAsyncTask(Context contexto, OnProcessCompleteListener listener, String url, boolean mostrarProgreso){
         this.contexto = contexto;
         this.url = url;
         progreso = new ProgressDialog(contexto);
         progreso.setMessage(contexto.getString(R.string.cargando_datos));
         progreso.setCancelable(false);
         this.listener = listener;
+        this.mostrarProgreso = mostrarProgreso;
     }
 
     @Override
     protected void onPreExecute() {
-        super.onPreExecute();
-        progreso.show();
+        if(mostrarProgreso) {
+            progreso.show();
+        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package es.gk2.janhout.gk2_android.Fragmentos;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,23 +15,21 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaCompras;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Compra;
 
 public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnProcessCompleteListener{
+
     private ListView lv;
     private AdaptadorListaCompras ad;
     private ArrayList<Compra> listaCompras;
     private Context contexto;
 
     public FragmentoListaCompras() {
-
     }
 
     @Override
@@ -61,7 +58,7 @@ public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnPr
     }
 
     private void cargarLista(){
-        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.compras, false);
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.compras, false, false);
         a.execute();
     }
 
@@ -73,7 +70,6 @@ public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnPr
 
             try {
                 array = new JSONArray(token);
-                Log.v("mio antes del for", array.length() + "");
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.getJSONObject(i);
                     listaCompras.add(new Compra(obj));

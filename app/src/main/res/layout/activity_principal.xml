@@ -20,6 +20,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+          <!--  <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_horizontal|bottom"
+                android:orientation="horizontal"
+                android:id="@+id/progressBar"
+                >
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>-->
         </RelativeLayout>
 
         <ListView

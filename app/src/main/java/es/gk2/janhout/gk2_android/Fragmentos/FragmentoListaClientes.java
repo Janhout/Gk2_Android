@@ -23,6 +23,7 @@ import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 
 public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnProcessCompleteListener {
@@ -32,6 +33,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
     private Context contexto;
 
     private boolean favoritos;
+    private String query;
 
     private int page;
     private static final int LIMITE_CONSULTA = 50;
@@ -61,6 +63,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
         } else {
             favoritos = getArguments().getBoolean("favorito");
         }
+        query = getArguments().getString("query");
         cargarLista();
         if(listaClientes != null) {
             ListView lv = (ListView) getActivity().findViewById(R.id.lvClientes);
@@ -76,13 +79,13 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
                     contexto.startActivity(i);
                 }
             });
-            /*lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA){
+            lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA){
                 @Override
-                public void loadMore(int page, int totalItemsCount) {
+                public void cargaMas(int page, int totalItemsCount) {
                     FragmentoListaClientes.this.page = page;
                     cargarLista();
                 }
-            });*/
+            });
         }
     }
 
@@ -95,11 +98,16 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
     private void cargarLista(){
         String url;
         if (favoritos){
-            url = Constantes.clientes_favoritos + "?q=&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
+            url = Constantes.clientes_favoritos + "?q=" + query + "&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
         } else {
-            url = Constantes.clientes + "?q=&page=" + page + "&limit=" + LIMITE_CONSULTA;
+            url = Constantes.clientes + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
         }
-        GetAsyncTask a = new GetAsyncTask(contexto, this, url, false);
+        GetAsyncTask a;
+        if(page == 0) {
+             a = new GetAsyncTask(contexto, this, url, false, true);
+        } else {
+            a = new GetAsyncTask(contexto, this, url, false, false);
+        }
         a.execute();
     }
 

@@ -45,7 +45,7 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("usuario", usuario);
         parametros.put("pass", pass);
-        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.urlLogin);
+        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.urlLogin, true);
         a.execute(parametros);
     }
 

@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,16 +23,16 @@ import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaNavigationDrawer;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaCompras;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
 
-public class Principal extends ActionBarActivity {
+public class Principal extends ActionBarActivity implements SearchView.OnQueryTextListener{
 
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private String[] titulos;
     private boolean inicio;
+    private SearchView mSearchView;
 
     private ActionBarDrawerToggle drawerToggle;
     private String tituloActividad;
@@ -40,7 +42,8 @@ public class Principal extends ActionBarActivity {
         clientes,
         compras,
         facturas,
-        gastos
+        gastos,
+        clientes_favoritos
     }
     public static ListaFragmentos fragmentoActual;
 
@@ -71,32 +74,23 @@ public class Principal extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+        inicio = true;
         if(savedInstanceState != null) {
             inicio = savedInstanceState.getBoolean("fav");
-        } else {
-            inicio = true;
         }
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        toolbar.setLogo(R.mipmap.ic_launcher);
-        setSupportActionBar(toolbar);
-        fragmentoActual = ListaFragmentos.ninguno;
-        if(tituloActividad == null) {
-            tituloActividad = getTitle().toString();
-        }
+        inicializarToolbar();
         inicializarDrawer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        if(inicio) {
-            Fragment fragment = fragmentoClientes(true);
-            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
-            drawerList.setItemChecked(1, true);
-            setTituloActividad(tituloActividad + " - " + titulos[1]);
-        }
+        cargarFragmentoInicial();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_principal, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -116,6 +110,10 @@ public class Principal extends ActionBarActivity {
             return true;
         } else if(id == R.id.action_nuevoGasto) {
             nuevoGasto();
+            return true;
+        } else if(id == R.id.action_search) {
+            mSearchView.setIconified(false);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -153,8 +151,56 @@ public class Principal extends ActionBarActivity {
     }
 
     /* *************************************************************************
+     ********************** Interfaz OnQueryTextListener ***********************
+     *************************************************************************** */
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String text) {
+        Fragment f = null;
+        if(fragmentoActual == ListaFragmentos.clientes){
+            f = fragmentoClientes(false, text);
+        } else if (fragmentoActual == ListaFragmentos.clientes_favoritos){
+            f = fragmentoClientes(true, text);
+        } else if (fragmentoActual == ListaFragmentos.facturas){
+            f = null;
+        } else if (fragmentoActual == ListaFragmentos.compras) {
+            f = null;
+        } else if (fragmentoActual == ListaFragmentos.gastos){
+            f = null;
+        }
+        if(f != null) {
+            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
+        }
+        return false;
+    }
+
+    /* *************************************************************************
      **************************** Auxialiares **********************************
      *************************************************************************** */
+
+    private void cargarFragmentoInicial(){
+        if(inicio) {
+            Fragment fragment = fragmentoClientes(true, "");
+            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
+            drawerList.setItemChecked(1, true);
+            setTituloActividad(tituloActividad + " - " + titulos[1]);
+        }
+    }
+
+    private Fragment fragmentoClientes(boolean favorito, String query){
+        Fragment fragment = new FragmentoListaClientes();
+        fragmentoActual = ListaFragmentos.clientes;
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("favorito", favorito);
+        bundle.putString("query", query);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     private void inicializarDrawer(){
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -182,6 +228,16 @@ public class Principal extends ActionBarActivity {
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    private void inicializarToolbar(){
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setLogo(R.mipmap.ic_launcher);
+        setSupportActionBar(toolbar);
+        fragmentoActual = ListaFragmentos.ninguno;
+        if(tituloActividad == null) {
+            tituloActividad = getTitle().toString();
+        }
     }
 
     public void setTituloActividad(String tituloActividad){
@@ -214,10 +270,12 @@ public class Principal extends ActionBarActivity {
         inicio = false;
         switch (position){
             case 0:
-                fragment = fragmentoClientes(false);
+                fragment = fragmentoClientes(false, "");
+                fragmentoActual = ListaFragmentos.clientes;
                 break;
             case 1:
-                fragment = fragmentoClientes(true);
+                fragment = fragmentoClientes(true, "");
+                fragmentoActual = ListaFragmentos.clientes_favoritos;
                 break;
             case 2:
                 fragment = new FragmentoListaCompras();
@@ -239,29 +297,21 @@ public class Principal extends ActionBarActivity {
             drawerLayout.closeDrawer(drawerList);
         }
     }
-
-    private Fragment fragmentoClientes(boolean favorito){
-        Fragment fragment = new FragmentoListaClientes();
-        fragmentoActual = ListaFragmentos.clientes;
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("favorito", favorito);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
 }
 
 
 
 
 /*
-    Paginador
-    Navegación
-    Nuevo gasto?
-    Acceso a nuevo gasto
+    Paginador                                           OK
+    Navegación                                          OK?
+    Nuevo gasto?                                        NO SE SABE QUE HACER
+    Acceso a nuevo gasto                                NO SE SABE QUE HACER
     TimerOut consultas
-    Base de datos????
-    ActionBar, estilos titulos e iconos
-    menus - eliminar los innecesarios
-    Logout
-    Compras
+    Base de datos????                                   NO SE SABE QUE HACER
+    ActionBar, estilos titulos e iconos                 OK?
+    menus - eliminar los innecesarios                   CUANDO SE TENGA TODO LO QUE VAMOS A HACER
+    Compras                                             NO SE SABE QUE HACER
+    estilos listas - hacer uniformes
+    buscar a la toolbar                                 OK - afinar resultados
  */

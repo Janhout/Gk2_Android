@@ -20,6 +20,7 @@ import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Factura;
 
 public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnProcessCompleteListener{
@@ -58,18 +59,25 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
             ListView lv = (ListView) getActivity().findViewById(R.id.lvFacturas);
             ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);
             lv.setAdapter(ad);
-            /*lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
+            lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
                 @Override
-                public void loadMore(int page, int totalItemsCount) {
+                public void cargaMas(int page, int totalItemsCount) {
                     FragmentoListaFacturas.this.page = page;
                     cargarLista();
                 }
-            });*/
+            });
         }
     }
 
     private void cargarLista() {
-        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente + "&page=" + page + "&orderBy=&orderDir=&formato=json", false);
+        GetAsyncTask a;
+        if(page == 0) {
+            a = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente +
+                    "&page=" + page + "&orderBy=&orderDir=&formato=json", false, true);
+        } else {
+            a = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente +
+                    "&page=" + page + "&orderBy=&orderDir=&formato=json", false, false);
+        }
         a.execute();
     }
 
