@@ -17,27 +17,25 @@ public class GetAsyncTask extends AsyncTask<Void, Void, String>{
     private ProgressDialog progreso;
     private OnProcessCompleteListener listener;
     private boolean mostrarProgreso;
-    //private LinearLayout layoutProgreso;
+    private LinearLayout layoutProgreso;
 
     public GetAsyncTask(Context contexto, OnProcessCompleteListener listener, String url, boolean fichero, boolean mostrarProgreso){
         this.contexto = contexto;
         this.url = url;
         this.fichero = fichero;
-        progreso = new ProgressDialog(contexto);
-        progreso.setMessage(contexto.getString(R.string.cargando_datos));
-        progreso.setCancelable(false);
         this.listener = listener;
         this.mostrarProgreso = mostrarProgreso;
-        //layoutProgreso = ((LinearLayout)((ActionBarActivity)contexto).findViewById(R.id.progressBar));
+        layoutProgreso = ((LinearLayout)((ActionBarActivity)contexto).findViewById(R.id.progressBar));
     }
 
     @Override
     protected void onPreExecute() {
+        crearDialogo();
         if(mostrarProgreso) {
-            progreso.show();
+            mostrarDialogo();
         } else {
-            //layoutProgreso.bringToFront();
-            //layoutProgreso.setVisibility(View.VISIBLE);
+            layoutProgreso.bringToFront();
+            layoutProgreso.setVisibility(View.VISIBLE);
         }
     }
 
@@ -55,13 +53,27 @@ public class GetAsyncTask extends AsyncTask<Void, Void, String>{
     @Override
     protected void onPostExecute(String s) {
         listener.resultado(s);
-        //layoutProgreso.setVisibility(View.INVISIBLE);
+        layoutProgreso.setVisibility(View.GONE);
+        cerrarDialogo();
+    }
+
+    public interface OnProcessCompleteListener{
+        public void resultado(String respuesta);
+    }
+
+    public void mostrarDialogo(){
+        progreso.show();
+    }
+
+    public void cerrarDialogo(){
         if(progreso != null && progreso.isShowing()){
             progreso.dismiss();
         }
     }
 
-    public interface OnProcessCompleteListener{
-        public void resultado(String respuesta);
+    private void crearDialogo(){
+        progreso = new ProgressDialog(contexto);
+        progreso.setMessage(contexto.getString(R.string.cargando_datos));
+        progreso.setCancelable(false);
     }
 }

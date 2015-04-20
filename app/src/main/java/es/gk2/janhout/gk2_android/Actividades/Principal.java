@@ -176,7 +176,7 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
         if(f != null) {
             getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
         }
-        return false;
+        return true;
     }
 
     /* *************************************************************************
@@ -304,7 +304,7 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
 
 /*
     Paginador                                           OK
-    Navegación                                          OK?
+    Navegación                                          OK? añadir pagina resultados busqueda, volver a clietnes/facturas-----
     Nuevo gasto?                                        NO SE SABE QUE HACER
     Acceso a nuevo gasto                                NO SE SABE QUE HACER
     TimerOut consultas
@@ -312,6 +312,7 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
     ActionBar, estilos titulos e iconos                 OK?
     menus - eliminar los innecesarios                   CUANDO SE TENGA TODO LO QUE VAMOS A HACER
     Compras                                             NO SE SABE QUE HACER
-    estilos listas - hacer uniformes
+    estilos listas
     buscar a la toolbar                                 OK - afinar resultados
+    dialogo progreso, casca la aplicaccion al perder referencia.
  */

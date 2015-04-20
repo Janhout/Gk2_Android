@@ -23,7 +23,7 @@ import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Factura;
 
-public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnProcessCompleteListener{
+public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnProcessCompleteListener {
 
     private AdaptadorListaFacturas ad;
     private ArrayList<Factura> listaFacturas;
@@ -70,15 +70,15 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
     }
 
     private void cargarLista() {
-        GetAsyncTask a;
+        GetAsyncTask asyncTask;
         if(page == 0) {
-            a = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente +
+            asyncTask = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente +
                     "&page=" + page + "&orderBy=&orderDir=&formato=json", false, true);
         } else {
-            a = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente +
+            asyncTask = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente +
                     "&page=" + page + "&orderBy=&orderDir=&formato=json", false, false);
         }
-        a.execute();
+        asyncTask.execute();
     }
 
     @Override
@@ -102,4 +102,3 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
         }
     }
 }
-

@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
     private AdaptadorListaClientes ad;
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
+    private GetAsyncTask asyncTask;
 
     private boolean favoritos;
     private String query;
@@ -102,13 +102,12 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
         } else {
             url = Constantes.clientes + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
         }
-        GetAsyncTask a;
         if(page == 0) {
-             a = new GetAsyncTask(contexto, this, url, false, true);
+            asyncTask = new GetAsyncTask(contexto, this, url, false, true);
         } else {
-            a = new GetAsyncTask(contexto, this, url, false, false);
+            asyncTask = new GetAsyncTask(contexto, this, url, false, false);
         }
-        a.execute();
+        asyncTask.execute();
     }
 
     @Override

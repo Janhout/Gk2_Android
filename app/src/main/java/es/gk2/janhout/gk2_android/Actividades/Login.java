@@ -33,7 +33,8 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
         String usuario = etUsuario.getText().toString();
         String pass = etPass.getText().toString();
 
-        hacerLogin(usuario, pass);
+        if(!pass.trim().equals("") && !usuario.trim().equals(""))
+            hacerLogin(usuario, pass);
     }
 
     public void recuperaPass(View v){

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-          <!--  <LinearLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center_horizontal|bottom"
@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
-            </LinearLayout>-->
+            </LinearLayout>
         </RelativeLayout>
 
         <ListView
@@ -49,59 +49,3 @@
 
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:id="@+id/relativeLayoutPrincipal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"/>
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/lista_drawer"
-        android:layout_width="220dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-
-        android:dividerHeight="0dp"
-        android:background="#ebebeb"/>
-
-</android.support.v4.widget.DrawerLayout>-->
