@@ -2,8 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".Principal">
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_nuevo_cliente" android:title="@string/action_nuevo_cliente"
+        android:icon="@drawable/ic_action_add_person"
+        android:orderInCategory="100" app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_nuevoGasto"
         android:icon="@mipmap/ic_launcher"

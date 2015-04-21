@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="es.gk2.janhout.gk2_android.Actividades.NuevoCliente"
+    android:orientation="vertical">
+
+    <EditText android:id="@+id/nuevoCliente_inputNombreComercial"
+        android:hint="@string/s_nuevoCliente_nombreComercial"
+        style="@style/editTextPersonalizado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estilos_editText_personalizado"
+    />
+
+    <EditText android:id="@+id/nuevoCliente_NIF"
+        android:hint="@string/s_nuevoCliente_nif"
+        style="@style/editTextPersonalizado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estilos_editText_personalizado"/>
+
+    <EditText android:id="@+id/nuevoCliente_direccion"
+        android:hint="@string/s_nuevoCliente_direccion"
+        style="@style/editTextPersonalizado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/estilos_editText_personalizado"
+        />
+    
+    <Button android:id="@+id/nuevoCliente_submit"
+        style="@style/botonPersonalizado"
+        android:onClick="nuevoCliente"
+        android:text="@string/s_nuevoCliente_submit"/>
+
+</LinearLayout>

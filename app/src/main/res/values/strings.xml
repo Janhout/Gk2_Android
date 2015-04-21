@@ -2,6 +2,7 @@
     <string name="app_name">Gk2_Android</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_nuevo_cliente">Nuevo cliente</string>
     <string name="accion_buscar">Buscar</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_principal">Inicio</string>
@@ -49,5 +50,8 @@
     <string name="cargando_datos">Cargando…</string>
 
     <string name="selecciona_telefono">Selecciona un teléfono</string>
+    <string name="title_activity_nuevo_cliente">Nuevo cliente</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

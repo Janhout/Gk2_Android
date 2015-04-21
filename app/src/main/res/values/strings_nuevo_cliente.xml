@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="s_nuevoCliente_nombreComercial">Nombre comercial</string>
+    <string name="s_nuevoCliente_nif">NIF/CIF</string>
+    <string name="s_nuevoCliente_direccion">Dirección</string>
+    <string name="s_nuevoCliente_submit">Dar de alta al cliente</string>
+</resources>

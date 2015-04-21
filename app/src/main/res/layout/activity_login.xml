@@ -23,44 +23,25 @@
 
         <EditText
             android:id="@+id/etUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom_login_campos_texto"
-            android:layout_marginLeft="@dimen/margin_lateral_login"
-            android:layout_marginRight="@dimen/margin_lateral_login"
-            android:background="@drawable/edit_text_login"
+            style="@style/editTextPersonalizado"
             android:hint="@string/usuario"
             android:imeOptions="actionNext"
             android:nextFocusForward="@+id/etPass"
-            android:padding="@dimen/campos_texto"
-            android:singleLine="true"
             android:text="jadelgado" />
 
         <EditText
             android:id="@+id/etPass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom_login"
-            android:layout_marginLeft="@dimen/margin_lateral_login"
-            android:layout_marginRight="@dimen/margin_lateral_login"
-            android:background="@drawable/edit_text_login"
+            style="@style/editTextPersonalizado"
+            android:background="@drawable/estilos_editText_personalizado"
             android:hint="@string/pass"
             android:inputType="textPassword"
-            android:padding="@dimen/campos_texto"
-            android:singleLine="true"
             android:text="jadj" />
 
         <Button
             android:id="@+id/btLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom_login"
-            android:layout_marginLeft="@dimen/margin_lateral_login"
-            android:layout_marginRight="@dimen/margin_lateral_login"
-            android:background="@drawable/boton_login"
+            style="@style/botonPersonalizado"
             android:onClick="login"
-            android:text="@string/login"
-            android:textColor="@color/blanco" />
+            android:text="@string/login" />
 
         <Button
             android:id="@+id/btRecuperaPass"

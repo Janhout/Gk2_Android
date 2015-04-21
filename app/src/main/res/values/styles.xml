@@ -13,6 +13,28 @@
         <item name="actionMenuTextColor">@color/verde</item>
     </style>
 
+    <!-- ESTILOS ELEMENTOS COMUNES -->
+    <style name="editTextPersonalizado">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/margin_bottom_login_campos_texto</item>
+        <item name="android:layout_marginLeft">@dimen/margin_lateral_login</item>
+        <item name="android:layout_marginRight">@dimen/margin_lateral_login</item>
+        <item name="android:background">@drawable/estilos_editText_personalizado</item>
+        <item name="android:padding">@dimen/campos_texto</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="botonPersonalizado">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/margin_bottom_login</item>
+        <item name="android:layout_marginLeft">@dimen/margin_lateral_login</item>
+        <item name="android:layout_marginRight">@dimen/margin_lateral_login</item>
+        <item name="android:background">@drawable/boton_login</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
     <!-- ACTIVIDAD MOSTRAR CLIENTE -->
     <style name="fila_normal">
         <item name="android:layout_marginTop">@dimen/margen_entre_filas</item>

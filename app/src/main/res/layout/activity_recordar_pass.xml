@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etUsuario"
-            android:background="@drawable/edit_text_login"
+            android:background="@drawable/estilos_editText_personalizado"
             android:hint="@string/email"
             android:layout_marginBottom="@dimen/margin_bottom_login"
             android:layout_marginRight="@dimen/margin_lateral_login"

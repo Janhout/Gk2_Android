@@ -98,9 +98,9 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
     private void cargarLista(){
         String url;
         if (favoritos){
-            url = Constantes.clientes_favoritos + "?q=" + query + "&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
+            url = Constantes.clientesListarFavoritos + "?q=" + query + "&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
         } else {
-            url = Constantes.clientes + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
+            url = Constantes.clientesListar + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
         }
         if(page == 0) {
             asyncTask = new GetAsyncTask(contexto, this, url, false, true);

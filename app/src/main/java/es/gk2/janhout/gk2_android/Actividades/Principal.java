@@ -106,7 +106,8 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_nuevo_cliente) {
+            nuevoCliente();
             return true;
         } else if(id == R.id.action_nuevoGasto) {
             nuevoGasto();
@@ -127,7 +128,11 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         //ocultar todas las opocines de menu o mostrarlas
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        menu.findItem(R.id.action_nuevo_cliente).setVisible(!drawerOpen);
+        if(fragmentoActual == ListaFragmentos.clientes)
+            menu.findItem(R.id.action_nuevo_cliente).setVisible(true);
+        else
+            menu.findItem(R.id.action_nuevo_cliente).setVisible(false);
         if(fragmentoActual == ListaFragmentos.compras){
             menu.findItem(R.id.action_nuevoGasto).setVisible(true);
         }else{
@@ -248,10 +253,13 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
     /* *************************************************************************
      ******************** Métodos items menú ***********************************
      *************************************************************************** */
+    private void nuevoCliente() {
+        startActivity(new Intent(this, NuevoGasto.class));
+    }
 
-    public void nuevoGasto() {
-        Intent intent = new Intent(this, NuevoGasto.class);
-        startActivity(intent);
+
+    private void nuevoGasto() {
+        startActivity(new Intent(this, NuevoGasto.class));
     }
 
     /* *************************************************************************
