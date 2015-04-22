@@ -52,13 +52,13 @@ public class GetAsyncTask extends AsyncTask<Void, Void, String>{
 
     @Override
     protected void onPostExecute(String s) {
-        listener.resultado(s);
-        layoutProgreso.setVisibility(View.GONE);
+        listener.resultadoGet(s);
+        //layoutProgreso.setVisibility(View.GONE);
         cerrarDialogo();
     }
 
     public interface OnProcessCompleteListener{
-        public void resultado(String respuesta);
+        public void resultadoGet(String respuesta);
     }
 
     public void mostrarDialogo(){

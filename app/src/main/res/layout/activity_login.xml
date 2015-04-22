@@ -32,7 +32,7 @@
         <EditText
             android:id="@+id/etPass"
             style="@style/editTextPersonalizado"
-            android:background="@drawable/estilos_editText_personalizado"
+            android:background="@drawable/estilos_edittext_personalizado"
             android:hint="@string/pass"
             android:inputType="textPassword"
             android:text="jadj" />

@@ -111,7 +111,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
     }
 
     @Override
-    public void resultado(String respuesta) {
+    public void resultadoGet(String respuesta) {
         if(respuesta != null) {
             JSONTokener token = new JSONTokener(respuesta);
             JSONArray array;

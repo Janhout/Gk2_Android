@@ -94,13 +94,14 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> implements Get
     }
 
     @Override
-    public void resultado(String respuesta){
+    public void resultadoGet(String respuesta){
         if(respuesta!=null) {
             Intent intentCompartir = new Intent(contexto, LectorPDF.class);
             intentCompartir.putExtra("pdf", respuesta);
             contexto.startActivity(intentCompartir);
         }
     }
+
 
     public static class ViewHolder {
         public LinearLayout filaFactura;

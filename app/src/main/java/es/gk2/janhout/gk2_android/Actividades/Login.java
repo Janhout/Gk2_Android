@@ -51,7 +51,7 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
     }
 
     @Override
-    public void resultado(String respuesta) {
+    public void resultadoPost(String respuesta) {
         if(respuesta != null) {
             loginCorrecto();
         } else{

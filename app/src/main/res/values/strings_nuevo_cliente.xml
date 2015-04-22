@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="s_nuevoCliente_nombreComercial">Nombre comercial</string>
-    <string name="s_nuevoCliente_nif">NIF/CIF</string>
-    <string name="s_nuevoCliente_direccion">Dirección</string>
+    <string name="s_nuevoCliente_nombreComercial">Nombre comercial (obligatorio)</string>
+    <string name="s_nuevoCliente_nif">NIF/CIF (obligatorio)</string>
+    <string name="s_nuevoCliente_direccion">Dirección (obligatorio)</string>
+    <string name="s_nuevoCliente_email">Dirección de email</string>
+    <string name="s_nuevoCliente_telefono1">Teléfono 1 (obligatorio)</string>
+    <string name="s_nuevoCliente_telefono2">Teléfono 2</string>
     <string name="s_nuevoCliente_submit">Dar de alta al cliente</string>
+
+    <!-- ERRORES / TOASTS -->
+        <!-- Campos vacíos -->
+            <string name="e_nuevoCliente_nombre_vacio">El nombre no puede estar vacío</string>
+            <string name="e_nuevoCliente_direccion_vacio">La dirección no puede estar vacía</string>
+            <string name="e_nuevoCliente_nif_vacio">El NIF no puede estar vacío</string>
+            <string name="e_nuevoCliente_telefono1_vacio">El primer teléfono no puede estar vacío</string>
+
+        <!-- Campos erróneos -->
+            <string name="e_nuevoCliente_nif_existe">El NIF del cliente ya existe</string>
 </resources>

@@ -254,7 +254,7 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
      ******************** Métodos items menú ***********************************
      *************************************************************************** */
     private void nuevoCliente() {
-        startActivity(new Intent(this, NuevoGasto.class));
+        startActivity(new Intent(this, NuevoCliente.class));
     }
 
 
