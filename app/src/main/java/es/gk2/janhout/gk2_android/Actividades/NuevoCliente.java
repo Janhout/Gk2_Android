@@ -119,7 +119,7 @@ public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnP
             parametros.put("inputModoIva", "1");
             parametros.put("inputIrpf", "0");
             parametros.put("action", "insert");
-            PostAsyncTask myTask = new PostAsyncTask(this, this, Constantes.clientesAltaCliente, false);
+            PostAsyncTask myTask = new PostAsyncTask(this, this, Constantes.CLIENTES_ALTA_CLIENTE, false);
             myTask.execute(parametros);
         } else {
             inputNIF.requestFocus();

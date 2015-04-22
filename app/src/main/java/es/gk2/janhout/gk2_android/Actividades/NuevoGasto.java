@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -17,13 +18,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 import es.gk2.janhout.gk2_android.R;
 
 public class NuevoGasto extends ActionBarActivity {
 
     private ImageView fotoTomada;
-
     private final int ACTIVIDAD_CAMARA = 0;
 
     /* *************************************************************************
@@ -46,7 +49,6 @@ public class NuevoGasto extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_nuevo_gasto);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGasto_concepto, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

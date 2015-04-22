@@ -7,4 +7,5 @@
     <string name="s_mostrarCliente_direccion">Dirección</string>
     <string name="s_mostrarCliente_telefonos">Teléfonos</string>
     <string name="s_mostrarCliente_email">Email</string>
+    <string name="s_mostrarCliente_cuenta">Cuenta CCC</string>
 </resources>

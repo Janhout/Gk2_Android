@@ -74,7 +74,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent i = new Intent(contexto, MostrarCliente.class);
                     Bundle b = new Bundle();
-                    b.putParcelable("cliente", listaClientes.get(position));
+                    b.putInt("cliente", listaClientes.get(position).getId());
                     i.putExtras(b);
                     contexto.startActivity(i);
                 }
@@ -98,9 +98,9 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
     private void cargarLista(){
         String url;
         if (favoritos){
-            url = Constantes.clientesListarFavoritos + "?q=" + query + "&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
+            url = Constantes.CLIENTES_LISTAR_FAVORITOS + "?q=" + query + "&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
         } else {
-            url = Constantes.clientesListar + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
+            url = Constantes.CLIENTES_LISTAR + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
         }
         if(page == 0) {
             asyncTask = new GetAsyncTask(contexto, this, url, false, true);

@@ -58,7 +58,7 @@ public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnPr
     }
 
     private void cargarLista(){
-        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.compras, false, false);
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.COMPRAS, false, false);
         a.execute();
     }
 

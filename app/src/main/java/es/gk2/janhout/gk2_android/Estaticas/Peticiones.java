@@ -28,13 +28,15 @@ public class Peticiones {
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
 
-            String token = Metodos.leerPreferenciasCompartidasString(contexto, contexto.getString(R.string.token_session));
-            conexion.addRequestProperty("Authorization", "Bearer " + token);
+            /*String token = Metodos.leerPreferenciasCompartidasString(contexto, contexto.getString(R.string.token_session));
+            conexion.addRequestProperty("Authorization", "Bearer " + token);*/
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
             conexion.setRequestProperty("Cookie", cookieSesion);
 
             conexion.connect();
+
+            String location = buscarLocation(conexion);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
 
@@ -56,13 +58,15 @@ public class Peticiones {
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
 
-            String token = Metodos.leerPreferenciasCompartidasString(contexto, contexto.getString(R.string.token_session));
-            conexion.addRequestProperty("Authorization", "Bearer " + token);
+            /*String token = Metodos.leerPreferenciasCompartidasString(contexto, contexto.getString(R.string.token_session));
+            conexion.addRequestProperty("Authorization", "Bearer " + token);*/
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
             conexion.setRequestProperty("Cookie", cookieSesion);
 
             conexion.connect();
+
+            String location = buscarLocation(conexion);
 
             InputStream input = conexion.getInputStream();
 
@@ -87,8 +91,8 @@ public class Peticiones {
     }
 
     public static String peticionPostJSON(Context contexto, String url, Hashtable<String, String> params) {
-        String linea;
-        StringBuilder resultado = new StringBuilder("");
+        //String linea;
+        //StringBuilder resultado = new StringBuilder("");
         try {
             URL u = new URL(url);
             HttpURLConnection conexion = (HttpURLConnection)u.openConnection();
@@ -114,7 +118,11 @@ public class Peticiones {
             out.write(parametros);
             out.flush();
 
-            boolean redireccionar = leerCabeceras(conexion);
+            String location = buscarLocation(conexion);
+            leerCookies(contexto, conexion);
+
+            return location;
+            /*boolean redireccionar = leerCabeceras(conexion);
 
             if(redireccionar) {
                 leerCookies(contexto, conexion);
@@ -127,7 +135,7 @@ public class Peticiones {
                 in.close();
                 return resultado.toString();
             }
-            return null;
+            return null;*/
         }catch (IOException e){
             Log.e("error POST", e.toString());
             return null;
@@ -148,16 +156,16 @@ public class Peticiones {
         return resultado.toString();
     }
 
-    private static boolean leerCabeceras(HttpURLConnection con){
+    private static String buscarLocation(HttpURLConnection con){
         String cabecera;
         String nombreCabecera;
         for (int i = 1; (nombreCabecera = con.getHeaderFieldKey(i)) != null; i++) {
             if (nombreCabecera.equals("Location")) {
                 cabecera = con.getHeaderField(i);
-                return !cabecera.contains("login");
+                return cabecera;
             }
         }
-        return false;
+        return null;
     }
 
     private static void leerCookies(Context contexto, HttpURLConnection con) {

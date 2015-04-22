@@ -16,6 +16,7 @@
     <string-array name="lista_titulos_navigation_drawer">
         <item>Mis clientes</item>
         <item>Clientes favoritos</item>
+        <item>Facturas</item>
         <item>Mis compras</item>
         <item>Cerrar sesión</item>
     </string-array>
@@ -23,6 +24,7 @@
     <string-array name="lista_iconos_navigation_drawer">
         <item>@string/icono_clientes</item>
         <item>@string/icono_clientes_favoritos</item>
+        <item>@string/icono_facturas</item>
         <item>@string/icono_compras</item>
         <item>@string/icono_cerrar_sesion</item>
     </string-array>

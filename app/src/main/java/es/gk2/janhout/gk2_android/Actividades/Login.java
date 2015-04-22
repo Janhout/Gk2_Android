@@ -16,6 +16,9 @@ import es.gk2.janhout.gk2_android.R;
 
 public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessCompleteListener{
 
+    private static final String PARAMENTRO_USUARIO = "usuario";
+    private static final String PARAMENTRO_PASS = "pass";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,15 +47,15 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
 
     private void hacerLogin(String usuario, String pass){
         Hashtable<String, String> parametros = new Hashtable<>();
-        parametros.put("usuario", usuario);
-        parametros.put("pass", pass);
-        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.urlLogin, true);
+        parametros.put(PARAMENTRO_USUARIO, usuario);
+        parametros.put(PARAMENTRO_PASS, pass);
+        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.URL_LOGIN, true);
         a.execute(parametros);
     }
 
     @Override
     public void resultadoPost(String respuesta) {
-        if(respuesta != null) {
+        if(respuesta != null && !respuesta.contains("login")) {
             loginCorrecto();
         } else{
             Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();

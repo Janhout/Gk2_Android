@@ -30,6 +30,7 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
     private Context contexto;
     private int page;
     private int idCliente;
+    private boolean todas;
 
     private static final int ITEMS_BAJO_LISTA = 5;
 
@@ -53,6 +54,11 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
         super.onActivityCreated(savedInstanceState);
         this.contexto = getActivity();
         page = 0;
+        if(savedInstanceState != null) {
+            todas = savedInstanceState.getBoolean("all");
+        } else {
+            todas = getArguments().getBoolean("todo");
+        }
         idCliente = getArguments().getInt("idCliente");
         cargarLista();
         if (listaFacturas != null) {
@@ -69,14 +75,25 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("all", todas);
+    }
+
     private void cargarLista() {
         GetAsyncTask asyncTask;
-        if(page == 0) {
-            asyncTask = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente +
-                    "&page=" + page + "&orderBy=&orderDir=&formato=json", false, true);
+        String url;
+        if (todas){
+            url = Constantes.FACTURAS + "?q=&page=" + page + "&orderBy=&orderDir=&formato=json";
         } else {
-            asyncTask = new GetAsyncTask(contexto, this, Constantes.facturas + "?q=cliente:" + idCliente +
-                    "&page=" + page + "&orderBy=&orderDir=&formato=json", false, false);
+            url = Constantes.FACTURAS + "?q=cliente:" + idCliente +
+                    "&page=" + page + "&orderBy=&orderDir=&formato=json";
+        }
+        if(page == 0) {
+            asyncTask = new GetAsyncTask(contexto, this, url, false, true);
+        } else {
+            asyncTask = new GetAsyncTask(contexto, this, url, false, false);
         }
         asyncTask.execute();
     }

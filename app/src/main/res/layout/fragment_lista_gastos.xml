@@ -15,7 +15,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:choiceMode="singleChoice"
-            android:divider="@color/negro"
+            android:divider="@color/divider"
             android:dividerHeight="@dimen/standard_divider_size"></ListView>
 
     </LinearLayout>

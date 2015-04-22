@@ -1,14 +1,10 @@
 package es.gk2.janhout.gk2_android.Adaptadores;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import es.gk2.janhout.gk2_android.Actividades.Principal;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 
@@ -49,24 +43,14 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
             vh.nombreComercial = (TextView) convertView.findViewById(R.id.nombre_cliente);
             vh.btEmail = (Button)convertView.findViewById(R.id.bt_enviar_email);
             vh.btTelefono = (Button)convertView.findViewById(R.id.bt_telefono);
-            vh.btFacturas = (Button)convertView.findViewById(R.id.bt_ver_facturas);
 
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
 
-
-
         Metodos.botonAwesomeComponente(contexto, vh.btEmail, contexto.getString(R.string.icono_email));
-        Metodos.botonAwesomeComponente(contexto, vh.btFacturas, contexto.getString(R.string.icono_facturas));
         Metodos.botonAwesomeComponente(contexto, vh.btTelefono, contexto.getString(R.string.icono_telefono));
-        vh.btFacturas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickFacturas(position);
-            }
-        });
 
         vh.btTelefono.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,19 +93,6 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
         }
     }
 
-    private void clickFacturas(int position){
-        Bundle bundle = new Bundle();
-        bundle.putInt("idCliente", datos.get(position).getId());
-        Fragment fragmento = new FragmentoListaFacturas();
-        fragmento.setArguments(bundle);
-        FragmentTransaction transaction = ((ActionBarActivity)contexto).getFragmentManager().beginTransaction();
-        transaction.replace(R.id.relativeLayoutPrincipal, fragmento);
-        transaction.addToBackStack(null);
-        Principal.fragmentoActual = Principal.ListaFragmentos.facturas;
-        ((Principal)contexto).setTituloActividad("Facturas - " + this.datos.get(position).getNombre_comercial());
-        transaction.commit();
-    }
-
     private void clickTelefono(int position){
         String telefono01 = datos.get(position).getTelefono01().trim();
         String telefono02 = datos.get(position).getTelefono02().trim();
@@ -162,6 +133,5 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
         private TextView nombreComercial;
         private Button btTelefono;
         private Button btEmail;
-        private Button btFacturas;
     }
 }

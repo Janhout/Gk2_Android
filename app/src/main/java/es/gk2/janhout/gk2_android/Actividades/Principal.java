@@ -19,14 +19,20 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import es.gk2.janhout.gk2_android.ActionBarActivityBusqueda;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaNavigationDrawer;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
+import es.gk2.janhout.gk2_android.Fragmentos.FragmentoDatosCliente;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaCompras;
+import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.Util.Temporizador;
 
-public class Principal extends ActionBarActivity implements SearchView.OnQueryTextListener{
+/*public class Principal extends ActionBarActivity implements SearchView.OnQueryTextListener,
+        Temporizador.OnTimerCompleteListener{*/
+public class Principal extends ActionBarActivityBusqueda {
 
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -37,15 +43,15 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
     private ActionBarDrawerToggle drawerToggle;
     private String tituloActividad;
 
-    public static enum ListaFragmentos {
+    private static enum ListaFragmentosPrincipal {
         ninguno,
         clientes,
         compras,
-        facturas,
         gastos,
+        facturas,
         clientes_favoritos
     }
-    public static ListaFragmentos fragmentoActual;
+    public static ListaFragmentosPrincipal fragmentoActual;
 
     private Toolbar toolbar;
 
@@ -57,13 +63,11 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
     public void onBackPressed() {
         switch (fragmentoActual){
             case ninguno:
-                super.onBackPressed();
-                break;
+            case clientes_favoritos:
             case clientes:
                 super.onBackPressed();
                 break;
             case compras:
-            case facturas:
             case gastos:
                 seleccionarItem(0);
                 break;
@@ -129,11 +133,20 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         //ocultar todas las opocines de menu o mostrarlas
         menu.findItem(R.id.action_nuevo_cliente).setVisible(!drawerOpen);
-        if(fragmentoActual == ListaFragmentos.clientes)
+        if(fragmentoActual == ListaFragmentosPrincipal.clientes) {
             menu.findItem(R.id.action_nuevo_cliente).setVisible(true);
-        else
+        } else {
             menu.findItem(R.id.action_nuevo_cliente).setVisible(false);
-        if(fragmentoActual == ListaFragmentos.compras){
+        }
+
+        if(fragmentoActual == ListaFragmentosPrincipal.facturas ||
+                fragmentoActual == ListaFragmentosPrincipal.clientes) {
+            menu.findItem(R.id.action_search).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_search).setVisible(false);
+        }
+
+        if(fragmentoActual == ListaFragmentosPrincipal.compras){
             menu.findItem(R.id.action_nuevoGasto).setVisible(true);
         }else{
             menu.findItem(R.id.action_nuevoGasto).setVisible(false);
@@ -159,34 +172,50 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
      ********************** Interfaz OnQueryTextListener ***********************
      *************************************************************************** */
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
+    /*@Override
+    public boolean onQueryTextChange(String text) {
+        textoBusqueda = text;
+        if(hebraTemporizador != null && !hebraTemporizador.isCancelled()){
+            hebraTemporizador.cancel(true);
+            hebraTemporizador = null;
+        }
+        hebraTemporizador = new Temporizador(800, this);
+        hebraTemporizador.execute();
+        return true;
     }
 
     @Override
     public boolean onQueryTextSubmit(String text) {
-        Fragment f = null;
-        if(fragmentoActual == ListaFragmentos.clientes){
-            f = fragmentoClientes(false, text);
-        } else if (fragmentoActual == ListaFragmentos.clientes_favoritos){
-            f = fragmentoClientes(true, text);
-        } else if (fragmentoActual == ListaFragmentos.facturas){
-            f = null;
-        } else if (fragmentoActual == ListaFragmentos.compras) {
-            f = null;
-        } else if (fragmentoActual == ListaFragmentos.gastos){
-            f = null;
-        }
-        if(f != null) {
-            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
-        }
+        textoBusqueda = text;
+        busqueda();
         return true;
     }
+
+    @Override
+    public void temporizadorCompletado(boolean correcto) {
+        if(correcto){
+            busqueda();
+        }
+    }*/
 
     /* *************************************************************************
      **************************** Auxialiares **********************************
      *************************************************************************** */
+
+    @Override
+    protected void busqueda(String textoBusqueda) {
+        Fragment f = null;
+        if (fragmentoActual == ListaFragmentosPrincipal.clientes) {
+            f = fragmentoClientes(false, textoBusqueda);
+        } else if (fragmentoActual == ListaFragmentosPrincipal.compras) {
+            f = null;
+        } else if (fragmentoActual == ListaFragmentosPrincipal.gastos) {
+            f = null;
+        }
+        if (f != null) {
+            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
+        }
+    }
 
     private void cargarFragmentoInicial(){
         if(inicio) {
@@ -199,7 +228,11 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
 
     private Fragment fragmentoClientes(boolean favorito, String query){
         Fragment fragment = new FragmentoListaClientes();
-        fragmentoActual = ListaFragmentos.clientes;
+        if(favorito){
+            fragmentoActual = ListaFragmentosPrincipal.clientes_favoritos;
+        } else {
+            fragmentoActual = ListaFragmentosPrincipal.clientes;
+        }
         Bundle bundle = new Bundle();
         bundle.putBoolean("favorito", favorito);
         bundle.putString("query", query);
@@ -239,7 +272,7 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
-        fragmentoActual = ListaFragmentos.ninguno;
+        fragmentoActual = ListaFragmentosPrincipal.ninguno;
         if(tituloActividad == null) {
             tituloActividad = getTitle().toString();
         }
@@ -279,17 +312,24 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
         switch (position){
             case 0:
                 fragment = fragmentoClientes(false, "");
-                fragmentoActual = ListaFragmentos.clientes;
+                fragmentoActual = ListaFragmentosPrincipal.clientes;
                 break;
             case 1:
                 fragment = fragmentoClientes(true, "");
-                fragmentoActual = ListaFragmentos.clientes_favoritos;
+                fragmentoActual = ListaFragmentosPrincipal.clientes_favoritos;
                 break;
             case 2:
-                fragment = new FragmentoListaCompras();
-                fragmentoActual = ListaFragmentos.compras;
+                fragment = new FragmentoListaFacturas();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("todo", true);
+                fragment.setArguments(bundle);
+                fragmentoActual = ListaFragmentosPrincipal.facturas;
                 break;
             case 3:
+                fragment = new FragmentoListaCompras();
+                fragmentoActual = ListaFragmentosPrincipal.compras;
+                break;
+            case 4:
                 Metodos.borrarPreferenciasCompartidas(this);
                 Intent i = new Intent(this, Login.class);
                 startActivity(i);
@@ -311,8 +351,7 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
 
 
 /*
-    Paginador                                           OK
-    Navegación                                          OK? añadir pagina resultados busqueda, volver a clietnes/facturas-----
+    Navegación
     Nuevo gasto?                                        NO SE SABE QUE HACER
     Acceso a nuevo gasto                                NO SE SABE QUE HACER
     TimerOut consultas
@@ -320,7 +359,6 @@ public class Principal extends ActionBarActivity implements SearchView.OnQueryTe
     ActionBar, estilos titulos e iconos                 OK?
     menus - eliminar los innecesarios                   CUANDO SE TENGA TODO LO QUE VAMOS A HACER
     Compras                                             NO SE SABE QUE HACER
-    estilos listas
     buscar a la toolbar                                 OK - afinar resultados
     dialogo progreso, casca la aplicaccion al perder referencia.
  */

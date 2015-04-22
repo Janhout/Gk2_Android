@@ -49,15 +49,6 @@ public class Metodos {
         editor.commit();
     }
 
-    /**
-     * Método para asignar un tipo de fuente a un componente
-     *
-     * @param contexto
-     * @param id               0-boton, 1-editText, 2-textView
-     * @param fuente
-     * @param codigoComponente
-     * @param texto
-     */
     public static void asignarFuente(Context contexto, int id, String fuente, int codigoComponente, String texto) {
         try {
             Typeface t = FontCache.get(fuente, contexto);

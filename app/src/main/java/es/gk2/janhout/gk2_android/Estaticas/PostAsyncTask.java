@@ -41,12 +41,12 @@ public class PostAsyncTask extends AsyncTask<Hashtable<String, String>, Void, St
     @Override
     protected void onPostExecute(String s) {
         listener.resultadoPost(s);
-        if(progreso != null && progreso.isShowing()){
+        if (progreso != null && progreso.isShowing()) {
             progreso.dismiss();
         }
     }
 
-    public interface OnProcessCompleteListener{
+    public interface OnProcessCompleteListener {
         public void resultadoPost(String respuesta);
     }
 }

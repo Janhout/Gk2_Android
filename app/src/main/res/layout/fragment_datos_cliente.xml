@@ -1,0 +1,200 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="es.gk2.janhout.gk2_android.Fragmentos.FragmentoDatosCliente">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mostrarCliente_informacion_cliente"
+            android:textColor="@color/azul_logo"
+            android:textSize="@dimen/title_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/azul_logo" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margen_final_tabla"
+            android:shrinkColumns="1"
+            android:stretchColumns="1">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="@dimen/margen_entre_filas"
+                android:layout_marginTop="@dimen/margen_entre_filas">
+
+                <TextView
+                    style="@style/texto_columna_propiedades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_mostrarCliente_nombre_comercial" />
+
+                <TextView
+                    android:id="@+id/mostrarCliente_nombrecomercial"
+                    style="@style/texto_columna_valores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow
+                style="@style/fila_normal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    style="@style/texto_columna_propiedades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_mostrarCliente_nif" />
+
+                <TextView
+                    android:id="@+id/mostrarCliente_nif"
+                    style="@style/texto_columna_valores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow
+                style="@style/fila_normal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:id="@+id/textView"
+                    style="@style/texto_columna_propiedades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_mostrarCliente_telefonos" />
+
+                <TextView
+                    android:id="@+id/mostrarCliente_telefonos"
+                    style="@style/texto_columna_valores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow
+                style="@style/fila_normal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    style="@style/texto_columna_propiedades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_mostrarCliente_direccion" />
+
+                <TextView
+                    android:id="@+id/mostrarCliente_direccion"
+                    style="@style/texto_columna_valores"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow
+                style="@style/fila_normal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    style="@style/texto_columna_propiedades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_mostrarCliente_email"
+                    />
+
+                <TextView
+                    android:id="@+id/mostrarCliente_email"
+                    style="@style/texto_columna_valores"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow
+                style="@style/fila_normal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    style="@style/texto_columna_propiedades"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s_mostrarCliente_cuenta" />
+
+                <TextView
+                    android:id="@+id/mostrarCliente_numeroCuenta"
+                    style="@style/texto_columna_valores"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mostrarCliente_acciones"
+            android:textColor="@color/azul_logo"
+            android:textSize="@dimen/title_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/azul_logo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/mostrarCliente_bt_facturas"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/botones_clientes"
+                android:textColor="@color/blanco"
+                android:layout_marginRight="@dimen/margin_button_clientes"
+                />
+
+            <Button
+                android:id="@+id/mostrarCliente_bt_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/botones_clientes"
+                android:textColor="@color/blanco"
+                android:layout_marginRight="@dimen/margin_button_clientes"
+                />
+
+            <Button
+                android:id="@+id/mostrarCliente_bt_telefono"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/botones_clientes"
+                android:textColor="@color/blanco"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

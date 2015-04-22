@@ -89,7 +89,7 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> implements Get
     }
 
     private void verFactura(int position){
-        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.pdfUrl+String.valueOf(datos.get(position).getIdImpresion()), true, true);
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.PDF_URL +String.valueOf(datos.get(position).getIdImpresion()), true, true);
         a.execute();
     }
 
