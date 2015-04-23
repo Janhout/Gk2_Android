@@ -11,7 +11,7 @@ import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.R;
 
-public class GetAsyncTask extends AsyncTask<Hashtable<String, String>, Void, String>{
+public class AsyncTaskGet extends AsyncTask<Hashtable<String, String>, Void, String>{
 
     private Context contexto;
     private String url;
@@ -20,7 +20,7 @@ public class GetAsyncTask extends AsyncTask<Hashtable<String, String>, Void, Str
     private LinearLayout layoutProgreso;
     private int codigo_peticion;
 
-    public GetAsyncTask(Context contexto, OnProcessCompleteListener listener, String url, boolean fichero, int codigo_peticion){
+    public AsyncTaskGet(Context contexto, OnProcessCompleteListener listener, String url, boolean fichero, int codigo_peticion){
         this.contexto = contexto;
         this.url = url;
         this.fichero = fichero;
@@ -48,8 +48,8 @@ public class GetAsyncTask extends AsyncTask<Hashtable<String, String>, Void, Str
 
     @Override
     protected void onPostExecute(String s) {
-        listener.resultadoGet(s, codigo_peticion);
         layoutProgreso.setVisibility(View.GONE);
+        listener.resultadoGet(s, codigo_peticion);
     }
 
     public interface OnProcessCompleteListener{

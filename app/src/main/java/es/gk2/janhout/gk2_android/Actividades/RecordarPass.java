@@ -8,11 +8,11 @@ import android.widget.Toast;
 
 import java.util.Hashtable;
 
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 
-public class RecordarPass extends ActionBarActivity implements PostAsyncTask.OnProcessCompleteListener{
+public class RecordarPass extends ActionBarActivity implements AsyncTaskPost.OnProcessCompleteListener{
 
     private final String paramentro_usuario = "usuario";
 
@@ -38,7 +38,7 @@ public class RecordarPass extends ActionBarActivity implements PostAsyncTask.OnP
     private void recuperarPass(String usuario){
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put(paramentro_usuario, usuario);
-        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.URL_LOGIN, CODIGO_RECUPERAR_PASS);
+        AsyncTaskPost a = new AsyncTaskPost(this, this, Constantes.URL_LOGIN, CODIGO_RECUPERAR_PASS);
         a.execute(parametros);
     }
 

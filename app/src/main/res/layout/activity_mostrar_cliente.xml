@@ -8,27 +8,20 @@
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar" />
 
-    <include
-        android:id="@+id/dialogo_progreso"
-        layout="@layout/progreso"/>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayoutCliente"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/progressBar"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center_horizontal|bottom"
-            android:orientation="horizontal">
+        <include
+            android:id="@+id/dialogo_progreso"
+            layout="@layout/progreso"
+            android:visibility="gone"/>
 
-            <ProgressBar
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/relativeLayoutCliente"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+        </RelativeLayout>
+    </FrameLayout>
 </LinearLayout>

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +20,15 @@ import org.json.JSONObject;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
 
-public class FragmentoDatosCliente extends Fragment implements GetAsyncTask.OnProcessCompleteListener {
+public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnProcessCompleteListener {
 
     private int idCliente;
-    private GetAsyncTask asyncTask;
+    private AsyncTaskGet asyncTask;
     private JSONObject cliente;
 
     private TextView nif;
@@ -76,7 +75,7 @@ public class FragmentoDatosCliente extends Fragment implements GetAsyncTask.OnPr
     private void cargarLCliente(){
         String url;
         url = Constantes.CLIENTES_DETALLE + idCliente;
-        asyncTask = new GetAsyncTask(getActivity(), this, url, false, CODIGO_PEDIR_CLIENTE);
+        asyncTask = new AsyncTaskGet(getActivity(), this, url, false, CODIGO_PEDIR_CLIENTE);
         Hashtable<String, String> parametros = null;
         asyncTask.execute(parametros);
     }

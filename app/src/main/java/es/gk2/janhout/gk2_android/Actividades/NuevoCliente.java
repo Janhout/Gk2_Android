@@ -21,15 +21,15 @@ import java.util.Hashtable;
 import java.util.List;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorSpinner;
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
-import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Localidad;
 import es.gk2.janhout.gk2_android.Util.Provincia;
 import es.gk2.janhout.gk2_android.Util.TipoDireccion;
 
-public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnProcessCompleteListener, GetAsyncTask.OnProcessCompleteListener {
+public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnProcessCompleteListener, AsyncTaskGet.OnProcessCompleteListener {
 
     private EditText inputNombreComercial;
     private EditText inputNIF;
@@ -94,7 +94,7 @@ public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnP
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 listaLocalidades.clear();
-                GetAsyncTask cargarLocalidades = new GetAsyncTask(NuevoCliente.this, NuevoCliente.this, Constantes.LOCALIDADES + listaProvincias.get(i).getIdProvincia(), false, CODIGO_GET_LOCALIDADES);
+                AsyncTaskGet cargarLocalidades = new AsyncTaskGet(NuevoCliente.this, NuevoCliente.this, Constantes.LOCALIDADES + listaProvincias.get(i).getIdProvincia(), false, CODIGO_GET_LOCALIDADES);
                 cargarLocalidades.execute(new Hashtable<String, String>());
                 PROVINCIA_SELECCIONADA = listaProvincias.get(i).getIdProvincia();
             }
@@ -130,9 +130,9 @@ public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnP
             }
         });
 
-        GetAsyncTask cargarProvincias = new GetAsyncTask(this, this, Constantes.PROVINCIAS, false, CODIGO_GET_PROVINCIAS);
+        AsyncTaskGet cargarProvincias = new AsyncTaskGet(this, this, Constantes.PROVINCIAS, false, CODIGO_GET_PROVINCIAS);
         cargarProvincias.execute(new Hashtable<String, String>());
-        GetAsyncTask cargarTiposDireccion = new GetAsyncTask(this, this, Constantes.TIPOS_DIRECCION, false, CODIGO_GET_TIPOS_DIRECCION);
+        AsyncTaskGet cargarTiposDireccion = new AsyncTaskGet(this, this, Constantes.TIPOS_DIRECCION, false, CODIGO_GET_TIPOS_DIRECCION);
         cargarTiposDireccion.execute(new Hashtable<String, String>());
 
     }
@@ -176,7 +176,7 @@ public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnP
         } else {
             //Segunda comprobación. Mira si existe el DNI del cliente.
             Hashtable<String, String> parametros = null;
-            GetAsyncTask hebraComprobarCliente = new GetAsyncTask(this, this, Constantes.CLIENTES_CONSULTA_NIF, false, CODIGO_COMPROBAR_DNI);
+            AsyncTaskGet hebraComprobarCliente = new AsyncTaskGet(this, this, Constantes.CLIENTES_CONSULTA_NIF, false, CODIGO_COMPROBAR_DNI);
             hebraComprobarCliente.execute(parametros);
         }
     }
@@ -225,7 +225,7 @@ public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnP
                     parametros.put("action", "insert");
 
                     //Petición para añadir el cliente
-                    PostAsyncTask nuevoCliente = new PostAsyncTask(this, this, Constantes.CLIENTES_ALTA_CLIENTE, CODIGO_NUEVO_CLIENTE);
+                    AsyncTaskPost nuevoCliente = new AsyncTaskPost(this, this, Constantes.CLIENTES_ALTA_CLIENTE, CODIGO_NUEVO_CLIENTE);
                     nuevoCliente.execute(parametros);
                 } else {
                     //Si el cliente existe (respuesta = 1), se avisa al usuario y se le pone foco al campo

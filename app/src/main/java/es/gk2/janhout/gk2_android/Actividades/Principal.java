@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -23,16 +22,12 @@ import java.util.ArrayList;
 import es.gk2.janhout.gk2_android.ActionBarActivityBusqueda;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaNavigationDrawer;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoDatosCliente;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaCompras;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Temporizador;
 
-/*public class Principal extends ActionBarActivity implements SearchView.OnQueryTextListener,
-        Temporizador.OnTimerCompleteListener{*/
 public class Principal extends ActionBarActivityBusqueda {
 
     private DrawerLayout drawerLayout;
@@ -168,36 +163,6 @@ public class Principal extends ActionBarActivityBusqueda {
         outState.putString("tituloActividad", tituloActividad);
         outState.putBoolean("fav", inicio);
     }
-
-    /* *************************************************************************
-     ********************** Interfaz OnQueryTextListener ***********************
-     *************************************************************************** */
-
-    /*@Override
-    public boolean onQueryTextChange(String text) {
-        textoBusqueda = text;
-        if(hebraTemporizador != null && !hebraTemporizador.isCancelled()){
-            hebraTemporizador.cancel(true);
-            hebraTemporizador = null;
-        }
-        hebraTemporizador = new Temporizador(800, this);
-        hebraTemporizador.execute();
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String text) {
-        textoBusqueda = text;
-        busqueda();
-        return true;
-    }
-
-    @Override
-    public void temporizadorCompletado(boolean correcto) {
-        if(correcto){
-            busqueda();
-        }
-    }*/
 
     /* *************************************************************************
      **************************** Auxialiares **********************************

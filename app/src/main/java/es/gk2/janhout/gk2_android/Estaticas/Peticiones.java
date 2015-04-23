@@ -16,7 +16,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-
 public class Peticiones {
 
     public static String peticionGetJSON(Context contexto, String url, Hashtable<String, String> params){

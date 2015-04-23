@@ -10,7 +10,7 @@ import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.R;
 
-public class PostAsyncTask extends AsyncTask<Hashtable<String, String>, Void, String>{
+public class AsyncTaskPost extends AsyncTask<Hashtable<String, String>, Void, String>{
 
     private Context contexto;
     private String url;
@@ -19,7 +19,7 @@ public class PostAsyncTask extends AsyncTask<Hashtable<String, String>, Void, St
     private int codigo_peticion;
 
 
-    public PostAsyncTask(Context contexto, OnProcessCompleteListener listener, String url, int codigo_peticion){
+    public AsyncTaskPost(Context contexto, OnProcessCompleteListener listener, String url, int codigo_peticion){
         this.contexto = contexto;
         this.url = url;
         this.listener = listener;
@@ -40,8 +40,8 @@ public class PostAsyncTask extends AsyncTask<Hashtable<String, String>, Void, St
 
     @Override
     protected void onPostExecute(String s) {
-        listener.resultadoPost(s, codigo_peticion);
         layoutProgreso.setVisibility(View.GONE);
+        listener.resultadoPost(s, codigo_peticion);
     }
 
     public interface OnProcessCompleteListener {

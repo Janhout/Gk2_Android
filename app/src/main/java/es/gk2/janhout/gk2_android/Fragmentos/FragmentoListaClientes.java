@@ -20,18 +20,18 @@ import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 
-public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnProcessCompleteListener {
+public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnProcessCompleteListener {
 
     private AdaptadorListaClientes ad;
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
-    private GetAsyncTask asyncTask;
+    private AsyncTaskGet asyncTask;
 
     private boolean favoritos;
     private String query;
@@ -53,7 +53,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_lista_clientes, container, false);
+        return inflater.inflate(R.layout.fragment_lista, container, false);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
         query = getArguments().getString("query");
         cargarLista();
         if(listaClientes != null) {
-            ListView lv = (ListView) getActivity().findViewById(R.id.lvClientes);
+            ListView lv = (ListView) getActivity().findViewById(R.id.lvLista);
             ad = new AdaptadorListaClientes(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
             lv.setAdapter(ad);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,7 +108,7 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("q", query);
         parametros.put("page", page+"");
-        asyncTask = new GetAsyncTask(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
+        asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
         asyncTask.execute(parametros);
     }
 
@@ -126,7 +126,6 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
                 if (ad != null) {
                     ad.notifyDataSetChanged();
                 }
-
             } catch (JSONException e) {
                 listaClientes = null;
             }

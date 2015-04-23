@@ -8,53 +8,59 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="es.aplicacion.janhout.login.Login">
 
-    <include
-        android:id="@+id/dialogo_progreso"
-        layout="@layout/progreso"/>
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom_login"
-            android:src="@drawable/logo" />
+        <include
+            android:id="@+id/dialogo_progreso"
+            layout="@layout/progreso"
+            android:visibility="gone"/>
 
-        <EditText
-            android:id="@+id/etUsuario"
-            style="@style/editTextPersonalizado"
-            android:hint="@string/usuario"
-            android:imeOptions="actionNext"
-            android:nextFocusForward="@+id/etPass"
-            android:text="jadelgado" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etPass"
-            style="@style/editTextPersonalizado"
-            android:background="@drawable/estilos_edittext_personalizado"
-            android:hint="@string/pass"
-            android:inputType="textPassword"
-            android:text="jadj" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_bottom_login"
+                android:src="@drawable/logo" />
 
-        <Button
-            android:id="@+id/btLogin"
-            style="@style/botonPersonalizado"
-            android:onClick="login"
-            android:text="@string/login" />
+            <EditText
+                android:id="@+id/etUsuario"
+                style="@style/editTextPersonalizado"
+                android:hint="@string/usuario"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@+id/etPass"
+                android:text="jadelgado" />
 
-        <Button
-            android:id="@+id/btRecuperaPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bt_recordar"
-            android:onClick="recuperaPass"
-            android:text="@string/recuperar_pass"
-            android:textColor="@color/azul_logo"
-            android:textSize="16sp" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/etPass"
+                style="@style/editTextPersonalizado"
+                android:background="@drawable/estilos_edittext_personalizado"
+                android:hint="@string/pass"
+                android:inputType="textPassword"
+                android:text="jadj" />
+
+            <Button
+                android:id="@+id/btLogin"
+                style="@style/botonPersonalizado"
+                android:onClick="login"
+                android:text="@string/login" />
+
+            <Button
+                android:id="@+id/btRecuperaPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_recordar"
+                android:onClick="recuperaPass"
+                android:text="@string/recuperar_pass"
+                android:textColor="@color/azul_logo"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>

@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas">
+    tools:context="es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,14 +10,13 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/lvFacturas"
+            android:id="@+id/lvLista"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:choiceMode="none"
+            android:choiceMode="singleChoice"
             android:divider="@color/divider"
             android:dividerHeight="@dimen/standard_divider_size"></ListView>
-
     </LinearLayout>
 </FrameLayout>

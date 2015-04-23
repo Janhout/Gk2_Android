@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaCompras;
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.GetAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Compra;
 
-public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnProcessCompleteListener{
+public class FragmentoListaCompras extends Fragment implements AsyncTaskGet.OnProcessCompleteListener{
 
     private ListView lv;
     private AdaptadorListaCompras ad;
@@ -44,7 +44,7 @@ public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnPr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_lista_compras, container, false);
+        return inflater.inflate(R.layout.fragment_lista, container, false);
     }
 
 
@@ -54,7 +54,7 @@ public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnPr
         this.contexto = getActivity();
         cargarLista();
         if(listaCompras != null) {
-            lv = (ListView) getActivity().findViewById(R.id.lvCompras);
+            lv = (ListView) getActivity().findViewById(R.id.lvLista);
             ad = new AdaptadorListaCompras(getActivity(), R.layout.detalle_lista_compra, listaCompras);
             lv.setAdapter(ad);
         }
@@ -62,7 +62,7 @@ public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnPr
 
     private void cargarLista(){
         Hashtable<String, String> parametros = null;
-        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.COMPRAS, false, CODIGO_CONSULTA_COMPRAS);
+        AsyncTaskGet a = new AsyncTaskGet(contexto, this, Constantes.COMPRAS, false, CODIGO_CONSULTA_COMPRAS);
         a.execute(parametros);
     }
 

@@ -20,15 +20,25 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Hashtable;
 
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
+import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.R;
 
-public class LectorPDF extends ActionBarActivity implements OnPageChangeListener {
+public class LectorPDF extends ActionBarActivity implements OnPageChangeListener,
+        AsyncTaskPost.OnProcessCompleteListener {
 
     private Integer pageNumber;
     private Intent intentCompartir;
     private String fichero;
     private Toolbar toolbar;
+
+    private static final String PARAMENTRO_MAILTO = "mailto";
+    private static final String PARAMENTRO_ASUNTO = "asunto";
+    private static final String PARAMENTRO_MENSAJE = "mensaje";
+
+    private static final int CODIGO_ENVIAR_MAIL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +97,9 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         } else if (id == android.R.id.home) {
             finish();
             return true;
+        } else if(id == R.id.action_enviar_cliente){
+            mandarCorreo();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -97,7 +110,7 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         copy(from, to);
     }
 
-    public void copy(File src, File dst) {
+    private void copy(File src, File dst) {
         try {
             InputStream in = new FileInputStream(src);
             OutputStream out = new FileOutputStream(dst, false);
@@ -111,6 +124,21 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
             out.close();
         } catch (Exception e) {
             Log.v("mio", e.toString());
+        }
+    }
+
+    private void mandarCorreo(){
+        Hashtable<String, String> parametros = new Hashtable<>();
+        parametros.put(PARAMENTRO_MAILTO, "");
+        parametros.put(PARAMENTRO_ASUNTO, "");
+        parametros.put(PARAMENTRO_MENSAJE, "");
+        AsyncTaskPost post = new AsyncTaskPost(this, this, Constantes.FACTURAS, CODIGO_ENVIAR_MAIL);
+    }
+
+    @Override
+    public void resultadoPost(String respuesta, int codigo_peticion) {
+        if(respuesta != null){
+            Log.v("mio", respuesta);
         }
     }
 }

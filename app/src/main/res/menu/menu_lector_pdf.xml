@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="es.gk2.janhout.gk2_android.Actividades.LectorPDF">
 
+    <item android:id="@+id/action_enviar_cliente"
+        android:icon="@drawable/ic_action_enviar"
+        android:title="@string/enviar_factura_cliente"
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/action_compartir"
         android:title="@string/compartir"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"/>
 

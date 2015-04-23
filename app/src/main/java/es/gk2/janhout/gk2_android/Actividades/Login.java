@@ -9,12 +9,12 @@ import android.widget.Toast;
 
 import java.util.Hashtable;
 
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
-import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 
-public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessCompleteListener{
+public class Login extends ActionBarActivity implements AsyncTaskPost.OnProcessCompleteListener{
 
     private static final String PARAMENTRO_USUARIO = "usuario";
     private static final String PARAMENTRO_PASS = "pass";
@@ -50,7 +50,7 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put(PARAMENTRO_USUARIO, usuario);
         parametros.put(PARAMENTRO_PASS, pass);
-        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.URL_LOGIN, CODIGO_LOGIN);
+        AsyncTaskPost a = new AsyncTaskPost(this, this, Constantes.URL_LOGIN, CODIGO_LOGIN);
         a.execute(parametros);
     }
 

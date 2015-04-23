@@ -1,40 +1,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="es.gk2.janhout.gk2_android.Actividades.Principal">
 
     <include
         android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"/>
+        layout="@layout/tool_bar" />
 
-    <android.support.v4.widget.DrawerLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/relativeLayoutPrincipal"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <include
                 android:id="@+id/dialogo_progreso"
-                layout="@layout/progreso"/>
-        </RelativeLayout>
+                layout="@layout/progreso"
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutPrincipal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </RelativeLayout>
+        </FrameLayout>
 
         <ListView
             android:id="@+id/lista_drawer"
             android:layout_width="220dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:background="#ebebeb"
             android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
 
-            android:dividerHeight="0dp"
-            android:background="#ebebeb"/>
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp" />
 
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>
