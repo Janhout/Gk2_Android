@@ -14,11 +14,16 @@ public class Constantes {
     public final static String CLIENTES = MI_URL + "clientes/";
     public final static String COMPRAS = MI_URL + "compras/facturas/";
     public final static String PDF_URL = FACTURAS + "pdf/";
-    public final static String TIPOS_DIRECCION = CLIENTES + "get_tipo_direccion/";
 
     public final static String CLIENTES_LISTAR = CLIENTES + "listar/";
     public final static String CLIENTES_LISTAR_FAVORITOS = CLIENTES + "listar_favoritos/";
     public final static String CLIENTES_ALTA_CLIENTE = CLIENTES + "guardar/";
     public final static String CLIENTES_DETALLE = CLIENTES + "detalle/";
     public final static String CLIENTES_CONSULTA_NIF = URL_API + "checknif/";
+
+    //Datos
+    public final static String LOCALIDADES = CLIENTES + "get_localidades/ESP/";
+    public final static String PROVINCIAS = CLIENTES + "get_provincias/ESP/";
+    public final static String TIPOS_DIRECCION = CLIENTES + "get_tipo_direccion/";
+
 }

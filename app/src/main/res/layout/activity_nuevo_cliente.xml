@@ -30,7 +30,24 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Spinner
+        <Spinner android:id="@+id/nuevoCliente_provincia"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Spinner android:id="@+id/nuevoCliente_localidad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner android:id="@+id/nuevoCliente_tipoDireccion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -41,10 +58,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:background="@drawable/estilos_edittext_personalizado"
             android:hint="@string/s_nuevoCliente_direccion" />
-
     </LinearLayout>
+
 
     <EditText
         android:id="@+id/nuevoCliente_email"
@@ -79,6 +95,6 @@
 
     <include
         android:id="@+id/dialogo_progreso"
-        layout="@layout/progreso"/>
+        layout="@layout/progreso" />
 
 </LinearLayout>

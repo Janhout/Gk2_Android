@@ -16,7 +16,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.R;
 
 public class Peticiones {
 
