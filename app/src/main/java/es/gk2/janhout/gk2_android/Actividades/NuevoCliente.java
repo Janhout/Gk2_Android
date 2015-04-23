@@ -17,12 +17,16 @@ import es.gk2.janhout.gk2_android.Estaticas.PostAsyncTask;
 import es.gk2.janhout.gk2_android.R;
 
 public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnProcessCompleteListener, GetAsyncTask.OnProcessCompleteListener {
+
     private EditText inputNombreComercial;
     private EditText inputNIF;
     private EditText inputDireccion;
     private EditText inputEmail;
     private EditText inputTelefono1;
     private EditText inputTelefono2;
+
+    private static final int CODIGO_COMPROBAR_DNI = 1;
+    private static final int CODIGO_NUEVO_CLIENTE = 2;
 
 
     @Override
@@ -75,18 +79,19 @@ public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnP
             Toast.makeText(this, R.string.e_nuevoCliente_telefono1_vacio, Toast.LENGTH_SHORT).show();
         } else {
             //Segunda comprobación. Mira si existe el DNI del cliente.
-            GetAsyncTask hebraComprobarCliente = new GetAsyncTask(this, this, Constantes.CLIENTES_CONSULTA_NIF + "?nif=" + inputNIF.getText().toString(), false, true);
-            hebraComprobarCliente.execute();
+            Hashtable<String, String> parametros = null; //nif=" + inputNIF.getText().toString()
+            GetAsyncTask hebraComprobarCliente = new GetAsyncTask(this, this, Constantes.CLIENTES_CONSULTA_NIF, false, CODIGO_COMPROBAR_DNI);
+            hebraComprobarCliente.execute(parametros);
         }
     }
 
     @Override
-    public void resultadoPost(String respuesta) {
-        Log.v("respuesta", respuesta);
+    public void resultadoPost(String location, int codigo) {
+        Log.v("respuesta", location);
     }
 
     @Override
-    public void resultadoGet(String respuesta) {
+    public void resultadoGet(String respuesta, int codigo) {
         //Si no existe el DNI del cliente, añade el registro.
         if (respuesta.equals("0")) {
             Hashtable<String, String> parametros = new Hashtable<>();
@@ -119,7 +124,7 @@ public class NuevoCliente extends ActionBarActivity implements PostAsyncTask.OnP
             parametros.put("inputModoIva", "1");
             parametros.put("inputIrpf", "0");
             parametros.put("action", "insert");
-            PostAsyncTask myTask = new PostAsyncTask(this, this, Constantes.CLIENTES_ALTA_CLIENTE, false);
+            PostAsyncTask myTask = new PostAsyncTask(this, this, Constantes.CLIENTES_ALTA_CLIENTE, CODIGO_NUEVO_CLIENTE);
             myTask.execute(parametros);
         } else {
             inputNIF.requestFocus();

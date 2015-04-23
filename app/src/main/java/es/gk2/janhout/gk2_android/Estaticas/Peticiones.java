@@ -20,16 +20,20 @@ import es.gk2.janhout.gk2_android.R;
 
 public class Peticiones {
 
-    public static String peticionGetJSON(Context contexto, String url){
+    public static String peticionGetJSON(Context contexto, String url, Hashtable<String, String> params){
         String linea;
-        StringBuilder resultado = new StringBuilder("");
+        StringBuilder respuesta = new StringBuilder("");
         try {
-            URL u = new URL(url);
+            String parametros = crearParametros(params);
+            URL u;
+            if(parametros != null && !parametros.equals("")) {
+                u = new URL(url + "?" + parametros);
+            } else {
+                u = new URL(url);
+            }
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
-
-            /*String token = Metodos.leerPreferenciasCompartidasString(contexto, contexto.getString(R.string.token_session));
-            conexion.addRequestProperty("Authorization", "Bearer " + token);*/
+            conexion.setInstanceFollowRedirects(false);
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
             conexion.setRequestProperty("Cookie", cookieSesion);
@@ -38,28 +42,34 @@ public class Peticiones {
 
             String location = buscarLocation(conexion);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
-
-            while ((linea = in.readLine()) != null) {
-                resultado.append(linea);
+            if(location != null && location.contains("login")){
+                return null;
+            }else{
+                BufferedReader in = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
+                while ((linea = in.readLine()) != null) {
+                    respuesta.append(linea);
+                }
+                in.close();
+                return respuesta.toString();
             }
-            in.close();
-
-            return resultado.toString();
         }catch (IOException e){
             Log.e("error GET", e.toString());
             return null;
         }
     }
 
-    public static String peticionGetFichero(Context contexto, String url){
+    public static String peticionGetFichero(Context contexto, String url, Hashtable<String, String> params){
         try {
-            URL u = new URL(url);
+            String parametros = crearParametros(params);
+            URL u;
+            if(parametros != null && !parametros.equals("")) {
+                u = new URL(url + "?" + parametros);
+            } else {
+                u = new URL(url);
+            }
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
-
-            /*String token = Metodos.leerPreferenciasCompartidasString(contexto, contexto.getString(R.string.token_session));
-            conexion.addRequestProperty("Authorization", "Bearer " + token);*/
+            conexion.setInstanceFollowRedirects(false);
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
             conexion.setRequestProperty("Cookie", cookieSesion);
@@ -68,31 +78,30 @@ public class Peticiones {
 
             String location = buscarLocation(conexion);
 
-            InputStream input = conexion.getInputStream();
+            if(location != null && location.contains("login")){
+                return null;
+            }else{
+                InputStream input = conexion.getInputStream();
+                OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DCIM).getAbsolutePath() + "/factura.tmp");
 
-            OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DCIM).getAbsolutePath() + "/factura.tmp");
-
-            byte data[] = new byte[1024];
-
-            int count;
-            while ((count = input.read(data)) != -1) {
-                output.write(data, 0, count);
+                byte data[] = new byte[1024];
+                int count;
+                while ((count = input.read(data)) != -1) {
+                    output.write(data, 0, count);
+                }
+                output.flush();
+                output.close();
+                input.close();
+                return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + "/factura.tmp";
             }
-            output.flush();
-            output.close();
-            input.close();
-
-            return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + "/factura.tmp";
         } catch (Exception e) {
-            Log.e("error GET fichero", e.toString());
+            Log.v("error GET fichero", e.toString());
             return null;
         }
     }
 
     public static String peticionPostJSON(Context contexto, String url, Hashtable<String, String> params) {
-        //String linea;
-        //StringBuilder resultado = new StringBuilder("");
         try {
             URL u = new URL(url);
             HttpURLConnection conexion = (HttpURLConnection)u.openConnection();
@@ -122,28 +131,14 @@ public class Peticiones {
             leerCookies(contexto, conexion);
 
             return location;
-            /*boolean redireccionar = leerCabeceras(conexion);
-
-            if(redireccionar) {
-                leerCookies(contexto, conexion);
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
-                while ((linea = in.readLine()) != null) {
-                    resultado.append(linea);
-                }
-
-                in.close();
-                return resultado.toString();
-            }
-            return null;*/
         }catch (IOException e){
-            Log.e("error POST", e.toString());
+            Log.v("error POST", e.toString());
             return null;
         }
     }
 
     private static String crearParametros(Hashtable<String, String> params){
-        if(params.size() == 0) {
+        if(params == null || params.size() == 0) {
             return "";
         }
         StringBuilder resultado = new StringBuilder();

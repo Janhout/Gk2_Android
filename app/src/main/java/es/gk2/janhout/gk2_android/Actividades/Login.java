@@ -18,6 +18,7 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
 
     private static final String PARAMENTRO_USUARIO = "usuario";
     private static final String PARAMENTRO_PASS = "pass";
+    private static final int CODIGO_LOGIN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,13 @@ public class Login extends ActionBarActivity implements PostAsyncTask.OnProcessC
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put(PARAMENTRO_USUARIO, usuario);
         parametros.put(PARAMENTRO_PASS, pass);
-        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.URL_LOGIN, true);
+        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.URL_LOGIN, CODIGO_LOGIN);
         a.execute(parametros);
     }
 
     @Override
-    public void resultadoPost(String respuesta) {
-        if(respuesta != null && !respuesta.contains("login")) {
+    public void resultadoPost(String location, int codigo) {
+        if(location != null && !location.contains("login")) {
             loginCorrecto();
         } else{
             Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();

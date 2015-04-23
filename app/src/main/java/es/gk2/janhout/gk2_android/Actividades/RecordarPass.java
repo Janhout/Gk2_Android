@@ -16,6 +16,8 @@ public class RecordarPass extends ActionBarActivity implements PostAsyncTask.OnP
 
     private final String paramentro_usuario = "usuario";
 
+    private static final int CODIGO_RECUPERAR_PASS = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,7 @@ public class RecordarPass extends ActionBarActivity implements PostAsyncTask.OnP
     private void recuperarPass(String usuario){
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put(paramentro_usuario, usuario);
-        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.URL_LOGIN, true);
+        PostAsyncTask a = new PostAsyncTask(this, this, Constantes.URL_LOGIN, CODIGO_RECUPERAR_PASS);
         a.execute(parametros);
     }
 
@@ -50,8 +52,8 @@ public class RecordarPass extends ActionBarActivity implements PostAsyncTask.OnP
     *
     * */
     @Override
-    public void resultadoPost(String respuesta) {
-        if(respuesta != null) {
+    public void resultadoPost(String location, int codigo) {
+        if(location != null) {
 
         } else{
             Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();

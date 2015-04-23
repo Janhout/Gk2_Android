@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaCompras;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
@@ -28,6 +29,8 @@ public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnPr
     private AdaptadorListaCompras ad;
     private ArrayList<Compra> listaCompras;
     private Context contexto;
+
+    private static final int CODIGO_CONSULTA_COMPRAS = 1;
 
     public FragmentoListaCompras() {
     }
@@ -58,12 +61,13 @@ public class FragmentoListaCompras extends Fragment implements GetAsyncTask.OnPr
     }
 
     private void cargarLista(){
-        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.COMPRAS, false, false);
-        a.execute();
+        Hashtable<String, String> parametros = null;
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.COMPRAS, false, CODIGO_CONSULTA_COMPRAS);
+        a.execute(parametros);
     }
 
     @Override
-    public void resultadoGet(String respuesta){
+    public void resultadoGet(String respuesta, int codigo){
         if(respuesta != null){
             JSONTokener token = new JSONTokener(respuesta);
             JSONArray array;

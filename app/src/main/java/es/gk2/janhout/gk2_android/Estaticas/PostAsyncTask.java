@@ -1,8 +1,10 @@
 package es.gk2.janhout.gk2_android.Estaticas;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.Hashtable;
 
@@ -12,41 +14,37 @@ public class PostAsyncTask extends AsyncTask<Hashtable<String, String>, Void, St
 
     private Context contexto;
     private String url;
-    private ProgressDialog progreso;
     private OnProcessCompleteListener listener;
-    private boolean mostrarProgreso;
+    private LinearLayout layoutProgreso;
+    private int codigo_peticion;
 
-    public PostAsyncTask(Context contexto, OnProcessCompleteListener listener, String url, boolean mostrarProgreso){
+
+    public PostAsyncTask(Context contexto, OnProcessCompleteListener listener, String url, int codigo_peticion){
         this.contexto = contexto;
         this.url = url;
-        progreso = new ProgressDialog(contexto);
-        progreso.setMessage(contexto.getString(R.string.cargando_datos));
-        progreso.setCancelable(false);
         this.listener = listener;
-        this.mostrarProgreso = mostrarProgreso;
+        this.layoutProgreso = ((LinearLayout)((ActionBarActivity)contexto).findViewById(R.id.dialogo_progreso));
+        this.codigo_peticion = codigo_peticion;
     }
 
     @Override
     protected void onPreExecute() {
-        if(mostrarProgreso) {
-            progreso.show();
-        }
+        layoutProgreso.bringToFront();
+        layoutProgreso.setVisibility(View.VISIBLE);
     }
 
     @Override
-    protected final String doInBackground(Hashtable<String, String>... params) {
+    protected String doInBackground(Hashtable<String, String>[] params) {
         return Peticiones.peticionPostJSON(contexto, url, params[0]);
     }
 
     @Override
     protected void onPostExecute(String s) {
-        listener.resultadoPost(s);
-        if (progreso != null && progreso.isShowing()) {
-            progreso.dismiss();
-        }
+        listener.resultadoPost(s, codigo_peticion);
+        layoutProgreso.setVisibility(View.GONE);
     }
 
     public interface OnProcessCompleteListener {
-        public void resultadoPost(String respuesta);
+        public void resultadoPost(String location, int codigo_peticion);
     }
 }

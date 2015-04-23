@@ -8,6 +8,10 @@
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar" />
 
+    <include
+        android:id="@+id/dialogo_progreso"
+        layout="@layout/progreso"/>
+
     <RelativeLayout
         android:id="@+id/relativeLayoutCliente"
         android:layout_width="match_parent"

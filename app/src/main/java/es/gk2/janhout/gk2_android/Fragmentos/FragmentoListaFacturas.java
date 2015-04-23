@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
@@ -33,6 +34,8 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
     private boolean todas;
 
     private static final int ITEMS_BAJO_LISTA = 5;
+
+    private static final int CODIGO_CONSULTA_FACTURAS = 1;
 
     public FragmentoListaFacturas() {
     }
@@ -84,22 +87,19 @@ public class FragmentoListaFacturas extends Fragment implements GetAsyncTask.OnP
     private void cargarLista() {
         GetAsyncTask asyncTask;
         String url;
+        Hashtable<String, String> parametros = new Hashtable<>();
         if (todas){
             url = Constantes.FACTURAS + "?q=&page=" + page + "&orderBy=&orderDir=&formato=json";
         } else {
             url = Constantes.FACTURAS + "?q=cliente:" + idCliente +
                     "&page=" + page + "&orderBy=&orderDir=&formato=json";
         }
-        if(page == 0) {
-            asyncTask = new GetAsyncTask(contexto, this, url, false, true);
-        } else {
-            asyncTask = new GetAsyncTask(contexto, this, url, false, false);
-        }
-        asyncTask.execute();
+        asyncTask = new GetAsyncTask(contexto, this, url, false, CODIGO_CONSULTA_FACTURAS);
+        asyncTask.execute(parametros);
     }
 
     @Override
-    public void resultadoGet(String respuesta){
+    public void resultadoGet(String respuesta, int codigo){
         if(respuesta != null) {
             JSONTokener token = new JSONTokener(respuesta);
             JSONArray array;

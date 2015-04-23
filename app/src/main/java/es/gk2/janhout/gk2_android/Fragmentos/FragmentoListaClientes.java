@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
@@ -38,6 +39,8 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
     private int page;
     private static final int LIMITE_CONSULTA = 50;
     private static final int ITEMS_BAJO_LISTA = 5;
+
+    private static final int CODIGO_CONSULTA_CLIENTES = 1;
 
     public FragmentoListaClientes() {
     }
@@ -102,16 +105,15 @@ public class FragmentoListaClientes extends Fragment implements GetAsyncTask.OnP
         } else {
             url = Constantes.CLIENTES_LISTAR + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
         }
-        if(page == 0) {
-            asyncTask = new GetAsyncTask(contexto, this, url, false, true);
-        } else {
-            asyncTask = new GetAsyncTask(contexto, this, url, false, false);
-        }
-        asyncTask.execute();
+        Hashtable<String, String> parametros = new Hashtable<>();
+        parametros.put("q", query);
+        parametros.put("page", page+"");
+        asyncTask = new GetAsyncTask(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
+        asyncTask.execute(parametros);
     }
 
     @Override
-    public void resultadoGet(String respuesta) {
+    public void resultadoGet(String respuesta, int codigo) {
         if(respuesta != null) {
             JSONTokener token = new JSONTokener(respuesta);
             JSONArray array;

@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -287,6 +288,7 @@ public class Principal extends ActionBarActivityBusqueda {
      ******************** Métodos items menú ***********************************
      *************************************************************************** */
     private void nuevoCliente() {
+        Log.v("mio", "metodo nuevo cliente");
         startActivity(new Intent(this, NuevoCliente.class));
     }
 
@@ -337,7 +339,7 @@ public class Principal extends ActionBarActivityBusqueda {
                 break;
         }
 
-        if(position != 3) {
+        if(position != 4) {
             getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
 
             drawerList.setItemChecked(position, true);

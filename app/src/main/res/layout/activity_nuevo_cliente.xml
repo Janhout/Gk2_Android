@@ -76,4 +76,9 @@
         android:onClick="nuevoCliente"
         android:text="@string/s_nuevoCliente_submit" />
 
+
+    <include
+        android:id="@+id/dialogo_progreso"
+        layout="@layout/progreso"/>
+
 </LinearLayout>

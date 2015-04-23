@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
@@ -47,6 +50,8 @@ public class FragmentoDatosCliente extends Fragment implements GetAsyncTask.OnPr
     private String s_email;
     private String s_numeroCuenta;
 
+    private static final int CODIGO_PEDIR_CLIENTE = 1;
+
     public FragmentoDatosCliente() {
     }
 
@@ -71,8 +76,9 @@ public class FragmentoDatosCliente extends Fragment implements GetAsyncTask.OnPr
     private void cargarLCliente(){
         String url;
         url = Constantes.CLIENTES_DETALLE + idCliente;
-        asyncTask = new GetAsyncTask(getActivity(), this, url, false, false);
-        asyncTask.execute();
+        asyncTask = new GetAsyncTask(getActivity(), this, url, false, CODIGO_PEDIR_CLIENTE);
+        Hashtable<String, String> parametros = null;
+        asyncTask.execute(parametros);
     }
 
     private void inicializarEventosBotones(){
@@ -154,7 +160,7 @@ public class FragmentoDatosCliente extends Fragment implements GetAsyncTask.OnPr
      *************************************************************************** */
 
     @Override
-    public void resultadoGet(String respuesta) {
+    public void resultadoGet(String respuesta, int codigo) {
         if(respuesta != null) {
             try {
                 cliente = new JSONObject(respuesta);

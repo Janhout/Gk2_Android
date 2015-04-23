@@ -8,6 +8,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="es.aplicacion.janhout.login.Login">
 
+    <include
+        android:id="@+id/dialogo_progreso"
+        layout="@layout/progreso"/>
 
     <LinearLayout
         android:layout_width="match_parent"

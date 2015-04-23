@@ -55,13 +55,15 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        } else if(id == R.id.action_search) {
+        if(id == R.id.action_search) {
             mSearchView.setIconified(false);
             return true;
         } else if (id == android.R.id.home) {
-            finish();
+            if(fragmentoActual == ListaFragmentosCliente.clienteActual) {
+                finish();
+            } else if(fragmentoActual == ListaFragmentosCliente.clienteActual){
+                cargarFragmentoInicial();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -69,11 +71,11 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        /*if(fragmentoActual == ListaFragmentosCliente.facturas) {
+        if(fragmentoActual == ListaFragmentosCliente.facturas) {
             menu.findItem(R.id.action_search).setVisible(true);
         } else {
             menu.findItem(R.id.action_search).setVisible(false);
-        }*/
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -94,6 +96,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentoActual = ListaFragmentosCliente.ninguno;
         if(tituloActividad == null) {
             tituloActividad = getTitle().toString();

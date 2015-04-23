@@ -1,79 +1,58 @@
 package es.gk2.janhout.gk2_android.Estaticas;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.Hashtable;
+
 import es.gk2.janhout.gk2_android.R;
 
-public class GetAsyncTask extends AsyncTask<Void, Void, String>{
+public class GetAsyncTask extends AsyncTask<Hashtable<String, String>, Void, String>{
 
     private Context contexto;
     private String url;
     private boolean fichero;
-    private ProgressDialog progreso;
     private OnProcessCompleteListener listener;
-    private boolean mostrarProgreso;
     private LinearLayout layoutProgreso;
+    private int codigo_peticion;
 
-    public GetAsyncTask(Context contexto, OnProcessCompleteListener listener, String url, boolean fichero, boolean mostrarProgreso){
+    public GetAsyncTask(Context contexto, OnProcessCompleteListener listener, String url, boolean fichero, int codigo_peticion){
         this.contexto = contexto;
         this.url = url;
         this.fichero = fichero;
         this.listener = listener;
-        this.mostrarProgreso = mostrarProgreso;
-        layoutProgreso = ((LinearLayout)((ActionBarActivity)contexto).findViewById(R.id.progressBar));
+        this.layoutProgreso = ((LinearLayout)((ActionBarActivity)contexto).findViewById(R.id.dialogo_progreso));
+        this.codigo_peticion = codigo_peticion;
     }
 
     @Override
     protected void onPreExecute() {
-        crearDialogo();
-        if(mostrarProgreso) {
-            mostrarDialogo();
-        } else {
-            layoutProgreso.bringToFront();
-            layoutProgreso.setVisibility(View.VISIBLE);
-        }
+        layoutProgreso.bringToFront();
+        layoutProgreso.setVisibility(View.VISIBLE);
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected String doInBackground(Hashtable<String, String>[] params) {
         String resultado;
         if(fichero){
-            resultado = Peticiones.peticionGetFichero(contexto, url);
+            resultado = Peticiones.peticionGetFichero(contexto, url, params[0]);
         } else {
-            resultado = Peticiones.peticionGetJSON(contexto, url);
+            resultado = Peticiones.peticionGetJSON(contexto, url, params[0]);
         }
         return resultado;
     }
 
     @Override
     protected void onPostExecute(String s) {
-        listener.resultadoGet(s);
-        //layoutProgreso.setVisibility(View.GONE);
-        cerrarDialogo();
+        listener.resultadoGet(s, codigo_peticion);
+        layoutProgreso.setVisibility(View.GONE);
     }
 
     public interface OnProcessCompleteListener{
-        public void resultadoGet(String respuesta);
-    }
-
-    public void mostrarDialogo(){
-        progreso.show();
-    }
-
-    public void cerrarDialogo(){
-        if(progreso != null && progreso.isShowing()){
-            progreso.dismiss();
-        }
-    }
-
-    private void crearDialogo(){
-        progreso = new ProgressDialog(contexto);
-        progreso.setMessage(contexto.getString(R.string.cargando_datos));
-        progreso.setCancelable(false);
+        public void resultadoGet(String respuesta, int codigo_peticion);
     }
 }

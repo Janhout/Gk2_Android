@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.LectorPDF;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
@@ -20,10 +21,13 @@ import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Factura;
 
 public class AdaptadorListaFacturas extends ArrayAdapter<Factura> implements GetAsyncTask.OnProcessCompleteListener{
+
     private Context contexto;
     private ArrayList<Factura> datos;
     private int recurso;
     private static LayoutInflater inflador;
+
+    private static final int CODIGO_PEDIR_PDF = 1;
 
     public AdaptadorListaFacturas(Context contexto, int recurso, ArrayList<Factura> datos) {
         super(contexto, recurso, datos);
@@ -89,12 +93,13 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> implements Get
     }
 
     private void verFactura(int position){
-        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.PDF_URL +String.valueOf(datos.get(position).getIdImpresion()), true, true);
-        a.execute();
+        Hashtable<String, String> parametros = null;
+        GetAsyncTask a = new GetAsyncTask(contexto, this, Constantes.PDF_URL +String.valueOf(datos.get(position).getIdImpresion()), true, CODIGO_PEDIR_PDF);
+        a.execute(parametros);
     }
 
     @Override
-    public void resultadoGet(String respuesta){
+    public void resultadoGet(String respuesta, int codigo){
         if(respuesta!=null) {
             Intent intentCompartir = new Intent(contexto, LectorPDF.class);
             intentCompartir.putExtra("pdf", respuesta);

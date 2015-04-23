@@ -4,12 +4,6 @@
     tools:context="es.gk2.janhout.gk2_android.Actividades.MostrarCliente">
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_search"
         android:title="@string/accion_buscar"
         android:icon="@drawable/ic_action_search"
