@@ -1,6 +1,8 @@
 package es.gk2.janhout.gk2_android.Actividades;
 
+import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -18,7 +20,8 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     private Toolbar toolbar;
     private int idCliente;
     private SearchView mSearchView;
-
+    private Dialog dialogo;
+    private boolean mostrarDialogo;
 
     public static enum ListaFragmentosCliente {
         ninguno,
@@ -28,16 +31,27 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
 
     public static ListaFragmentosCliente fragmentoActual;
 
-
     /* *************************************************************************
      **************************** Métodos on... ********************************
      *************************************************************************** */
 
     @Override
+    public void onBackPressed() {
+        switch (fragmentoActual){
+            case ninguno:
+            case clienteActual:
+                super.onBackPressed();
+                break;
+            case facturas:
+                cargarFragmentoInicial();
+                break;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_cliente);
-
         idCliente = getIntent().getExtras().getInt("cliente");
         inicializarToolbar();
         cargarFragmentoInicial();
@@ -61,7 +75,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         } else if (id == android.R.id.home) {
             if(fragmentoActual == ListaFragmentosCliente.clienteActual) {
                 finish();
-            } else if(fragmentoActual == ListaFragmentosCliente.clienteActual){
+            } else if (fragmentoActual == ListaFragmentosCliente.facturas){
                 cargarFragmentoInicial();
             }
             return true;
@@ -77,6 +91,27 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
             menu.findItem(R.id.action_search).setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mostrarDialogo = savedInstanceState.getBoolean("mostrarDialogo");
+        if(mostrarDialogo){
+            mostrarDialogo();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("mostrarDialogo", mostrarDialogo);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        cerrarDialogo();
     }
 
     /* *************************************************************************
@@ -116,5 +151,19 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     public void setTituloActividad(String tituloActividad){
         this.tituloActividad = tituloActividad;
         getSupportActionBar().setTitle(this.tituloActividad);
+    }
+
+    public void mostrarDialogo(){
+        dialogo = new Dialog(this, android.R.style.Theme_Panel);
+        dialogo.setCancelable(false);
+        mostrarDialogo = true;
+        dialogo.show();
+    }
+
+    public void cerrarDialogo(){
+        if(dialogo != null) {
+            dialogo.dismiss();
+        }
+        mostrarDialogo = false;
     }
 }

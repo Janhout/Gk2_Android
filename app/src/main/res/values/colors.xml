@@ -31,4 +31,6 @@
     <color name="gris_borde">#ffcccccc</color>
 
     <color name="divider">#ff5a5a5a</color>
+
+    <color name="fondo_app">#ffeeeeee</color>
 </resources>

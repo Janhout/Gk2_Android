@@ -84,7 +84,6 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         if (shareActionProvider != null) {
             shareActionProvider.setShareIntent(intentCompartir);
         }
-
         return true;
     }
 
@@ -133,6 +132,7 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         parametros.put(PARAMENTRO_ASUNTO, "");
         parametros.put(PARAMENTRO_MENSAJE, "");
         AsyncTaskPost post = new AsyncTaskPost(this, this, Constantes.FACTURAS, CODIGO_ENVIAR_MAIL);
+        post.execute(parametros);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -101,13 +102,16 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
     private void cargarLista(){
         String url;
         if (favoritos){
-            url = Constantes.CLIENTES_LISTAR_FAVORITOS + "?q=" + query + "&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
+            url = Constantes.CLIENTES_LISTAR_FAVORITOS;
         } else {
-            url = Constantes.CLIENTES_LISTAR + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
+            url = Constantes.CLIENTES_LISTAR;
         }
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("q", query);
         parametros.put("page", page+"");
+        parametros.put("orderBy", "");
+        parametros.put("orderDir", "");
+        parametros.put("limit", LIMITE_CONSULTA+"");
         asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
         asyncTask.execute(parametros);
     }
@@ -128,6 +132,16 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
                 }
             } catch (JSONException e) {
                 listaClientes = null;
+            }
+        }
+    }
+
+    private void enableDisableView(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup)view;
+            for ( int idx = 0 ; idx < group.getChildCount() ; idx++ ) {
+                enableDisableView(group.getChildAt(idx), enabled);
             }
         }
     }

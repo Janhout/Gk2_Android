@@ -1,5 +1,6 @@
 package es.gk2.janhout.gk2_android.Estaticas;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
