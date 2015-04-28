@@ -21,6 +21,9 @@ public class Constantes {
     public final static String CLIENTES_DETALLE = CLIENTES + "detalle/";
     public final static String CLIENTES_CONSULTA_NIF = URL_API + "checknif/";
 
+    public final static String SET_FAVORITO = CLIENTES + "favorito_set/";
+    public final static String UNSET_FAVORITO = CLIENTES + "favorito_unset/";
+
     //Datos
     public final static String LOCALIDADES = CLIENTES + "get_localidades/ESP/";
     public final static String PROVINCIAS = CLIENTES + "get_provincias/ESP/";

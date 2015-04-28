@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -32,7 +31,6 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
     private AdaptadorListaClientes ad;
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
-    private AsyncTaskGet asyncTask;
 
     private boolean favoritos;
     private String query;
@@ -112,7 +110,7 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
         parametros.put("orderBy", "");
         parametros.put("orderDir", "");
         parametros.put("limit", LIMITE_CONSULTA+"");
-        asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
+        AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
         asyncTask.execute(parametros);
     }
 
@@ -132,16 +130,6 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
                 }
             } catch (JSONException e) {
                 listaClientes = null;
-            }
-        }
-    }
-
-    private void enableDisableView(View view, boolean enabled) {
-        view.setEnabled(enabled);
-        if (view instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup)view;
-            for ( int idx = 0 ; idx < group.getChildCount() ; idx++ ) {
-                enableDisableView(group.getChildAt(idx), enabled);
             }
         }
     }

@@ -9,4 +9,19 @@
         android:icon="@drawable/ic_action_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_llamar"
+        android:title="@string/guardar"
+        android:icon="@drawable/ic_action_llamar_telefono"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_email"
+        android:title="@string/guardar"
+        android:icon="@drawable/ic_action_enviar_email"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_facturas"
+        android:title="@string/guardar"
+        android:icon="@drawable/ic_action_ver_facturas"
+        app:showAsAction="always"/>
 </menu>

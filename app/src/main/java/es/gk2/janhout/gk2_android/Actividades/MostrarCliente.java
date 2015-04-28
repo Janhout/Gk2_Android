@@ -2,7 +2,7 @@ package es.gk2.janhout.gk2_android.Actividades;
 
 import android.app.Dialog;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.content.Context;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -17,11 +17,12 @@ import es.gk2.janhout.gk2_android.R;
 public class MostrarCliente extends ActionBarActivityBusqueda{
 
     private String tituloActividad;
-    private Toolbar toolbar;
     private int idCliente;
     private SearchView mSearchView;
-    private Dialog dialogo;
-    private boolean mostrarDialogo;
+    private static Dialog dialogo;
+    private static boolean mostrarDialogo;
+    private static boolean inicio;
+    public static ItemMenuPulsado escuchadorMenu;
 
     public static enum ListaFragmentosCliente {
         ninguno,
@@ -37,12 +38,14 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
 
     @Override
     public void onBackPressed() {
+        invalidateOptionsMenu();
         switch (fragmentoActual){
             case ninguno:
             case clienteActual:
                 super.onBackPressed();
                 break;
             case facturas:
+                inicio = true;
                 cargarFragmentoInicial();
                 break;
         }
@@ -52,6 +55,10 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_cliente);
+        inicio = true;
+        if(savedInstanceState != null) {
+            inicio = savedInstanceState.getBoolean("ini");
+        }
         idCliente = getIntent().getExtras().getInt("cliente");
         inicializarToolbar();
         cargarFragmentoInicial();
@@ -76,8 +83,22 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
             if(fragmentoActual == ListaFragmentosCliente.clienteActual) {
                 finish();
             } else if (fragmentoActual == ListaFragmentosCliente.facturas){
+                inicio = true;
                 cargarFragmentoInicial();
             }
+            invalidateOptionsMenu();
+            return true;
+        } else if (id == R.id.action_llamar){
+            escuchadorMenu.itemMenuPulsado(R.id.action_llamar);
+            invalidateOptionsMenu();
+            return true;
+        } else if (id == R.id.action_email) {
+            escuchadorMenu.itemMenuPulsado(R.id.action_email);
+            invalidateOptionsMenu();
+            return true;
+        } else if (id == R.id.action_facturas) {
+            escuchadorMenu.itemMenuPulsado(R.id.action_facturas);
+            invalidateOptionsMenu();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -90,6 +111,15 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         } else {
             menu.findItem(R.id.action_search).setVisible(false);
         }
+        if(fragmentoActual == ListaFragmentosCliente.clienteActual){
+            menu.findItem(R.id.action_llamar).setVisible(true);
+            menu.findItem(R.id.action_email).setVisible(true);
+            menu.findItem(R.id.action_facturas).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_llamar).setVisible(false);
+            menu.findItem(R.id.action_email).setVisible(false);
+            menu.findItem(R.id.action_facturas).setVisible(false);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -97,8 +127,9 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mostrarDialogo = savedInstanceState.getBoolean("mostrarDialogo");
+        fragmentoActual = (ListaFragmentosCliente)savedInstanceState.getSerializable("actual");
         if(mostrarDialogo){
-            mostrarDialogo();
+            mostrarDialogo(this);
         }
     }
 
@@ -106,6 +137,8 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("mostrarDialogo", mostrarDialogo);
+        outState.putBoolean("ini", inicio);
+        outState.putSerializable("actual", fragmentoActual);
     }
 
     @Override
@@ -119,16 +152,22 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
      *************************************************************************** */
 
     private void cargarFragmentoInicial(){
-        Fragment fragment = new FragmentoDatosCliente();
-        fragmentoActual = ListaFragmentosCliente.clienteActual;
-        Bundle bundle = new Bundle();
-        bundle.putInt("idCliente", idCliente);
-        fragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.relativeLayoutCliente, fragment).commit();
+        if(inicio) {
+            Fragment fragment = new FragmentoDatosCliente();
+            fragmentoActual = ListaFragmentosCliente.clienteActual;
+            Bundle bundle = new Bundle();
+            bundle.putInt("idCliente", idCliente);
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutCliente, fragment).commit();
+        }
+    }
+
+    public static void setInicio(boolean inicio){
+        MostrarCliente.inicio = inicio;
     }
 
     private void inicializarToolbar(){
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -153,8 +192,8 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         getSupportActionBar().setTitle(this.tituloActividad);
     }
 
-    public void mostrarDialogo(){
-        dialogo = new Dialog(this, android.R.style.Theme_Panel);
+    public static void mostrarDialogo(Context contexto){
+        dialogo = new Dialog(contexto, android.R.style.Theme_Panel);
         dialogo.setCancelable(false);
         mostrarDialogo = true;
         dialogo.show();
@@ -165,5 +204,13 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
             dialogo.dismiss();
         }
         mostrarDialogo = false;
+    }
+
+    /* *************************************************************************
+     ******************** Interfaz Menú Pulsado ********************************
+     *************************************************************************** */
+
+    public interface ItemMenuPulsado {
+        public void itemMenuPulsado(int itemMenu);
     }
 }

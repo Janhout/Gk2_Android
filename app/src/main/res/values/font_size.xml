@@ -3,6 +3,8 @@
 
     <dimen name="size_icono_botones">24sp</dimen>
 
+    <dimen name="size_icono_boton_favorito">32sp</dimen>
+
     <dimen name="drawer_font_size">16sp</dimen>
 
     <dimen name="title_size">22sp</dimen>

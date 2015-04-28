@@ -14,17 +14,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 
-public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
+public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements AsyncTaskGet.OnProcessCompleteListener{
 
     private Context contexto;
     private ArrayList<Cliente> datos;
     private int recurso;
     private static LayoutInflater inflador;
+    private int posicion_favorito;
+
+    private final static int CODIGO_SET_FAVORITO = 1;
 
     public AdaptadorListaClientes(Context contexto, int recurso, ArrayList<Cliente> datos) {
         super(contexto, recurso, datos);
@@ -43,6 +49,7 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
             vh.nombreComercial = (TextView) convertView.findViewById(R.id.nombre_cliente);
             vh.btEmail = (Button)convertView.findViewById(R.id.bt_enviar_email);
             vh.btTelefono = (Button)convertView.findViewById(R.id.bt_telefono);
+            vh.btFavorito = (Button)convertView.findViewById(R.id.bt_favorito);
 
             convertView.setTag(vh);
         } else {
@@ -66,7 +73,24 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
             }
         });
 
-        if(datos.get(position).getTelefono01().trim().equals("") && datos.get(position).getTelefono02().trim().equals("")){
+        vh.btFavorito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                posicion_favorito = position;
+                clickFavorito();
+            }
+        });
+
+        if(datos.get(position).isFavorito()){
+            Metodos.botonAwesomeComponente(contexto, vh.btFavorito, contexto.getString(R.string.icono_clientes_favoritos));
+        } else {
+            Metodos.botonAwesomeComponente(contexto, vh.btFavorito, contexto.getString(R.string.icono_clientes_no_favoritos));
+        }
+
+        String telefono1 = datos.get(position).getTelefono01().trim();
+        String telefono2 = datos.get(position).getTelefono02().trim();
+//&& !android.text.TextUtils.isDigitsOnly(telefono1) && !android.text.TextUtils.isDigitsOnly(telefono2)
+        if(telefono1.equals("") && telefono2.equals("")){
             vh.btTelefono.setEnabled(false);
         }else{
             vh.btTelefono.setEnabled(true);
@@ -91,6 +115,17 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
                 Toast.makeText(contexto, contexto.getString(R.string.no_app_disponible), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void clickFavorito(){
+        String url;
+        if(datos.get(posicion_favorito).isFavorito()) {
+            url = Constantes.UNSET_FAVORITO + datos.get(posicion_favorito).getId();
+        }else{
+            url = Constantes.SET_FAVORITO + datos.get(posicion_favorito).getId();
+        }
+        AsyncTaskGet h = new AsyncTaskGet(contexto, this, url, false, CODIGO_SET_FAVORITO);
+        h.execute(new Hashtable<String, String>());
     }
 
     private void clickTelefono(int position){
@@ -129,9 +164,22 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> {
         builder.show();
     }
 
+    @Override
+    public void resultadoGet(String respuesta, int codigo_peticion) {
+        if(respuesta != null) {
+            switch (codigo_peticion) {
+                case CODIGO_SET_FAVORITO:
+                    datos.get(posicion_favorito).setFavorito(!datos.get(posicion_favorito).isFavorito());
+                    this.notifyDataSetChanged();
+                    break;
+            }
+        }
+    }
+
     private static class ViewHolder {
         private TextView nombreComercial;
         private Button btTelefono;
         private Button btEmail;
+        private Button btFavorito;
     }
 }

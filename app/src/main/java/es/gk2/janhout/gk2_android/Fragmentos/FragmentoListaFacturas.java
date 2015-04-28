@@ -117,7 +117,7 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         Hashtable<String, String> parametros = null;
         String url = Constantes.PDF_URL +String.valueOf(listaFacturas.get(position).getIdImpresion());
         AsyncTaskGet a = new AsyncTaskGet(contexto, this, url, true, CODIGO_PEDIR_PDF);
-        ((MostrarCliente)contexto).mostrarDialogo();
+        MostrarCliente.mostrarDialogo(contexto);
         a.execute(parametros);
     }
 
