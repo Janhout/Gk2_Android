@@ -3,6 +3,7 @@ package es.gk2.janhout.gk2_android.Actividades;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -18,7 +19,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
 
     private String tituloActividad;
     private int idCliente;
-    private SearchView mSearchView;
+    private SearchView searchView;
     private static Dialog dialogo;
     private static boolean mostrarDialogo;
     private static boolean inicio;
@@ -68,8 +69,8 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_mostrar_cliente, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setOnQueryTextListener(this);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -77,7 +78,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_search) {
-            mSearchView.setIconified(false);
+            searchView.setIconified(false);
             return true;
         } else if (id == android.R.id.home) {
             if(fragmentoActual == ListaFragmentosCliente.clienteActual) {
@@ -100,6 +101,12 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
             escuchadorMenu.itemMenuPulsado(R.id.action_facturas);
             invalidateOptionsMenu();
             return true;
+        } else if(id == R.id.action_nueva_factura){
+            //TODO: navagacion... ver a donde volvemos despues de añadir facturas(cancelar o aceptar)
+            Intent i = new Intent(this, NuevaFactura.class);
+            startActivity(i);
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -108,8 +115,10 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     public boolean onPrepareOptionsMenu(Menu menu) {
         if(fragmentoActual == ListaFragmentosCliente.facturas) {
             menu.findItem(R.id.action_search).setVisible(true);
+            menu.findItem(R.id.action_nueva_factura).setVisible(true);
         } else {
             menu.findItem(R.id.action_search).setVisible(false);
+            menu.findItem(R.id.action_nueva_factura).setVisible(false);
         }
         if(fragmentoActual == ListaFragmentosCliente.clienteActual){
             menu.findItem(R.id.action_llamar).setVisible(true);

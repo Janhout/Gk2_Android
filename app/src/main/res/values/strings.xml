@@ -1,59 +1,59 @@
 <resources>
     <string name="app_name">Gk2_Android</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_nuevo_cliente">Nuevo cliente</string>
-    <string name="accion_buscar">Buscar</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_principal">Inicio</string>
+    <string name="title_activity_nuevo_gasto">Nuevo gasto</string>
+    <string name="title_activity_nuevo_cliente">Nuevo cliente</string>
+    <string name="title_activity_nueva_factura">Nueva Factura</string>
+    <string name="title_activity_nuevo_producto">Nuevo Producto</string>
+    <string name="title_activity_lista_clientes">Lista Clientes</string>
+    <string name="title_activity_lector_pdf">Lector PDF</string>
+    <string name="title_activity_mostrar_cliente">Mostrar Cliente</string>
+    <string name="title_activity_recordar_pass">Recuperar Contraseña</string>
+
+    <string name="action_nuevo_cliente">Nuevo cliente</string>
+    <string name="action_buscar">Buscar</string>
+    <string name="action_nueva_factura">Crear nueva factura</string>
+    <string name="action_llamar_telefono">Llamar por teléfono</string>
+    <string name="action_enviar_correo">Enviar email</string>
+    <string name="action_ver_facturas">Ver facturas</string>
+    <string name="action_guardar_factura">Guardar factura</string>
+
+    <string name="action_settings">Esto hay que borrarlo</string>
 
 
-    <string name="title_activity_lista_clientes">ListaClientes</string>
+    <string name="action_compartir">Compartir</string>
+    <string name="action_guardar">Guardar</string>
+    <string name="action_enviar_factura_cliente">Enviar factura al cliente</string>
+
 
     <string name="login">Entrar!</string>
     <string name="usuario">Usuario o Email</string>
     <string name="pass">Contraseña</string>
     <string name="recuperar_pass">Recuperar contraseña</string>
-    <string name="title_activity_recordar_pass">Recuperar Contraseña</string>
 
     <string name="email">Email</string>
     <string name="recuperar">Enviar!</string>
     <string name="volver_login">Volver al login</string>
-
-
-    <string name="bienvenido">Bienvenido</string>
 
     <string name="preferencias_compartidas">es.gk2.janhout.gk2_android.preferencias_compartidas</string>
     <string name="token_session">token</string>
 
     <string name="close_drawer">Drawer cerrado</string>
     <string name="open_drawer">Drawer abierto</string>
-
     <string name="titulo_navigation_drawer">Selecciona una opción</string>
-    <string name="title_activity_nuevo_gasto">Nuevo gasto</string>
 
     <string name="error_login">Usuario o contraseña incorrectos</string>
 
     <string name="fuente_awesome">fontawesome.ttf</string>
-    <string name="title_activity_lector_pdf">LectorPDF</string>
-
-    <string name="compartir">Compartir</string>
-    <string name="guardar">Guardar</string>
-    <string name="enviar_factura_cliente">Enviar factura al cliente</string>
 
     <string name="moneda">€</string>
 
-    <string name="descargando">Descargando PDF…</string>
     <string name="no_app_disponible">No hay APP disponible para realizar esa acción</string>
     <string name="enviar_email">Selecciona APP para enviar email</string>
-    <string name="title_activity_mostrar_cliente">MostrarCliente</string>
-
-    <string name="cargando_datos">Cargando…</string>
 
     <string name="selecciona_telefono">Selecciona un teléfono</string>
-    <string name="title_activity_nuevo_cliente">Nuevo cliente</string>
-
-    <string name="hello_world">Hello world!</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

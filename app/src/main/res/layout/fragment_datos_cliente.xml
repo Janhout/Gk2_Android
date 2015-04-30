@@ -35,12 +35,8 @@
                 android:textColor="@color/icono_favoritos"/>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/azul_logo" />
+        <include
+            layout="@layout/linea_separadora_titulo"/>
 
         <TableLayout
             android:layout_width="match_parent"
@@ -161,5 +157,4 @@
             </TableRow>
         </TableLayout>
     </LinearLayout>
-
 </FrameLayout>

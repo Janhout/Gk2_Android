@@ -5,17 +5,17 @@
 
     <item android:id="@+id/action_enviar_cliente"
         android:icon="@drawable/ic_action_enviar"
-        android:title="@string/enviar_factura_cliente"
+        android:title="@string/action_enviar_factura_cliente"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_compartir"
-        android:title="@string/compartir"
+        android:title="@string/action_compartir"
         android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"/>
 
     <item android:id="@+id/action_guardar"
-        android:title="@string/guardar"
+        android:title="@string/action_guardar"
         android:icon="@drawable/ic_action_save"
         app:showAsAction="always"/>
 </menu>

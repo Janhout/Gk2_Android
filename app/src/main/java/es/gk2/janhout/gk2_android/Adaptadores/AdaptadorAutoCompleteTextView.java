@@ -14,23 +14,21 @@ import es.gk2.janhout.gk2_android.Util.Provincia;
 
 public class AdaptadorAutoCompleteTextView extends ArrayAdapter{
 
-    private Context context;
     private int recurso;
     private ArrayList<Provincia> listaOriginal;
     private Filtro filter;
 
 
-    private ArrayList<Provincia> suggestions;
+    private ArrayList<Provincia> sugerencias;
     private static LayoutInflater inflador;
 
 
     public AdaptadorAutoCompleteTextView(Context context, int resource, ArrayList<Provincia> objects) {
         super(context, resource, objects);
-        filter = new Filtro();
-        this.context = context;
+        this.filter = new Filtro();
         this.recurso = resource;
         this.listaOriginal = new ArrayList<>(objects);
-        this.suggestions = new ArrayList<>();
+        this.sugerencias = new ArrayList<>();
         inflador = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -46,7 +44,7 @@ public class AdaptadorAutoCompleteTextView extends ArrayAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Provincia provincia = suggestions.get(position);
+        Provincia provincia = sugerencias.get(position);
         if (provincia != null) {
             if (holder.title != null) {
                 holder.title.setText(provincia.getTituloProvincia());
@@ -82,15 +80,15 @@ public class AdaptadorAutoCompleteTextView extends ArrayAdapter{
         protected FilterResults performFiltering(CharSequence constraint) {
             ArrayList<Provincia> lista = new ArrayList<>(listaOriginal);
             if (constraint != null) {
-                suggestions = new ArrayList<>();
+                sugerencias = new ArrayList<>();
                 for (Provincia provincia : lista) {
-                    if (provincia.getTituloProvincia().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        suggestions.add(provincia);
+                    if (provincia.getTituloProvincia().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                        sugerencias.add(provincia);
                     }
                 }
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = suggestions;
-                filterResults.count = suggestions.size();
+                filterResults.values = sugerencias;
+                filterResults.count = sugerencias.size();
                 return filterResults;
             } else {
                 return new FilterResults();
@@ -99,10 +97,10 @@ public class AdaptadorAutoCompleteTextView extends ArrayAdapter{
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<Provincia> filteredList = (ArrayList<Provincia>) results.values;
+            ArrayList<Provincia> listaFinal = (ArrayList<Provincia>) results.values;
             if (results != null && results.count > 0) {
                 clear();
-                for (Provincia p : filteredList) {
+                for (Provincia p : listaFinal) {
                     add(p);
                 }
                 notifyDataSetChanged();

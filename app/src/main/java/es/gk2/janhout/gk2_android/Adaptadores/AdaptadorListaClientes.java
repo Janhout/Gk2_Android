@@ -173,6 +173,8 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Asy
                     this.notifyDataSetChanged();
                     break;
             }
+        } else {
+            Metodos.redireccionarLogin(contexto);
         }
     }
 

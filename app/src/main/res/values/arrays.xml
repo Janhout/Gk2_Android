@@ -29,6 +29,14 @@
         <item>@string/icono_cerrar_sesion</item>
     </string-array>
 
+    <string-array name="lista_condiciones_pago_factura">
+        <item>Definir manualmente</item>
+        <item>8 días</item>
+        <item>14 días</item>
+        <item>30 días</item>
+        <item>Caja</item>
+    </string-array>
+
     <string-array name="nuevoGasto_concepto">
         <item>Gasolina</item>
         <item>Comida</item>

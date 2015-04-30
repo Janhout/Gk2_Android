@@ -313,19 +313,3 @@ public class Principal extends ActionBarActivityBusqueda {
         }
     }
 }
-
-
-
-
-/*
-    Navegación
-    Nuevo gasto?                                        NO SE SABE QUE HACER
-    Acceso a nuevo gasto                                NO SE SABE QUE HACER
-    TimerOut consultas
-    Base de datos????                                   NO SE SABE QUE HACER
-    ActionBar, estilos titulos e iconos                 OK?
-    menus - eliminar los innecesarios                   CUANDO SE TENGA TODO LO QUE VAMOS A HACER
-    Compras                                             NO SE SABE QUE HACER
-    buscar a la toolbar                                 OK - afinar resultados
-    dialogo progreso, casca la aplicaccion al perder referencia.
- */

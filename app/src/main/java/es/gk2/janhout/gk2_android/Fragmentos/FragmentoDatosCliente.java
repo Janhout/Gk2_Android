@@ -181,6 +181,8 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
                     }
                     break;
             }
+        } else {
+            Metodos.redireccionarLogin(getActivity());
         }
     }
 

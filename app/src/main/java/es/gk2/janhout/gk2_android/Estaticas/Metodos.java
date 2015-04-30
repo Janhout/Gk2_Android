@@ -54,9 +54,11 @@ public class Metodos {
     }
 
     public static void redireccionarLogin(Context contexto){
+        borrarPreferenciasCompartidas(contexto);
         Intent i = new Intent(contexto, Login.class);
         Toast.makeText(contexto, "redireccionarLogin", Toast.LENGTH_SHORT).show();
         contexto.startActivity(i);
+        ((Activity)contexto).finish();
     }
 
     public static void asignarFuente(Context contexto, int id, String fuente, int codigoComponente, String texto) {

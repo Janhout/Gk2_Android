@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nueva_factura_cliente">Cliente</string>
+    <string name="hint_pulsar_seleccionar_cliente">Introducir el cliente</string>
+    <string name="hint_busqueda_cliente">Nombre del cliente a buscar</string>
+    <string name="hint_fecha_factura">Fecha de factura</string>
+    <string name="hint_fecha_vencimiento">Condiciones de pago</string>
+    <string name="hint_fecha_condiciones_pago">Fecha de vencimiento</string>
+    <string name="nueva_factura_informacion_factura">Información de la factura</string>
+    <string name="nueva_factura_lineas_factura">Líneas de facturas</string>
+    <string name="nueva_factura_opciones">Totales</string>
+    <string name="nueva_factura_totales">Más opciones</string>
+    <string name="nueva_factura_nueva_linea">Nueva Línea</string>
+</resources>
