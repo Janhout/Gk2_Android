@@ -64,13 +64,13 @@ public class AdaptadorSpinner extends ArrayAdapter {
         //para identificar qué tipo de objeto devuelve.
         if(lista.get(position).getClass().getName().contains("Provincia")) {
             holder.etiquetaSpinner.setText(((Provincia) lista.get(position)).getTituloProvincia());
-            holder.etiquetaSpinner.setTag(((Provincia) lista.get(position)).getIdProvincia());
+            //holder.etiquetaSpinner.setTag(((Provincia) lista.get(position)).getIdProvincia());
         }
         else if(lista.get(position).getClass().getName().contains("Localidad"))
             holder.etiquetaSpinner.setText(((Localidad) lista.get(position)).getTituloLocalidad());
         else if(lista.get(position).getClass().getName().contains("TipoDireccion"))
             holder.etiquetaSpinner.setText(((TipoDireccion) lista.get(position)).getTituloTipoDireccion());
-        holder.etiquetaSpinner.setVisibility(View.VISIBLE);
+        //holder.etiquetaSpinner.setVisibility(View.VISIBLE);
 
         return convertView;
     }

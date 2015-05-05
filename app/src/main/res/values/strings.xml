@@ -53,9 +53,11 @@
     <string name="selecciona_telefono">Selecciona un teléfono</string>
     <string name="title_activity_nuevo_cliente">Nuevo cliente</string>
 
+    <!-- ERRORES -->
+    <string name="e_sesion_expirada">Su sesión ha expirado</string>
+    <string name="title_activity_nuevo_presupuesto">Nuevo presupuesto</string>
+
     <string name="hello_world">Hello world!</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

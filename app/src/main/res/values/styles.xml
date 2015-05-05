@@ -14,12 +14,46 @@
     </style>
 
     <!-- ESTILOS ELEMENTOS COMUNES -->
+    <style name="spinner_style">
+        <item name="android:background">@drawable/spinner_bg</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="spinnerPersonalizado" parent="Widget.AppCompat.Spinner.DropDown">
+        <item name="android:layout_marginBottom">@dimen/m_nuevoCliente_editText2</item>
+        <item name="android:layout_marginLeft">@dimen/m_nuevoCliente_editText2</item>
+        <item name="android:layout_marginRight">@dimen/m_nuevoCliente_editText2</item>
+        <item name="android:layout_marginTop">@dimen/m_nuevoCliente_editText2</item>
+        <item name="android:background">@dimen/m_nuevoCliente_editText2</item>
+    </style>
+
+    <style name="textViewPersonalizado">
+        <item name="android:layout_marginLeft">@dimen/margin_lateral_login</item>
+        <item name="android:layout_weight">0.1</item>
+    </style>
+
+    <style name="editTextLogin">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/m_nuevoCliente_editText</item>
+        <item name="android:layout_marginLeft">@dimen/m_nuevoCliente_editText</item>
+        <item name="android:layout_marginRight">@dimen/m_nuevoCliente_editText</item>
+        <item name="android:background">@drawable/estilos_edittext_personalizado</item>
+        <item name="android:padding">@dimen/campos_texto</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <style name="editTextPersonalizado">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">@dimen/margin_bottom_login_campos_texto</item>
-        <item name="android:layout_marginLeft">@dimen/margin_lateral_login</item>
-        <item name="android:layout_marginRight">@dimen/margin_lateral_login</item>
+        <item name="android:layout_marginBottom">@dimen/m_nuevoCliente_editText2</item>
+        <item name="android:layout_marginLeft">@dimen/m_nuevoCliente_editText2</item>
+        <item name="android:layout_marginRight">@dimen/m_nuevoCliente_editText2</item>
         <item name="android:background">@drawable/estilos_edittext_personalizado</item>
         <item name="android:padding">@dimen/campos_texto</item>
         <item name="android:singleLine">true</item>
