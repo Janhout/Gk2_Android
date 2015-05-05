@@ -1,6 +1,8 @@
 package es.gk2.janhout.gk2_android.Actividades;
 
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,8 @@ public class Principal extends ActionBarActivityBusqueda {
     private String[] titulos;
     private boolean inicio;
     private SearchView mSearchView;
+    private static Dialog dialogo;
+    private static boolean mostrarDialogo;
 
     private ActionBarDrawerToggle drawerToggle;
     private String tituloActividad;
@@ -153,15 +156,26 @@ public class Principal extends ActionBarActivityBusqueda {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        mostrarDialogo = savedInstanceState.getBoolean("mostrarDialogo");
         tituloActividad = savedInstanceState.getString("tituloActividad");
         getSupportActionBar().setTitle(tituloActividad);
+        if(mostrarDialogo){
+            mostrarDialogo(this);
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putBoolean("mostrarDialogo", mostrarDialogo);
         outState.putString("tituloActividad", tituloActividad);
         outState.putBoolean("fav", inicio);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        cerrarDialogo();
     }
 
     /* *************************************************************************
@@ -177,6 +191,13 @@ public class Principal extends ActionBarActivityBusqueda {
             f = null;
         } else if (fragmentoActual == ListaFragmentosPrincipal.gastos) {
             f = null;
+        } else if (fragmentoActual == ListaFragmentosPrincipal.facturas) {
+            f = new FragmentoListaFacturas();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("todo", true);
+            bundle.putString("query", textoBusqueda);
+            f.setArguments(bundle);
+            fragmentoActual = ListaFragmentosPrincipal.facturas;
         }
         if (f != null) {
             getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
@@ -190,6 +211,13 @@ public class Principal extends ActionBarActivityBusqueda {
             drawerList.setItemChecked(1, true);
             setTituloActividad(tituloActividad + " - " + titulos[1]);
         }
+    }
+
+    public void cerrarDialogo(){
+        if(dialogo != null) {
+            dialogo.dismiss();
+        }
+        mostrarDialogo = false;
     }
 
     private Fragment fragmentoClientes(boolean favorito, String query){
@@ -244,6 +272,13 @@ public class Principal extends ActionBarActivityBusqueda {
         }
     }
 
+    public void mostrarDialogo(Context contexto){
+        dialogo = new Dialog(contexto, android.R.style.Theme_Panel);
+        dialogo.setCancelable(false);
+        mostrarDialogo = true;
+        dialogo.show();
+    }
+
     public void setTituloActividad(String tituloActividad){
         this.tituloActividad = tituloActividad;
         getSupportActionBar().setTitle(this.tituloActividad);
@@ -253,7 +288,6 @@ public class Principal extends ActionBarActivityBusqueda {
      ******************** Métodos items menú ***********************************
      *************************************************************************** */
     private void nuevoCliente() {
-        Log.v("mio", "metodo nuevo cliente");
         startActivity(new Intent(this, NuevoCliente.class));
     }
 
@@ -289,6 +323,7 @@ public class Principal extends ActionBarActivityBusqueda {
                 fragment = new FragmentoListaFacturas();
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("todo", true);
+                bundle.putString("query", "");
                 fragment.setArguments(bundle);
                 fragmentoActual = ListaFragmentosPrincipal.facturas;
                 break;
@@ -301,6 +336,7 @@ public class Principal extends ActionBarActivityBusqueda {
                 Intent i = new Intent(this, Login.class);
                 startActivity(i);
                 this.finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.slide_in_left);
                 break;
         }
 
@@ -313,19 +349,3 @@ public class Principal extends ActionBarActivityBusqueda {
         }
     }
 }
-
-
-
-
-/*
-    Navegación
-    Nuevo gasto?                                        NO SE SABE QUE HACER
-    Acceso a nuevo gasto                                NO SE SABE QUE HACER
-    TimerOut consultas
-    Base de datos????                                   NO SE SABE QUE HACER
-    ActionBar, estilos titulos e iconos                 OK?
-    menus - eliminar los innecesarios                   CUANDO SE TENGA TODO LO QUE VAMOS A HACER
-    Compras                                             NO SE SABE QUE HACER
-    buscar a la toolbar                                 OK - afinar resultados
-    dialogo progreso, casca la aplicaccion al perder referencia.
- */

@@ -2,6 +2,7 @@ package es.gk2.janhout.gk2_android.Estaticas;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -9,7 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import es.gk2.janhout.gk2_android.Actividades.Login;
+import es.gk2.janhout.gk2_android.Actividades.Principal;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.FontCache;
 
@@ -47,6 +51,14 @@ public class Metodos {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.clear();
         editor.commit();
+    }
+
+    public static void redireccionarLogin(Context contexto){
+        borrarPreferenciasCompartidas(contexto);
+        Intent i = new Intent(contexto, Login.class);
+        Toast.makeText(contexto, "redireccionarLogin", Toast.LENGTH_SHORT).show();
+        contexto.startActivity(i);
+        ((Activity)contexto).finish();
     }
 
     public static void asignarFuente(Context contexto, int id, String fuente, int codigoComponente, String texto) {

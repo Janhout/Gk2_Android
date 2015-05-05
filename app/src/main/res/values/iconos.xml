@@ -2,7 +2,6 @@
 <resources>
     <string name="icono_clientes">&#xf0c0;</string>
     <string name="icono_facturas">&#xf15c;</string>
-    <string name="icono_ver">&#xf06e;</string>
     <string name="icono_enviado">&#xf1d8;</string>
     <string name="icono_impreso">&#xf02f;</string>
     <string name="icono_email">&#xf0e0;</string>
@@ -11,4 +10,5 @@
     <string name="icono_camara">&#xf030;</string>
     <string name="icono_cerrar_sesion">&#xf08b;</string>
     <string name="icono_clientes_favoritos">&#xf005;</string>
+    <string name="icono_clientes_no_favoritos">&#xf006;</string>
 </resources>

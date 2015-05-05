@@ -12,5 +12,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:indeterminate="true" />
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/estilos_progress_bar"
+        android:background="@drawable/fondo_progress_bar"/>
 </LinearLayout>

@@ -19,7 +19,7 @@
     <dimen name="margin_button_clientes">6dp</dimen>
 
     <!-- PADDINGS -->
-    <dimen name="padding_lista">12dp</dimen>
+    <dimen name="padding_lista">8dp</dimen>
 
     <!-- DIVIDERS -->
     <dimen name="standard_divider_size">2dp</dimen>

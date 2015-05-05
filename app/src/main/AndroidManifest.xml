@@ -41,11 +41,19 @@
         </activity>
         <activity
             android:name=".Actividades.MostrarCliente"
-            android:label="@string/title_activity_mostrar_cliente" >
+            android:label="@string/title_activity_mostrar_cliente">
         </activity>
         <activity
             android:name=".Actividades.NuevoCliente"
             android:label="@string/title_activity_nuevo_cliente" >
+        </activity>
+        <activity
+            android:name=".Actividades.NuevaFactura"
+            android:label="@string/title_activity_nueva_factura" >
+        </activity>
+        <activity
+            android:name=".Actividades.NuevoProducto"
+            android:label="@string/title_activity_nuevo_producto" >
         </activity>
     </application>
 

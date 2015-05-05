@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaCompras;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Compra;
 
@@ -86,6 +87,8 @@ public class FragmentoListaCompras extends Fragment implements AsyncTaskGet.OnPr
                 Log.e("error carga facturas", e.toString());
                 listaCompras = null;
             }
+        } else {
+            Metodos.redireccionarLogin(contexto);
         }
     }
 

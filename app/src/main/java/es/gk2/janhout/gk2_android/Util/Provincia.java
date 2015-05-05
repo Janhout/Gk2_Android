@@ -7,6 +7,11 @@ public class Provincia {
     private String idProvincia;
     private String tituloProvincia;
 
+    public Provincia(String idProvincia, String tituloProvincia) {
+        this.idProvincia = idProvincia;
+        this.tituloProvincia = tituloProvincia;
+    }
+
     public Provincia(JSONObject datos) {
         try {
             this.idProvincia = datos.getString("PROVINCIA");

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,9 +21,12 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.LectorPDF;
+import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
+import es.gk2.janhout.gk2_android.Actividades.Principal;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Factura;
@@ -35,6 +39,10 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
     private int page;
     private int idCliente;
     private boolean todas;
+    private String query;
+
+    private TextView textoVacio;
+    private ListView lv;
 
     private static final int ITEMS_BAJO_LISTA = 5;
 
@@ -66,25 +74,29 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         } else {
             todas = getArguments().getBoolean("todo");
         }
+        query = getArguments().getString("query");
         idCliente = getArguments().getInt("idCliente");
         cargarLista();
         if (listaFacturas != null) {
-            ListView lv = (ListView) getActivity().findViewById(R.id.lvLista);
-            ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);
-            lv.setAdapter(ad);
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    verFactura(position);
-                }
-            });
-            lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
-                @Override
-                public void cargaMas(int page, int totalItemsCount) {
-                    FragmentoListaFacturas.this.page = page;
-                    cargarLista();
-                }
-            });
+            if (getView() != null) {
+                lv = (ListView) getView().findViewById(R.id.lvLista);
+                textoVacio = (TextView) getView().findViewById(R.id.empty);
+                ad = new AdaptadorListaFacturas(getActivity(), R.layout.detalle_lista_factura, listaFacturas);
+                lv.setAdapter(ad);
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        verFactura(position);
+                    }
+                });
+                lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
+                    @Override
+                    public void cargaMas(int page, int totalItemsCount) {
+                        FragmentoListaFacturas.this.page = page;
+                        cargarLista();
+                    }
+                });
+            }
         }
     }
 
@@ -98,21 +110,29 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         AsyncTaskGet asyncTask;
         String url;
         Hashtable<String, String> parametros = new Hashtable<>();
+        url = Constantes.FACTURAS;
         if (todas){
-            url = Constantes.FACTURAS + "?q=&page=" + page + "&orderBy=&orderDir=&formato=json";
+            parametros.put("q", query);
         } else {
-            url = Constantes.FACTURAS + "?q=cliente:" + idCliente +
-                    "&page=" + page + "&orderBy=&orderDir=&formato=json";
+            parametros.put("q", "cliente:" + idCliente + "+" + query);
         }
+        parametros.put("page", page+"");
+        parametros.put("orderBy", "");
+        parametros.put("orderDir", "");
+        parametros.put("formato", "json");
         asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_FACTURAS);
         asyncTask.execute(parametros);
     }
 
     private void verFactura(int position){
-        Hashtable<String, String> parametros = null;
         String url = Constantes.PDF_URL +String.valueOf(listaFacturas.get(position).getIdImpresion());
         AsyncTaskGet a = new AsyncTaskGet(contexto, this, url, true, CODIGO_PEDIR_PDF);
-        a.execute(parametros);
+        if(contexto.getClass().getName().contains(MostrarCliente.class.getSimpleName())) {
+            ((MostrarCliente) contexto).mostrarDialogo(contexto);
+        } else if(contexto.getClass().getName().contains(Principal.class.getSimpleName())){
+            ((Principal) contexto).mostrarDialogo(contexto);
+        }
+        a.execute(new Hashtable<String, String>());
     }
 
     private void cargarFacturas(String respuesta){
@@ -141,15 +161,24 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
 
     @Override
     public void resultadoGet(String respuesta, int codigo){
+        textoVacio.setText("lista vacia");
+        lv.setEmptyView(textoVacio);
         if(respuesta != null) {
             switch (codigo) {
                 case CODIGO_CONSULTA_FACTURAS:
                     cargarFacturas(respuesta);
                     break;
                 case CODIGO_PEDIR_PDF:
+                    if(contexto.getClass().getName().contains(MostrarCliente.class.getSimpleName())) {
+                        ((MostrarCliente) contexto).cerrarDialogo();
+                    } else if(contexto.getClass().getName().contains(Principal.class.getSimpleName())){
+                        ((Principal) contexto).cerrarDialogo();
+                    }
                     intentFactura(respuesta);
                     break;
             }
+        } else {
+            Metodos.redireccionarLogin(contexto);
         }
     }
 }

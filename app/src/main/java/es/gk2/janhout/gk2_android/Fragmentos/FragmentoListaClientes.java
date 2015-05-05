@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +23,7 @@ import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Cliente;
@@ -31,7 +33,9 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
     private AdaptadorListaClientes ad;
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
-    private AsyncTaskGet asyncTask;
+
+    private ListView lv;
+    private TextView textoVacio;
 
     private boolean favoritos;
     private String query;
@@ -69,26 +73,29 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
         query = getArguments().getString("query");
         cargarLista();
         if(listaClientes != null) {
-            ListView lv = (ListView) getActivity().findViewById(R.id.lvLista);
-            ad = new AdaptadorListaClientes(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
-            lv.setAdapter(ad);
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent i = new Intent(contexto, MostrarCliente.class);
-                    Bundle b = new Bundle();
-                    b.putInt("cliente", listaClientes.get(position).getId());
-                    i.putExtras(b);
-                    contexto.startActivity(i);
-                }
-            });
-            lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA){
-                @Override
-                public void cargaMas(int page, int totalItemsCount) {
-                    FragmentoListaClientes.this.page = page;
-                    cargarLista();
-                }
-            });
+            if (getView() != null) {
+                lv = (ListView) getView().findViewById(R.id.lvLista);
+                textoVacio = (TextView) getView().findViewById(R.id.empty);
+                ad = new AdaptadorListaClientes(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
+                lv.setAdapter(ad);
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent i = new Intent(contexto, MostrarCliente.class);
+                        Bundle b = new Bundle();
+                        b.putInt("cliente", listaClientes.get(position).getId());
+                        i.putExtras(b);
+                        contexto.startActivity(i);
+                    }
+                });
+                lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
+                    @Override
+                    public void cargaMas(int page, int totalItemsCount) {
+                        FragmentoListaClientes.this.page = page;
+                        cargarLista();
+                    }
+                });
+            }
         }
     }
 
@@ -101,19 +108,24 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
     private void cargarLista(){
         String url;
         if (favoritos){
-            url = Constantes.CLIENTES_LISTAR_FAVORITOS + "?q=" + query + "&page=" + page + "&orderBy=&orderDir=&limit=" + LIMITE_CONSULTA;
+            url = Constantes.CLIENTES_LISTAR_FAVORITOS;
         } else {
-            url = Constantes.CLIENTES_LISTAR + "?q=" + query + "&page=" + page + "&limit=" + LIMITE_CONSULTA;
+            url = Constantes.CLIENTES_LISTAR;
         }
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("q", query);
         parametros.put("page", page+"");
-        asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
+        parametros.put("orderBy", "");
+        parametros.put("orderDir", "");
+        parametros.put("limit", LIMITE_CONSULTA+"");
+        AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
         asyncTask.execute(parametros);
     }
 
     @Override
     public void resultadoGet(String respuesta, int codigo) {
+        textoVacio.setText("lista vacia");
+        lv.setEmptyView(textoVacio);
         if(respuesta != null) {
             JSONTokener token = new JSONTokener(respuesta);
             JSONArray array;
@@ -129,6 +141,8 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
             } catch (JSONException e) {
                 listaClientes = null;
             }
+        } else {
+            Metodos.redireccionarLogin(contexto);
         }
     }
 }
