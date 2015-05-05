@@ -32,9 +32,13 @@ public class Peticiones {
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
             conexion.setInstanceFollowRedirects(false);
+            conexion.setReadTimeout(5000);
+            conexion.setConnectTimeout(5000);
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
             conexion.setRequestProperty("Cookie", cookieSesion);
+            //conexion.setRequestProperty("Accept-Encoding", "gzip, deflate");
+            //conexion.setRequestProperty("Accept", "application/json");
 
             conexion.connect();
 
@@ -68,9 +72,13 @@ public class Peticiones {
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
             conexion.setInstanceFollowRedirects(false);
+            conexion.setReadTimeout(5000);
+            conexion.setConnectTimeout(5000);
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
             conexion.setRequestProperty("Cookie", cookieSesion);
+            //conexion.setRequestProperty("Accept-Encoding", "gzip, deflate");
+            //conexion.setRequestProperty("Accept", "application/json");
 
             conexion.connect();
 
@@ -105,6 +113,10 @@ public class Peticiones {
             HttpURLConnection conexion = (HttpURLConnection)u.openConnection();
 
             conexion.setInstanceFollowRedirects(false);
+            conexion.setReadTimeout(5000);
+            conexion.setConnectTimeout(5000);
+            //conexion.setRequestProperty("Accept-Encoding", "gzip, deflate");
+            //conexion.setRequestProperty("Accept", "application/json");
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
 

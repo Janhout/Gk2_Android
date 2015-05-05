@@ -88,17 +88,18 @@
         <include
             layout="@layout/linea_separadora_titulo"/>
 
+        <TextView
+            android:id="@+id/nueva_factura_tv_sin_producto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="no hay productos"/>
         <LinearLayout
             android:id="@+id/nueva_factura_layout_lineas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/nueva_factura_lv_lineas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            </LinearLayout>
 
         <LinearLayout
             android:id="@+id/nueva_factura_layout_nueva_linea"

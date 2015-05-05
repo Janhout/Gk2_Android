@@ -67,6 +67,7 @@ public class Login extends ActionBarActivity implements AsyncTaskPost.OnProcessC
         Intent i = new Intent(this, Principal.class);
         i.putExtra("favorito", true);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
         finish();
     }
 }

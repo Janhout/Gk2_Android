@@ -2,6 +2,7 @@ package es.gk2.janhout.gk2_android.Actividades;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.os.PersistableBundle;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -12,14 +13,18 @@ import android.view.MenuItem;
 import es.gk2.janhout.gk2_android.ActionBarActivityBusqueda;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoNuevaFactura;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoSeleccionarCliente;
+import es.gk2.janhout.gk2_android.Fragmentos.FragmentoSeleccionarProducto;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Cliente;
+import es.gk2.janhout.gk2_android.Util.Producto;
 
-public class NuevaFactura extends ActionBarActivityBusqueda implements FragmentoSeleccionarCliente.OnClienteSelectedListener{
+public class NuevaFactura extends ActionBarActivityBusqueda implements FragmentoSeleccionarCliente.OnClienteSelectedListener,
+        FragmentoSeleccionarProducto.OnProductoSelectedListener{
 
     private FragmentoNuevaFactura fragmentoPrincipal;
     private String tituloActividad;
     private SearchView searchView;
+    private boolean inicio;
 
     private final static String TAG_FRAGMENTO_PRINCIPAL = "fragmento_principal";
 
@@ -27,8 +32,7 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
         ninguno,
         seleccionCliente,
         nuevaFactura,
-        nuevaLinea,
-        nuevoProducto
+        nuevaLinea
     }
 
     public static ListaFragmentosNuevaFactura fragmentoActual;
@@ -37,8 +41,14 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_factura);
+        inicio = true;
+        if(savedInstanceState != null) {
+            inicio = savedInstanceState.getBoolean("ini");
+        }
         inicializarToolbar();
-        mostrarFragmentoNuevaFactura();
+        if(inicio) {
+            mostrarFragmentoNuevaFactura();
+        }
     }
 
     @Override
@@ -62,8 +72,7 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
             return true;
         } else if (id == android.R.id.home) {
             if(fragmentoActual == ListaFragmentosNuevaFactura.seleccionCliente ||
-                    fragmentoActual == ListaFragmentosNuevaFactura.nuevaLinea ||
-                    fragmentoActual == ListaFragmentosNuevaFactura.nuevoProducto){
+                    fragmentoActual == ListaFragmentosNuevaFactura.nuevaLinea){
                 mostrarFragmentoNuevaFactura();
             } else if (fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura){
                 finish();
@@ -90,10 +99,18 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putBoolean("ini", inicio);
+    }
+
+    @Override
     protected void busqueda(String textoBusqueda) {
         Fragment f = null;
         if(fragmentoActual == ListaFragmentosNuevaFactura.seleccionCliente){
             f = fragmentoClientes(textoBusqueda);
+        } else if(fragmentoActual == ListaFragmentosNuevaFactura.nuevaLinea){
+            f = fragmentoProductos(textoBusqueda);
         }
         if (f != null) {
             getFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, f).commit();
@@ -103,6 +120,15 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
     private Fragment fragmentoClientes(String query){
         Fragment fragment = new FragmentoSeleccionarCliente();
         fragmentoActual = ListaFragmentosNuevaFactura.seleccionCliente;
+        Bundle bundle = new Bundle();
+        bundle.putString("query", query);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    private Fragment fragmentoProductos(String query){
+        Fragment fragment = new FragmentoSeleccionarProducto();
+        fragmentoActual = ListaFragmentosNuevaFactura.nuevaLinea;
         Bundle bundle = new Bundle();
         bundle.putString("query", query);
         fragment.setArguments(bundle);
@@ -142,5 +168,11 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
     public void devolverCliente(Cliente cliente) {
         mostrarFragmentoNuevaFactura();
         fragmentoPrincipal.setCliente(cliente);
+    }
+
+    @Override
+    public void devolverProducto(Producto producto) {
+        mostrarFragmentoNuevaFactura();
+        fragmentoPrincipal.setProducto(producto);
     }
 }

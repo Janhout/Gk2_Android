@@ -191,7 +191,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
      *************************************************************************** */
 
     @Override
-    public void itemMenuPulsado(int itemMenu) {
+    public void itemMenuPulsado(int itemMenu, String query) {
         switch (itemMenu) {
             case R.id.action_llamar:
                 llamarTelefono();
@@ -200,7 +200,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
                 enviarEmail();
                 break;
             case R.id.action_facturas:
-                verFacturas();
+                verFacturas(query);
                 break;
         }
     }
@@ -245,12 +245,6 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
      *************************************************************************** */
 
     public void enviarEmail() {
-        String mail;
-        try {
-            mail = cliente.getString("cliente_mail");
-        } catch (JSONException e) {
-            mail = "";
-        }
         if (!s_email.trim().equals("")) {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("message/rfc822");
@@ -292,9 +286,10 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         }
     }
 
-    private void verFacturas() {
+    private void verFacturas(String query) {
         Bundle bundle = new Bundle();
         bundle.putInt("idCliente", idCliente);
+        bundle.putString("query", query);
         MostrarCliente.fragmentoActual = MostrarCliente.ListaFragmentosCliente.facturas;
         Fragment fragmento = new FragmentoListaFacturas();
         fragmento.setArguments(bundle);

@@ -90,15 +90,15 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
             invalidateOptionsMenu();
             return true;
         } else if (id == R.id.action_llamar){
-            escuchadorMenu.itemMenuPulsado(R.id.action_llamar);
+            escuchadorMenu.itemMenuPulsado(R.id.action_llamar, null);
             invalidateOptionsMenu();
             return true;
         } else if (id == R.id.action_email) {
-            escuchadorMenu.itemMenuPulsado(R.id.action_email);
+            escuchadorMenu.itemMenuPulsado(R.id.action_email, null);
             invalidateOptionsMenu();
             return true;
         } else if (id == R.id.action_facturas) {
-            escuchadorMenu.itemMenuPulsado(R.id.action_facturas);
+            escuchadorMenu.itemMenuPulsado(R.id.action_facturas, "");
             invalidateOptionsMenu();
             return true;
         } else if(id == R.id.action_nueva_factura){
@@ -140,6 +140,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         if(mostrarDialogo){
             mostrarDialogo(this);
         }
+        setTituloActividad(savedInstanceState.getString("tituloActividad"));
     }
 
     @Override
@@ -148,6 +149,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         outState.putBoolean("mostrarDialogo", mostrarDialogo);
         outState.putBoolean("ini", inicio);
         outState.putSerializable("actual", fragmentoActual);
+        outState.putString("tituloActividad", tituloActividad);
     }
 
     @Override
@@ -164,6 +166,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         if(inicio) {
             Fragment fragment = new FragmentoDatosCliente();
             fragmentoActual = ListaFragmentosCliente.clienteActual;
+            setTituloActividad(getString(R.string.title_activity_mostrar_cliente));
             Bundle bundle = new Bundle();
             bundle.putInt("idCliente", idCliente);
             fragment.setArguments(bundle);
@@ -192,8 +195,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
 
     @Override
     protected void busqueda(String textoBusqueda) {
-        System.out.println(textoBusqueda);
-        //TODO: hacer la busqueda de facturas
+        escuchadorMenu.itemMenuPulsado(R.id.action_facturas, textoBusqueda);
     }
 
     public void setTituloActividad(String tituloActividad){
@@ -201,7 +203,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         getSupportActionBar().setTitle(this.tituloActividad);
     }
 
-    public static void mostrarDialogo(Context contexto){
+    public void mostrarDialogo(Context contexto){
         dialogo = new Dialog(contexto, android.R.style.Theme_Panel);
         dialogo.setCancelable(false);
         mostrarDialogo = true;
@@ -220,6 +222,6 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
      *************************************************************************** */
 
     public interface ItemMenuPulsado {
-        public void itemMenuPulsado(int itemMenu);
+        public void itemMenuPulsado(int itemMenu, String query);
     }
 }

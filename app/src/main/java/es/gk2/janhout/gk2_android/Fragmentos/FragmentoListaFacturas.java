@@ -22,6 +22,7 @@ import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.LectorPDF;
 import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
+import es.gk2.janhout.gk2_android.Actividades.Principal;
 import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
@@ -38,6 +39,7 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
     private int page;
     private int idCliente;
     private boolean todas;
+    private String query;
 
     private TextView textoVacio;
     private ListView lv;
@@ -72,6 +74,7 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         } else {
             todas = getArguments().getBoolean("todo");
         }
+        query = getArguments().getString("query");
         idCliente = getArguments().getInt("idCliente");
         cargarLista();
         if (listaFacturas != null) {
@@ -109,9 +112,9 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         Hashtable<String, String> parametros = new Hashtable<>();
         url = Constantes.FACTURAS;
         if (todas){
-            parametros.put("q", "");
+            parametros.put("q", query);
         } else {
-            parametros.put("q", "cliente:"+idCliente);
+            parametros.put("q", "cliente:" + idCliente + "+" + query);
         }
         parametros.put("page", page+"");
         parametros.put("orderBy", "");
@@ -124,7 +127,11 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
     private void verFactura(int position){
         String url = Constantes.PDF_URL +String.valueOf(listaFacturas.get(position).getIdImpresion());
         AsyncTaskGet a = new AsyncTaskGet(contexto, this, url, true, CODIGO_PEDIR_PDF);
-        MostrarCliente.mostrarDialogo(contexto);
+        if(contexto.getClass().getName().contains(MostrarCliente.class.getSimpleName())) {
+            ((MostrarCliente) contexto).mostrarDialogo(contexto);
+        } else if(contexto.getClass().getName().contains(Principal.class.getSimpleName())){
+            ((Principal) contexto).mostrarDialogo(contexto);
+        }
         a.execute(new Hashtable<String, String>());
     }
 
@@ -162,7 +169,11 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
                     cargarFacturas(respuesta);
                     break;
                 case CODIGO_PEDIR_PDF:
-                    ((MostrarCliente)contexto).cerrarDialogo();
+                    if(contexto.getClass().getName().contains(MostrarCliente.class.getSimpleName())) {
+                        ((MostrarCliente) contexto).cerrarDialogo();
+                    } else if(contexto.getClass().getName().contains(Principal.class.getSimpleName())){
+                        ((Principal) contexto).cerrarDialogo();
+                    }
                     intentFactura(respuesta);
                     break;
             }
