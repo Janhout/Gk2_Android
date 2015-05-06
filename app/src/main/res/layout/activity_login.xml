@@ -31,7 +31,7 @@
 
             <EditText
                 android:id="@+id/etUsuario"
-                style="@style/editTextPersonalizado"
+                style="@style/editTextLogin"
                 android:hint="@string/usuario"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@+id/etPass"
@@ -39,7 +39,7 @@
 
             <EditText
                 android:id="@+id/etPass"
-                style="@style/editTextPersonalizado"
+                style="@style/editTextLogin"
                 android:background="@drawable/estilos_edittext_personalizado"
                 android:hint="@string/pass"
                 android:inputType="textPassword"

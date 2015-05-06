@@ -7,9 +7,14 @@
     <dimen name="margin_lateral_login">24dp</dimen>
     <dimen name="campos_texto">12dp</dimen>
     <dimen name="margen_entre_componentes">6dp</dimen>
+
         <!-- Actividad mostrar cliente -->
         <dimen name="margen_entre_filas">10dp</dimen>
         <dimen name="margen_final_tabla">32dp</dimen>
+
+        <!-- Actividad nuevo cliente -->
+        <dimen name="m_nuevoCliente_editText">10dp</dimen>
+        <dimen name="m_nuevoCliente_editText2">3dp</dimen>
 
     <dimen name="margin_button_clientes">6dp</dimen>
 
