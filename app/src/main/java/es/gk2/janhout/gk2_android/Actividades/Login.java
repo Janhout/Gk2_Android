@@ -20,6 +20,10 @@ public class Login extends ActionBarActivity implements AsyncTaskPost.OnProcessC
     private static final String PARAMENTRO_PASS = "pass";
     private static final int CODIGO_LOGIN = 1;
 
+    /* *************************************************************************
+    **************************** Métodos on... ********************************
+    *************************************************************************** */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,31 @@ public class Login extends ActionBarActivity implements AsyncTaskPost.OnProcessC
         } else {
             loginCorrecto();
         }
+    }
+
+    /* *************************************************************************
+    **************** Interfaz OnProcessCompleteListener ***********************
+    *************************************************************************** */
+
+    @Override
+    public void resultadoPost(String location, int codigo) {
+        if(location != null && !location.contains("login")) {
+            loginCorrecto();
+        } else{
+            Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /* *************************************************************************
+    **************************** Auxiliares ************************************
+    *************************************************************************** */
+
+    private void hacerLogin(String usuario, String pass){
+        Hashtable<String, String> parametros = new Hashtable<>();
+        parametros.put(PARAMENTRO_USUARIO, usuario);
+        parametros.put(PARAMENTRO_PASS, pass);
+        AsyncTaskPost a = new AsyncTaskPost(this, this, Constantes.URL_LOGIN, CODIGO_LOGIN);
+        a.execute(parametros);
     }
 
     public void login(View v){
@@ -41,33 +70,16 @@ public class Login extends ActionBarActivity implements AsyncTaskPost.OnProcessC
             hacerLogin(usuario, pass);
     }
 
-    public void recuperaPass(View v){
-        Intent i = new Intent(this, RecordarPass.class);
-        startActivity(i);
-    }
-
-    private void hacerLogin(String usuario, String pass){
-        Hashtable<String, String> parametros = new Hashtable<>();
-        parametros.put(PARAMENTRO_USUARIO, usuario);
-        parametros.put(PARAMENTRO_PASS, pass);
-        AsyncTaskPost a = new AsyncTaskPost(this, this, Constantes.URL_LOGIN, CODIGO_LOGIN);
-        a.execute(parametros);
-    }
-
-    @Override
-    public void resultadoPost(String location, int codigo) {
-        if(location != null && !location.contains("login")) {
-            loginCorrecto();
-        } else{
-            Toast.makeText(this, getString(R.string.error_login), Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void loginCorrecto(){
         Intent i = new Intent(this, Principal.class);
         i.putExtra("favorito", true);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
         finish();
+    }
+
+    public void recuperaPass(View v){
+        Intent i = new Intent(this, RecordarPass.class);
+        startActivity(i);
     }
 }

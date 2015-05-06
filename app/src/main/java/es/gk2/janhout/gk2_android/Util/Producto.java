@@ -3,6 +3,7 @@ package es.gk2.janhout.gk2_android.Util;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -67,7 +68,10 @@ public class Producto implements Parcelable, Serializable {
     }
 
     public Producto(JSONObject obj){
-
+        try {
+            this.titulo = obj.getString("TITULO");
+        } catch (JSONException e) {
+        }
     }
 
     public Producto(int id_a, String articulo, String titulo, String p_coste, String familia,

@@ -61,7 +61,6 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
         this.contexto = getActivity();
         query = getArguments().getString("query");
         listener = (NuevaFactura)getActivity();
-        cargarLista();
         if(listaProductos != null) {
             if (getView() != null) {
                 lv = (ListView) getView().findViewById(R.id.lvLista);
@@ -76,12 +75,19 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
                 });
             }
         }
+        if(query.length()>1) {
+            cargarLista();
+        } else {
+            textoVacio.setText("lista vacia");
+            lv.setEmptyView(textoVacio);
+        }
     }
 
     private void cargarLista(){
-        String url = Constantes.CLIENTES_JSON;
+        String url = Constantes.PRODUCTOS_LISTAR;
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("q", query);
+        parametros.put("status", "1");
         AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_PRODUCTOS);
         asyncTask.execute(parametros);
     }

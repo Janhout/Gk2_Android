@@ -54,7 +54,6 @@ public class NuevoGasto extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner nuevoGasto_spinner = (Spinner) findViewById(R.id.nuevoGasto_concepto);
         nuevoGasto_spinner.setAdapter(adapter);
-
         fotoTomada = (ImageView) findViewById(R.id.nuevoGasto_imagen);
     }
 
@@ -71,7 +70,6 @@ public class NuevoGasto extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

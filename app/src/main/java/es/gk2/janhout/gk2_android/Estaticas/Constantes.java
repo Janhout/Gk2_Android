@@ -15,6 +15,7 @@ public class Constantes {
     public final static String CLIENTES = MI_URL + "clientes/";
     public final static String COMPRAS = MI_URL + "compras/facturas/";
     public final static String PDF_URL = FACTURAS + "pdf/";
+    public final static String GUARDAR_FACTURAS = FACTURAS + "saveClose/nuevo/";
 
     public final static String CLIENTES_LISTAR = CLIENTES + "listar/";
     public final static String CLIENTES_JSON = CLIENTES + "json/";
@@ -25,6 +26,13 @@ public class Constantes {
 
     public final static String SET_FAVORITO = CLIENTES + "favorito_set/";
     public final static String UNSET_FAVORITO = CLIENTES + "favorito_unset/";
+
+    public final static String PRODUCTOS = MI_URL + "productos/";
+    public final static String PRODUCTOS_LISTAR = PRODUCTOS + "json/";
+    public final static String PRODUCTOS_DETALLE = PRODUCTOS + "getinfobybarcode/";
+    public final static String PRODUCTOS_OTROS_DETALLES = PRODUCTOS + "precio/";
+
+
 
     //Datos
     public final static String LOCALIDADES = CLIENTES + "get_localidades/ESP/";

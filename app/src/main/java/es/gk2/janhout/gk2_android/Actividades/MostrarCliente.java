@@ -102,7 +102,6 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
             invalidateOptionsMenu();
             return true;
         } else if(id == R.id.action_nueva_factura){
-            //TODO: navagacion... ver a donde volvemos despues de añadir facturas(cancelar o aceptar)
             Intent i = new Intent(this, NuevaFactura.class);
             startActivity(i);
             finish();
@@ -174,8 +173,11 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         }
     }
 
-    public static void setInicio(boolean inicio){
-        MostrarCliente.inicio = inicio;
+    public void cerrarDialogo(){
+        if(dialogo != null) {
+            dialogo.dismiss();
+        }
+        mostrarDialogo = false;
     }
 
     private void inicializarToolbar(){
@@ -189,20 +191,6 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         }
     }
 
-    /* *************************************************************************
-     ******************************* Auxiliares ********************************
-     *************************************************************************** */
-
-    @Override
-    protected void busqueda(String textoBusqueda) {
-        escuchadorMenu.itemMenuPulsado(R.id.action_facturas, textoBusqueda);
-    }
-
-    public void setTituloActividad(String tituloActividad){
-        this.tituloActividad = tituloActividad;
-        getSupportActionBar().setTitle(this.tituloActividad);
-    }
-
     public void mostrarDialogo(Context contexto){
         dialogo = new Dialog(contexto, android.R.style.Theme_Panel);
         dialogo.setCancelable(false);
@@ -210,11 +198,22 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         dialogo.show();
     }
 
-    public void cerrarDialogo(){
-        if(dialogo != null) {
-            dialogo.dismiss();
-        }
-        mostrarDialogo = false;
+    public static void setInicio(boolean inicio){
+        MostrarCliente.inicio = inicio;
+    }
+
+    public void setTituloActividad(String tituloActividad){
+        this.tituloActividad = tituloActividad;
+        getSupportActionBar().setTitle(this.tituloActividad);
+    }
+
+    /* *************************************************************************
+     ************************ Override Busqueda ********************************
+     *************************************************************************** */
+
+    @Override
+    protected void busqueda(String textoBusqueda) {
+        escuchadorMenu.itemMenuPulsado(R.id.action_facturas, textoBusqueda);
     }
 
     /* *************************************************************************

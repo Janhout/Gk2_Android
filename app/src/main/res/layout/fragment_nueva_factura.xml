@@ -8,137 +8,220 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="es.gk2.janhout.gk2_android.Fragmentos.FragmentoNuevaFactura">
 
-    <LinearLayout
-        android:id="@+id/linearLayoutPrincipal"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nueva_factura_cliente"
-            android:textColor="@color/azul_logo"
-            android:textSize="@dimen/title_size" />
-
-        <include
-            layout="@layout/linea_separadora_titulo"/>
-
-        <EditText
-            android:id="@+id/nueva_factura_et_cliente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10sp"
-            android:focusable="false"
-            android:hint="@string/hint_pulsar_seleccionar_cliente"
-            android:background="@drawable/estilos_edittext_personalizado"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nueva_factura_informacion_factura"
-            android:textColor="@color/azul_logo"
-            android:textSize="@dimen/title_size" />
-
-        <include
-            layout="@layout/linea_separadora_titulo"/>
-
-        <EditText
-            android:id="@+id/nueva_factura_et_fecha_factura"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10sp"
-            android:focusable="false"
-            android:hint="@string/hint_fecha_factura"
-            android:background="@drawable/estilos_edittext_personalizado"/>
-
-        <Spinner
-            android:id="@+id/nueva_factura_sp_condiciones_pago"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:hint="@string/hint_fecha_condiciones_pago"
-            android:background="@drawable/estilos_edittext_personalizado"/>
-
-        <EditText
-            android:id="@+id/nueva_factura_et_condiciones_pago"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10sp"
-            android:focusable="false"
-            android:hint="@string/hint_fecha_condiciones_pago"
-            android:background="@drawable/estilos_edittext_personalizado"/>
-
-        <EditText
-            android:id="@+id/nueva_factura_et_fecha_vencimiento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10sp"
-            android:focusable="false"
-            android:hint="@string/hint_fecha_vencimiento"
-            android:background="@drawable/estilos_edittext_personalizado"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nueva_factura_lineas_factura"
-            android:textColor="@color/azul_logo"
-            android:textSize="@dimen/title_size" />
-
-        <include
-            layout="@layout/linea_separadora_titulo"/>
-
-        <TextView
-            android:id="@+id/nueva_factura_tv_sin_producto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="no hay productos"/>
         <LinearLayout
-            android:id="@+id/nueva_factura_layout_lineas"
+            android:id="@+id/linearLayoutPrincipal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/nueva_factura_layout_nueva_linea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical"
-            >
-
-            <Button
-                android:id="@+id/nueva_factura_bt_nueva_linea"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="false"/>
+                android:text="@string/nueva_factura_cliente"
+                android:textColor="@color/azul_logo"
+                android:textSize="@dimen/title_size" />
+
+            <include layout="@layout/linea_separadora_titulo" />
+
+            <EditText
+                android:id="@+id/nueva_factura_et_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/estilos_edittext_personalizado"
+                android:focusable="false"
+                android:hint="@string/hint_pulsar_seleccionar_cliente"
+                android:padding="10sp" />
 
             <TextView
-                android:text="@string/nueva_factura_nueva_linea"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/nueva_factura_informacion_factura"
+                android:textColor="@color/azul_logo"
+                android:textSize="@dimen/title_size" />
+
+            <include layout="@layout/linea_separadora_titulo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint_fecha_factura" />
+
+                <EditText
+                    android:id="@+id/nueva_factura_et_fecha_factura"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/estilos_edittext_personalizado"
+                    android:focusable="false"
+                    android:hint="@string/hint_fecha_factura"
+                    android:padding="10sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint_fecha_condiciones_pago" />
+
+                <Spinner
+                    android:id="@+id/nueva_factura_sp_condiciones_pago"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/estilos_edittext_personalizado"
+                    android:padding="10sp"
+                    android:focusable="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hint_fecha_vencimiento" />
+
+                <EditText
+                    android:id="@+id/nueva_factura_et_fecha_vencimiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/estilos_edittext_personalizado"
+                    android:focusable="false"
+                    android:hint="@string/hint_fecha_vencimiento"
+                    android:padding="10sp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/nueva_factura_et_notas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/estilos_edittext_personalizado"
+                android:hint="@string/hint_notas"
+                android:padding="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nueva_factura_lineas_factura"
+                android:textColor="@color/azul_logo"
+                android:textSize="@dimen/title_size" />
+
+            <include layout="@layout/linea_separadora_titulo" />
+
+            <TextView
+                android:id="@+id/nueva_factura_tv_sin_producto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nueva_factura_sin_productos" />
+
+            <LinearLayout
+                android:id="@+id/nueva_factura_layout_lineas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nueva_factura_layout_nueva_linea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/nueva_factura_bt_nueva_linea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/azul_logo"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nueva_factura_nueva_linea" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nueva_factura_totales"
+                android:textColor="@color/azul_logo"
+                android:textSize="@dimen/title_size" />
+
+            <include layout="@layout/linea_separadora_titulo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/nueva_factura_tv_subtotal_etiqueta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nueva_factura_subtotal"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/nueva_factura_tv_subtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0,0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nueva_factura_total_euros"
+                    android:layout_weight="1
+                    "/>
+
+                <TextView
+                    android:id="@+id/nueva_factura_tv_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0,0" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nueva_factura_opciones"
+                android:textColor="@color/azul_logo"
+                android:textSize="@dimen/title_size" />
+
+            <include layout="@layout/linea_separadora_titulo" />
+
+            <Switch
+                android:id="@+id/nueva_factura_sw_formato_precio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nueva_factura_formato_precio"
+                android:textOff="@string/switch_bruto"
+                android:textOn="@string/switch_neto"/>
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nueva_factura_totales"
-            android:textColor="@color/azul_logo"
-            android:textSize="@dimen/title_size" />
-
-        <include
-            layout="@layout/linea_separadora_titulo"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nueva_factura_opciones"
-            android:textColor="@color/azul_logo"
-            android:textSize="@dimen/title_size" />
-
-        <include
-            layout="@layout/linea_separadora_titulo"/>
-    </LinearLayout>
+    </ScrollView>
 </FrameLayout>

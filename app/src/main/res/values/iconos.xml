@@ -11,4 +11,5 @@
     <string name="icono_cerrar_sesion">&#xf08b;</string>
     <string name="icono_clientes_favoritos">&#xf005;</string>
     <string name="icono_clientes_no_favoritos">&#xf006;</string>
+    <string name="icono_nueva_linea">&#xf055;</string>
 </resources>

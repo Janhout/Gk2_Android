@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="nueva_factura_cliente">Cliente</string>
-    <string name="hint_pulsar_seleccionar_cliente">Introducir el cliente</string>
-    <string name="hint_busqueda_cliente">Nombre del cliente a buscar</string>
+    <string name="nueva_factura_producto">Producto</string>
+
+    <string name="hint_pulsar_seleccionar_cliente">Seleccionar un cliente</string>
+    <string name="hint_pulsar_seleccionar_producto">Seleccionar un producto</string>
+    <string name="hint_nombre_producto">Nombre</string>
+    <string name="hint_cantidad_producto">Cantidad</string>
+    <string name="hint_descripcion_producto">Descripción</string>
+    <string name="hint_iva_producto">IVA</string>
+    <string name="hint_unidad_producto">Unidad</string>
+    <string name="hint_precio_producto">Precio</string>
+
+    <string name="hint_busqueda_cliente">Nombre o DNI del cliente a buscar</string>
+    <string name="hint_busqueda_producto">Producto a buscar</string>
     <string name="hint_fecha_factura">Fecha de factura</string>
-    <string name="hint_fecha_vencimiento">Condiciones de pago</string>
-    <string name="hint_fecha_condiciones_pago">Fecha de vencimiento</string>
+    <string name="hint_fecha_vencimiento">Fecha de vencimiento</string>
+    <string name="hint_fecha_condiciones_pago">Condiciones de pago</string>
+    <string name="hint_notas">Notas</string>
     <string name="nueva_factura_informacion_factura">Información de la factura</string>
+    <string name="nueva_factura_informacion_linea">Información de la línea</string>
     <string name="nueva_factura_lineas_factura">Líneas de facturas</string>
-    <string name="nueva_factura_opciones">Totales</string>
-    <string name="nueva_factura_totales">Más opciones</string>
+    <string name="nueva_factura_opciones">Más opciones</string>
+    <string name="nueva_factura_formato_precio">Formato del precio</string>
+    <string name="nueva_factura_totales">Totales</string>
     <string name="nueva_factura_nueva_linea">Nueva Línea</string>
+    <string name="switch_bruto">Bruto</string>
+    <string name="switch_neto">Neto</string>
+    <string name="nueva_factura_subtotal">Subtotal</string>
+    <string name="nueva_factura_subtotal_sin_iva">Subtotal sin IVA</string>
+    <string name="nueva_factura_total_euros">Total EUROS</string>
+    <string name="nueva_factura_sin_productos">No se han añadido productos</string>
 </resources>

@@ -40,6 +40,10 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
 
     private static final int CODIGO_ENVIAR_MAIL = 1;
 
+    /* *************************************************************************
+     **************************** Métodos on... ********************************
+     *************************************************************************** */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +66,9 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
                 .load();
 
         intentCompartir = new Intent();
-        intentCompartir = new Intent();
         intentCompartir.setAction(Intent.ACTION_SEND);
         intentCompartir.setType("application/pdf");
         intentCompartir.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-    }
-
-    @Override
-    public void onPageChanged(int page, int pageCount) {
-        pageNumber = page;
     }
 
     @Override
@@ -103,11 +101,33 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         return super.onOptionsItemSelected(item);
     }
 
-    private void guardarFichero() {
-        File from = new File(fichero);
-        File to = new File(Environment.getExternalStoragePublicDirectory("").getAbsolutePath() + "/factura.pdf");
-        copy(from, to);
+    /* *************************************************************************
+     ******************* Interfaz OnPageChangedListener ************************
+     *************************************************************************** */
+
+    @Override
+    public void onPageChanged(int page, int pageCount) {
+        pageNumber = page;
     }
+
+    /* *************************************************************************
+     **************** Interfaz OnProcessCompleteListener ***********************
+     *************************************************************************** */
+
+    @Override
+    public void resultadoPost(String respuesta, int codigo_peticion) {
+        if(respuesta != null){
+            Log.v("mio", respuesta);
+            switch (codigo_peticion){
+                case CODIGO_ENVIAR_MAIL:
+                    break;
+            }
+        }
+    }
+
+    /* *************************************************************************
+     ******************************** Auxiliares *******************************
+     *************************************************************************** */
 
     private void copy(File src, File dst) {
         try {
@@ -126,6 +146,12 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         }
     }
 
+    private void guardarFichero() {
+        File from = new File(fichero);
+        File to = new File(Environment.getExternalStoragePublicDirectory("").getAbsolutePath() + "/factura.pdf");
+        copy(from, to);
+    }
+
     private void mandarCorreo(){
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put(PARAMENTRO_MAILTO, "");
@@ -133,13 +159,6 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
         parametros.put(PARAMENTRO_MENSAJE, "");
         AsyncTaskPost post = new AsyncTaskPost(this, this, Constantes.FACTURAS, CODIGO_ENVIAR_MAIL);
         post.execute(parametros);
-    }
-
-    @Override
-    public void resultadoPost(String respuesta, int codigo_peticion) {
-        if(respuesta != null){
-            Log.v("mio", respuesta);
-        }
     }
 }
 /*

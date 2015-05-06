@@ -182,28 +182,6 @@ public class Principal extends ActionBarActivityBusqueda {
      **************************** Auxialiares **********************************
      *************************************************************************** */
 
-    @Override
-    protected void busqueda(String textoBusqueda) {
-        Fragment f = null;
-        if (fragmentoActual == ListaFragmentosPrincipal.clientes) {
-            f = fragmentoClientes(false, textoBusqueda);
-        } else if (fragmentoActual == ListaFragmentosPrincipal.compras) {
-            f = null;
-        } else if (fragmentoActual == ListaFragmentosPrincipal.gastos) {
-            f = null;
-        } else if (fragmentoActual == ListaFragmentosPrincipal.facturas) {
-            f = new FragmentoListaFacturas();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("todo", true);
-            bundle.putString("query", textoBusqueda);
-            f.setArguments(bundle);
-            fragmentoActual = ListaFragmentosPrincipal.facturas;
-        }
-        if (f != null) {
-            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
-        }
-    }
-
     private void cargarFragmentoInicial(){
         if(inicio) {
             Fragment fragment = fragmentoClientes(true, "");
@@ -282,6 +260,32 @@ public class Principal extends ActionBarActivityBusqueda {
     public void setTituloActividad(String tituloActividad){
         this.tituloActividad = tituloActividad;
         getSupportActionBar().setTitle(this.tituloActividad);
+    }
+
+    /* *************************************************************************
+     ************************ Override Busqueda ********************************
+     *************************************************************************** */
+
+    @Override
+    protected void busqueda(String textoBusqueda) {
+        Fragment f = null;
+        if (fragmentoActual == ListaFragmentosPrincipal.clientes) {
+            f = fragmentoClientes(false, textoBusqueda);
+        } else if (fragmentoActual == ListaFragmentosPrincipal.compras) {
+            f = null;
+        } else if (fragmentoActual == ListaFragmentosPrincipal.gastos) {
+            f = null;
+        } else if (fragmentoActual == ListaFragmentosPrincipal.facturas) {
+            f = new FragmentoListaFacturas();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("todo", true);
+            bundle.putString("query", textoBusqueda);
+            f.setArguments(bundle);
+            fragmentoActual = ListaFragmentosPrincipal.facturas;
+        }
+        if (f != null) {
+            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
+        }
     }
 
     /* *************************************************************************

@@ -18,20 +18,24 @@ public class RecordarPass extends ActionBarActivity implements AsyncTaskPost.OnP
 
     private static final int CODIGO_RECUPERAR_PASS = 1;
 
+    /* *************************************************************************
+     **************************** Métodos on... ********************************
+     *************************************************************************** */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordar_pass);
     }
 
+    /* *************************************************************************
+    **************************** Auxiliares ************************************
+    *************************************************************************** */
+
     public void recuperar(View v){
         EditText etUsuario = (EditText)findViewById(R.id.etUsuario);
         String email = etUsuario.getText().toString();
         recuperarPass(email);
-        this.finish();
-    }
-
-    public void volverLogin(View v){
         this.finish();
     }
 
@@ -41,6 +45,14 @@ public class RecordarPass extends ActionBarActivity implements AsyncTaskPost.OnP
         AsyncTaskPost a = new AsyncTaskPost(this, this, Constantes.URL_RECUPERAR_PASS, CODIGO_RECUPERAR_PASS);
         a.execute(parametros);
     }
+
+    public void volverLogin(View v){
+        this.finish();
+    }
+
+    /* *************************************************************************
+    **************** Interfaz OnProcessCompleteListener ***********************
+    *************************************************************************** */
 
     /*Le hemos enviado un correo a rafagr8@gmail.com con las instrucciones para
     recuperar su contraseña, por favor revíselo antes de 24 horas.
