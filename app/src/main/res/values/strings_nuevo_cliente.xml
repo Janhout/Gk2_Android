@@ -4,6 +4,10 @@
     <string name="s_nuevoCliente_nombreComercial">Nombre comercial (obligatorio)</string>
     <string name="s_nuevoCliente_nif">NIF/CIF (obligatorio)</string>
     <string name="s_nuevoCliente_direccion">Dirección (obligatorio)</string>
+    <string name="s_nuevoCliente_numero">Nº</string>
+    <string name="s_nuevoCliente_bloque">Bloque</string>
+    <string name="s_nuevoCliente_piso">Piso</string>
+    <string name="s_nuevoCliente_puerta">Puerta</string>
     <string name="s_nuevoCliente_email">Dirección de email</string>
     <string name="s_nuevoCliente_telefono1">Teléfono 1 (obligatorio)</string>
     <string name="s_nuevoCliente_telefono2">Teléfono 2</string>
@@ -19,6 +23,9 @@
             <string name="e_nuevoCliente_direccion_vacio">La dirección no puede estar vacía</string>
             <string name="e_nuevoCliente_nif_vacio">El NIF no puede estar vacío</string>
             <string name="e_nuevoCliente_telefono1_vacio">El primer teléfono no puede estar vacío</string>
+            <string name="e_nuevoCliente_provincia_vacia">La provincia no puede estar vacía</string>
+            <string name="e_nuevoCliente_localidad_vacia">La localidad no puede estar vacía</string>
+            <string name="e_nuevoCliente_tipoDireccion_vacio">El tipo de dirección no puede estar vacío</string>
             <string name="e_nuevoCliente_error_insertar">Ha ocurrido un error al intentar insertar al cliente</string>
 
         <!-- Campos erróneos -->

@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -19,9 +20,8 @@ import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 
-import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorSpinner;
+import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorAutoCompleteTextView;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
@@ -36,21 +36,25 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
     private EditText inputNombreComercial;
     private EditText inputNIF;
     private EditText inputDireccion;
+    private EditText inputNumero;
+    private EditText inputBloque;
+    private EditText inputPiso;
+    private EditText inputPuerta;
     private EditText inputEmail;
     private EditText inputTelefono1;
     private EditText inputTelefono2;
 
-    private Spinner inputProvincia;
-    private Spinner inputLocalidad;
-    private Spinner inputTipoDireccion;
+    private AutoCompleteTextView inputProvincia;
+    private AutoCompleteTextView inputLocalidad;
+    private AutoCompleteTextView inputTipoDireccion;
 
-    private AdaptadorSpinner adProvincias;
-    private AdaptadorSpinner adLocalidades;
-    private AdaptadorSpinner adTiposDireccion;
+    private AdaptadorAutoCompleteTextView adProvincias;
+    private AdaptadorAutoCompleteTextView adLocalidades;
+    private AdaptadorAutoCompleteTextView adTiposDireccion;
 
-    private List<Provincia> listaProvincias;
-    private List<Localidad> listaLocalidades;
-    private List<TipoDireccion> listaTiposDireccion;
+    private ArrayList<Object> listaProvincias;
+    private ArrayList<Object> listaLocalidades;
+    private ArrayList<Object> listaTiposDireccion;
 
     private static final int CODIGO_COMPROBAR_DNI = 1;
     private static final int CODIGO_NUEVO_CLIENTE = 2;
@@ -58,15 +62,16 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
     private static final int CODIGO_GET_LOCALIDADES = 4;
     private static final int CODIGO_GET_TIPOS_DIRECCION = 5;
 
-    private static String PROVINCIA_SELECCIONADA;
-    private static String LOCALIDAD_SELECCIONADA;
-    private static String CODIGO_POSTAL_SELECCIONADO;
-    private static String TIPO_VIA_SELECCIONADA;
+    private String PROVINCIA_SELECCIONADA;
+    private String LOCALIDAD_SELECCIONADA;
+    private String CODIGO_POSTAL_SELECCIONADO;
+    private String TIPO_VIA_SELECCIONADA;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("mio", "hola");
         setContentView(R.layout.activity_nuevo_cliente);
         inicializarToolbar();
 
@@ -77,12 +82,16 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
         inputNombreComercial = (EditText) findViewById(R.id.nuevoCliente_inputNombreComercial);
         inputNIF = (EditText) findViewById(R.id.nuevoCliente_NIF);
         inputDireccion = (EditText) findViewById(R.id.nuevoCliente_direccion);
+        inputNumero = (EditText) findViewById(R.id.nuevoCliente_numero);
+        inputBloque = (EditText) findViewById(R.id.nuevoCliente_bloque);
+        inputPiso = (EditText) findViewById(R.id.nuevoCliente_piso);
+        inputPuerta = (EditText) findViewById(R.id.nuevoCliente_puerta);
         inputEmail = (EditText) findViewById(R.id.nuevoCliente_email);
         inputTelefono1 = (EditText) findViewById(R.id.nuevoCliente_telefono1);
         inputTelefono2 = (EditText) findViewById(R.id.nuevoCliente_telefono2);
-        inputProvincia = (Spinner) findViewById(R.id.nuevoCliente_provincia);
-        inputLocalidad = (Spinner) findViewById(R.id.nuevoCliente_localidad);
-        inputTipoDireccion = (Spinner) findViewById(R.id.nuevoCliente_tipoDireccion);
+        inputProvincia = (AutoCompleteTextView) findViewById(R.id.nuevoCliente_provincia);
+        inputLocalidad = (AutoCompleteTextView) findViewById(R.id.nuevoCliente_localidad);
+        inputTipoDireccion = (AutoCompleteTextView) findViewById(R.id.nuevoCliente_tipoDireccion);
 
         iniciarSpinners();
 
@@ -122,12 +131,22 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
         } else if (inputNIF.getText().toString().equals("")) {
             inputNIF.requestFocus();
             Toast.makeText(this, R.string.e_nuevoCliente_nif_vacio, Toast.LENGTH_SHORT).show();
+        } else if (inputProvincia.getText().toString().equals("")) {
+            inputProvincia.requestFocus();
+            Toast.makeText(this, R.string.e_nuevoCliente_provincia_vacia, Toast.LENGTH_LONG).show();
+        } else if (inputLocalidad.getText().toString().equals("")) {
+            inputLocalidad.requestFocus();
+            Toast.makeText(this, R.string.e_nuevoCliente_localidad_vacia, Toast.LENGTH_LONG).show();
+        } else if (inputTipoDireccion.getText().toString().equals("")) {
+            inputTipoDireccion.requestFocus();
+            Toast.makeText(this, R.string.e_nuevoCliente_tipoDireccion_vacio, Toast.LENGTH_LONG).show();
         } else if (inputDireccion.getText().toString().equals("")) {
             inputDireccion.requestFocus();
             Toast.makeText(this, R.string.e_nuevoCliente_direccion_vacio, Toast.LENGTH_SHORT).show();
         } else if (inputTelefono1.getText().toString().equals("")) {
             inputTelefono1.requestFocus();
             Toast.makeText(this, R.string.e_nuevoCliente_telefono1_vacio, Toast.LENGTH_SHORT).show();
+
         } else {
             //Segunda comprobación. Mira si existe el DNI del cliente.
             Hashtable<String, String> parametros = new Hashtable<>();
@@ -146,7 +165,7 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
                         Toast.makeText(this, R.string.s_nuevoCliente_insertar_correcto, Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(this, MostrarCliente.class);
                         Bundle b = new Bundle();
-                        b.putInt("cliente", Integer.parseInt(location.substring(location.lastIndexOf("/")+1)));
+                        b.putInt("cliente", Integer.parseInt(location.substring(location.lastIndexOf("/") + 1)));
                         i.putExtras(b);
                         startActivity(i);
                         finish();
@@ -174,20 +193,20 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
                     parametros.put("inputNIF", inputNIF.getText().toString());
                     parametros.put("inputTipoVia", TIPO_VIA_SELECCIONADA);
                     parametros.put("inputVia", inputDireccion.getText().toString());
-                    parametros.put("inputNumero", "1");
-                    parametros.put("inputBloque", "2");
-                    parametros.put("inputPiso", "3");
-                    parametros.put("inputPuerta", "4");
+                    parametros.put("inputNumero", inputNumero.getText().toString());
+                    parametros.put("inputBloque", inputBloque.getText().toString());
+                    parametros.put("inputPiso", inputPiso.getText().toString());
+                    parametros.put("inputPuerta", inputPuerta.getText().toString());
                     parametros.put("inputPais", "ESP");
                     parametros.put("inputProvincia", PROVINCIA_SELECCIONADA);
                     parametros.put("inputCodigoPostal", CODIGO_POSTAL_SELECCIONADO);
                     parametros.put("inputLocalidad", LOCALIDAD_SELECCIONADA);
-                    parametros.put("inputEmail", "hahasjhfjahsf@kas.com");//inputEmail.getText().toString());
-                    parametros.put("inputWeb", "lolo.es");
-                    parametros.put("inputObservaciones", "sdkgjksdljg");
+                    parametros.put("inputEmail", "pepesillo@toloquepuedas.com");//inputEmail.getText().toString());
+                    parametros.put("inputWeb", "");
+                    parametros.put("inputObservaciones", "");
                     parametros.put("inputTel01", inputTelefono1.getText().toString());
                     parametros.put("inputTel02", inputTelefono2.getText().toString());
-                    parametros.put("inputTelFax", "215412515");
+                    parametros.put("inputTelFax", "");
                     parametros.put("tarifa", "NOR");
                     parametros.put("inputDescuento", "0");
                     parametros.put("inputBancoTitulo", "");
@@ -203,7 +222,7 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
                     //Petición para añadir el cliente
                     AsyncTaskPost nuevoCliente = new AsyncTaskPost(this, this, Constantes.CLIENTES_ALTA_CLIENTE, CODIGO_NUEVO_CLIENTE);
                     nuevoCliente.execute(parametros);
-                } else if(respuesta.equals("2")) {
+                } else if (respuesta.equals("2")) {
                     //El NIF no sigue el formato requerido
                     inputNIF.requestFocus();
                     Toast.makeText(this, R.string.e_nuevoCliente_nif_erroneo, Toast.LENGTH_SHORT).show();
@@ -224,9 +243,8 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
                             JSONObject obj = array.getJSONObject(i);
                             listaLocalidades.add(new Localidad(obj));
                         }
-                        if (adLocalidades != null) {
-                            adLocalidades.notifyDataSetChanged();
-                        }
+                        adLocalidades = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaLocalidades);
+                        inputLocalidad.setAdapter(adLocalidades);
                     } catch (JSONException e) {
                         listaLocalidades = null;
                     }
@@ -243,9 +261,9 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
                             JSONObject obj = array.getJSONObject(i);
                             listaProvincias.add(new Provincia(obj));
                         }
-                        if (adProvincias != null) {
-                            adProvincias.notifyDataSetChanged();
-                        }
+
+                        adProvincias = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaProvincias);
+                        inputProvincia.setAdapter(adProvincias);
                     } catch (JSONException e) {
                         listaProvincias = null;
                     }
@@ -262,9 +280,8 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
                             JSONObject obj = array.getJSONObject(i);
                             listaTiposDireccion.add(new TipoDireccion(obj));
                         }
-                        if (adTiposDireccion != null) {
-                            adTiposDireccion.notifyDataSetChanged();
-                        }
+                        adTiposDireccion = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaTiposDireccion);
+                        inputTipoDireccion.setAdapter(adTiposDireccion);
                     } catch (JSONException e) {
                         listaTiposDireccion = null;
                     }
@@ -275,78 +292,35 @@ public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnP
 
     }
 
-    /**
-     * Este método se encarga de crear los adaptadores de los spinners, añadíselos
-     * y crear los listener para los spinners.
-     */
     public void iniciarSpinners() {
-        //Se crean los adaptadores para los spinners
-        adTiposDireccion = new AdaptadorSpinner(this, R.layout.detalle_spinner, R.id.tvSpinner, listaTiposDireccion);
-        adLocalidades = new AdaptadorSpinner(this, R.layout.detalle_spinner, R.id.tvSpinner, listaLocalidades);
-        adProvincias = new AdaptadorSpinner(this, R.layout.detalle_spinner, R.id.tvSpinner, listaProvincias);
 
-        //Se le pone el adaptador a los spinners
-        inputProvincia.setAdapter(adProvincias);
-        inputLocalidad.setAdapter(adLocalidades);
-        inputTipoDireccion.setAdapter(adTiposDireccion);
-
-        /**
-         * Listener spinner de provincias. Cada vez que se selecciona una provincia del spinner, se vacía
-         * la lista de localidades (por defecto aparece seleccionada Álava al iniciar la app, así que se
-         * cargan las localidades de Álava) para que no se sigan añadiendo localidades de otras provincias
-         * al spinner. Tras vaciar la lista, se crea una hebra para volver a llenar la lista de localidades,
-         * pero esta vez, de la provincia elegida. Finalmente, se guarda en una variable el código de la provincia
-         * seleccionada.
-         */
-        inputProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        inputProvincia.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listaLocalidades.clear();
-                AsyncTaskGet cargarLocalidades = new AsyncTaskGet(NuevoCliente.this, NuevoCliente.this, Constantes.LOCALIDADES + listaProvincias.get(i).getIdProvincia(), false, CODIGO_GET_LOCALIDADES);
+                inputLocalidad.setText("");
+                AsyncTaskGet cargarLocalidades = new AsyncTaskGet(NuevoCliente.this, NuevoCliente.this, Constantes.LOCALIDADES + ((Provincia) listaProvincias.get(i)).getIdProvincia(), false, CODIGO_GET_LOCALIDADES);
                 cargarLocalidades.execute(new Hashtable<String, String>());
-                PROVINCIA_SELECCIONADA = listaProvincias.get(i).getIdProvincia();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+                PROVINCIA_SELECCIONADA = ((Provincia) listaProvincias.get(i)).getIdProvincia();
             }
         });
 
-        /**
-         * Listener spinner de localidades. Cuando se selecciona una localidad, se guardan en dos variables distintas
-         * el código de la localidad seleccionada y el código postal de la misma.
-         */
-        inputLocalidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        inputLocalidad.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                LOCALIDAD_SELECCIONADA = listaLocalidades.get(i).getIdLocalidad();
-                CODIGO_POSTAL_SELECCIONADO = listaLocalidades.get(i).getCpLocalidad();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                LOCALIDAD_SELECCIONADA = ((Localidad) listaLocalidades.get(i)).getIdLocalidad();
+                CODIGO_POSTAL_SELECCIONADO = ((Localidad) listaLocalidades.get(i)).getCpLocalidad();
             }
         });
 
-        // Igual que el anterior, pero guarda el tipo de vía.
-        inputTipoDireccion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        inputTipoDireccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                TIPO_VIA_SELECCIONADA = listaTiposDireccion.get(i).getIdTipoDireccion();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TIPO_VIA_SELECCIONADA = ((TipoDireccion) listaTiposDireccion.get(i)).getIdTipoDireccion();
             }
         });
     }
 
-    /**
-     * Inicializa la toolbar y se le pone el logo de la app.
-     */
     private void inicializarToolbar() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);

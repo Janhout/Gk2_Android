@@ -1,6 +1,7 @@
 package es.gk2.janhout.gk2_android.Adaptadores;
 
 import android.content.Context;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +11,22 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import es.gk2.janhout.gk2_android.Util.Localidad;
 import es.gk2.janhout.gk2_android.Util.Provincia;
+import es.gk2.janhout.gk2_android.Util.TipoDireccion;
 
-public class AdaptadorAutoCompleteTextView extends ArrayAdapter{
+public class AdaptadorAutoCompleteTextView extends ArrayAdapter {
 
     private int recurso;
-    private ArrayList<Provincia> listaOriginal;
+    private ArrayList<Object> listaOriginal;
     private Filtro filter;
 
 
-    private ArrayList<Provincia> sugerencias;
+    private ArrayList<Object> sugerencias;
     private static LayoutInflater inflador;
 
 
-    public AdaptadorAutoCompleteTextView(Context context, int resource, ArrayList<Provincia> objects) {
+    public AdaptadorAutoCompleteTextView(Context context, int resource, ArrayList<Object> objects) {
         super(context, resource, objects);
         this.filter = new Filtro();
         this.recurso = resource;
@@ -44,19 +47,13 @@ public class AdaptadorAutoCompleteTextView extends ArrayAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Provincia provincia = sugerencias.get(position);
-        if (provincia != null) {
-            if (holder.title != null) {
-                holder.title.setText(provincia.getTituloProvincia());
-            }
-        }
+        if (sugerencias.get(position).getClass().getName().contains("Provincia"))
+            holder.title.setText(((Provincia) sugerencias.get(position)).getTituloProvincia());
+        else if (sugerencias.get(position).getClass().getName().contains("Localidad"))
+            holder.title.setText(((Localidad) sugerencias.get(position)).getTituloLocalidad());
+        else if (sugerencias.get(position).getClass().getName().contains("TipoDireccion"))
+            holder.title.setText(((TipoDireccion) sugerencias.get(position)).getTituloTipoDireccion());
 
-       /* if(lista.get(position).getClass().getName().contains("Provincia"))
-            holder.title.setText(((Provincia) lista.get(position)).getTituloProvincia());
-        else if(lista.get(position).getClass().getName().contains("Localidad"))
-            holder.title.setText(((Localidad) lista.get(position)).getTituloLocalidad());
-        else if(lista.get(position).getClass().getName().contains("TipoDireccion"))
-            holder.title.setText(((TipoDireccion) lista.get(position)).getTituloTipoDireccion());*/
         return convertView;
     }
 
@@ -73,18 +70,36 @@ public class AdaptadorAutoCompleteTextView extends ArrayAdapter{
 
         @Override
         public String convertResultToString(Object resultValue) {
-            return ((Provincia)(resultValue)).getTituloProvincia();
+            if (resultValue.getClass().getName().contains("Provincia")) {
+                return ((Provincia) (resultValue)).getTituloProvincia();
+            } else if (resultValue.getClass().getName().contains("Localidad")) {
+                return ((Localidad) (resultValue)).getTituloLocalidad();
+            } else if (resultValue.getClass().getName().contains("TipoDireccion")) {
+                return ((TipoDireccion) (resultValue)).getTituloTipoDireccion();
+            } else return "";
         }
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Provincia> lista = new ArrayList<>(listaOriginal);
+            ArrayList<Object> lista = new ArrayList<>(listaOriginal);
             if (constraint != null) {
+                constraint = constraint.toString().trim();
                 sugerencias = new ArrayList<>();
-                for (Provincia provincia : lista) {
-                    if (provincia.getTituloProvincia().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
-                        sugerencias.add(provincia);
+                for (Object object : lista) {
+                    if (object.getClass().getName().contains("Provincia")) {
+                        if (((Provincia) object).getTituloProvincia().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                            sugerencias.add(object);
+                        }
+                    } else if (object.getClass().getName().contains("Localidad")) {
+                        if (((Localidad) object).getTituloLocalidad().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                            sugerencias.add(object);
+                        }
+                    } else if (object.getClass().getName().contains("TipoDireccion")) {
+                        if (((TipoDireccion) object).getTituloTipoDireccion().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                            sugerencias.add(object);
+                        }
                     }
+
                 }
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = sugerencias;
@@ -97,11 +112,11 @@ public class AdaptadorAutoCompleteTextView extends ArrayAdapter{
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<Provincia> listaFinal = (ArrayList<Provincia>) results.values;
+            ArrayList<Object> listaFinal = (ArrayList<Object>) results.values;
             if (results != null && results.count > 0) {
                 clear();
-                for (Provincia p : listaFinal) {
-                    add(p);
+                for (Object object : listaFinal) {
+                    add(object);
                 }
                 notifyDataSetChanged();
             }

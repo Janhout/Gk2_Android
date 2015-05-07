@@ -18,124 +18,170 @@
             layout="@layout/progreso"
             android:visibility="gone" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
-
-
-            <EditText
-                android:id="@+id/nuevoCliente_inputNombreComercial"
-                style="@style/editTextPersonalizado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:hint="@string/s_nuevoCliente_nombreComercial" />
-
-            <EditText
-                android:id="@+id/nuevoCliente_NIF"
-                style="@style/editTextPersonalizado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/s_nuevoCliente_nif" />
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/m_nuevoCliente_editText"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@string/s_nuevoCliente_label_provincia" />
 
-                <Spinner
-                    android:id="@+id/nuevoCliente_provincia"
-                    android:layout_width="0dp"
+                <EditText
+                    android:id="@+id/nuevoCliente_inputNombreComercial"
+                    style="@style/editTextPersonalizado"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="10" />
+
+                    android:hint="@string/s_nuevoCliente_nombreComercial" />
+
+                <EditText
+                    android:id="@+id/nuevoCliente_NIF"
+                    style="@style/editTextPersonalizado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/s_nuevoCliente_nif" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/m_nuevoCliente_editText"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="@string/s_nuevoCliente_label_provincia" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/nuevoCliente_provincia"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/m_nuevoCliente_editText"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="@string/s_nuevoCliente_label_localidad" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/nuevoCliente_localidad"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/m_nuevoCliente_editText"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="@string/s_nuevoCliente_label_tipoDireccion" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/nuevoCliente_tipoDireccion"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/nuevoCliente_direccion"
+                    style="@style/editTextPersonalizado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/s_nuevoCliente_direccion" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/nuevoCliente_numero"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:hint="@string/s_nuevoCliente_numero" />
+
+                    <EditText
+                        android:id="@+id/nuevoCliente_bloque"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:hint="@string/s_nuevoCliente_bloque" />
+
+                    <EditText
+                        android:id="@+id/nuevoCliente_piso"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:hint="@string/s_nuevoCliente_piso" />
+
+                    <EditText
+                        android:id="@+id/nuevoCliente_puerta"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:hint="@string/s_nuevoCliente_puerta" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/nuevoCliente_email"
+                    style="@style/editTextPersonalizado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/s_nuevoCliente_email"
+                    android:inputType="textEmailAddress" />
+
+                <EditText
+                    android:id="@+id/nuevoCliente_telefono1"
+                    style="@style/editTextPersonalizado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/s_nuevoCliente_telefono1"
+                    android:inputType="number" />
+
+                <EditText
+                    android:id="@+id/nuevoCliente_telefono2"
+                    style="@style/editTextPersonalizado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/s_nuevoCliente_telefono2"
+                    android:inputType="phone" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/m_nuevoCliente_editText"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@string/s_nuevoCliente_label_localidad" />
-
-                <Spinner
-                    android:id="@+id/nuevoCliente_localidad"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/m_nuevoCliente_editText"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@string/s_nuevoCliente_label_tipoDireccion" />
-
-                <Spinner
-                    android:id="@+id/nuevoCliente_tipoDireccion"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/nuevoCliente_direccion"
-                style="@style/editTextPersonalizado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/s_nuevoCliente_direccion" />
-
-            <EditText
-                android:id="@+id/nuevoCliente_email"
-                style="@style/editTextPersonalizado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/s_nuevoCliente_email"
-                android:inputType="textEmailAddress" />
-
-            <EditText
-                android:id="@+id/nuevoCliente_telefono1"
-                style="@style/editTextPersonalizado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/s_nuevoCliente_telefono1"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/nuevoCliente_telefono2"
-                style="@style/editTextPersonalizado"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/s_nuevoCliente_telefono2"
-                android:inputType="phone" />
-
-        </LinearLayout>
+        </ScrollView>
     </FrameLayout>
 </LinearLayout>
