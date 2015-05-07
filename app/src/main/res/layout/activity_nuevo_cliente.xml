@@ -37,7 +37,8 @@
                     style="@style/editTextPersonalizado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/nuevoCliente_NIF"
                     android:hint="@string/s_nuevoCliente_nombreComercial" />
 
                 <EditText
@@ -45,6 +46,8 @@
                     style="@style/editTextPersonalizado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/nuevoCliente_provincia"
                     android:hint="@string/s_nuevoCliente_nif" />
 
                 <LinearLayout
@@ -64,6 +67,8 @@
                         android:id="@+id/nuevoCliente_provincia"
                         style="@style/editTextPersonalizado"
                         android:layout_width="0dp"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/nuevoCliente_localidad"
                         android:layout_height="wrap_content"
                         android:layout_weight="10" />
 
@@ -87,7 +92,9 @@
                         style="@style/editTextPersonalizado"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="10" />
+                        android:layout_weight="10"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/nuevoCliente_tipoDireccion"/>
 
                 </LinearLayout>
 
@@ -109,7 +116,9 @@
                         style="@style/editTextPersonalizado"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="10" />
+                        android:layout_weight="10"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/nuevoCliente_direccion"/>
                 </LinearLayout>
 
                 <EditText
@@ -117,7 +126,9 @@
                     style="@style/editTextPersonalizado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/s_nuevoCliente_direccion" />
+                    android:hint="@string/s_nuevoCliente_direccion"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/nuevoCliente_numero"/>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -130,7 +141,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:hint="@string/s_nuevoCliente_numero" />
+                        android:hint="@string/s_nuevoCliente_numero"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/nuevoCliente_bloque"/>
 
                     <EditText
                         android:id="@+id/nuevoCliente_bloque"
@@ -138,7 +151,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:hint="@string/s_nuevoCliente_bloque" />
+                        android:hint="@string/s_nuevoCliente_bloque"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/nuevoCliente_piso"/>
 
                     <EditText
                         android:id="@+id/nuevoCliente_piso"
@@ -146,7 +161,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:hint="@string/s_nuevoCliente_piso" />
+                        android:hint="@string/s_nuevoCliente_piso"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/nuevoCliente_puerta"/>
 
                     <EditText
                         android:id="@+id/nuevoCliente_puerta"
@@ -154,7 +171,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:hint="@string/s_nuevoCliente_puerta" />
+                        android:hint="@string/s_nuevoCliente_puerta"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/nuevoCliente_email"/>
                 </LinearLayout>
 
                 <EditText
@@ -163,7 +182,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/s_nuevoCliente_email"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/nuevoCliente_telefono1"/>
 
                 <EditText
                     android:id="@+id/nuevoCliente_telefono1"
@@ -171,7 +192,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/s_nuevoCliente_telefono1"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/nuevoCliente_telefono2"/>
 
                 <EditText
                     android:id="@+id/nuevoCliente_telefono2"
