@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import es.gk2.janhout.gk2_android.ActionBarActivityBusqueda;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoNuevaFactura;
+import es.gk2.janhout.gk2_android.Fragmentos.FragmentoNuevoProducto;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoSeleccionarCliente;
 import es.gk2.janhout.gk2_android.Fragmentos.FragmentoSeleccionarProducto;
 import es.gk2.janhout.gk2_android.R;
@@ -19,14 +20,16 @@ import es.gk2.janhout.gk2_android.Util.Cliente;
 import es.gk2.janhout.gk2_android.Util.Producto;
 
 public class NuevaFactura extends ActionBarActivityBusqueda implements FragmentoSeleccionarCliente.OnClienteSelectedListener,
-        FragmentoSeleccionarProducto.OnProductoSelectedListener{
+        FragmentoSeleccionarProducto.OnProductoListaSelectedListener, FragmentoNuevoProducto.OnProductoSelectedListener {
 
     private FragmentoNuevaFactura fragmentoPrincipal;
+    private FragmentoNuevoProducto fragmentoNuevoProducto;
     private String tituloActividad;
     private SearchView searchView;
     private boolean inicio;
 
     private final static String TAG_FRAGMENTO_PRINCIPAL = "fragmento_principal";
+    private final static String TAG_FRAGMENTO_NUEVO_PRODUCTO = "fragmento_nuevo_producto";
 
     public static enum ListaFragmentosNuevaFactura {
         ninguno,
@@ -41,6 +44,23 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
     /* *************************************************************************
      **************************** Métodos on... ********************************
      *************************************************************************** */
+
+    @Override
+    public void onBackPressed() {
+        switch (fragmentoActual){
+            case ninguno:
+            case nuevaFactura:
+                super.onBackPressed();
+                break;
+            case seleccionarProducto:
+                mostrarFragmentoNuevaLinea(false);
+                break;
+            case seleccionCliente:
+            case nuevaLinea:
+                mostrarFragmentoNuevaFactura();
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +96,20 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
             return true;
         } else if (id == android.R.id.home) {
             if(fragmentoActual == ListaFragmentosNuevaFactura.seleccionCliente ||
-                    fragmentoActual == ListaFragmentosNuevaFactura.seleccionarProducto){
+                    fragmentoActual == ListaFragmentosNuevaFactura.nuevaLinea){
                 mostrarFragmentoNuevaFactura();
             } else if (fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura){
                 finish();
+            } else if (fragmentoActual == ListaFragmentosNuevaFactura.seleccionarProducto){
+                mostrarFragmentoNuevaLinea(false);
             }
             invalidateOptionsMenu();
             return true;
+        } else if(id == R.id.action_guardar_factura){
+            if(fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura){
+                guardarFactura();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -101,7 +128,8 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
         if(fragmentoActual == ListaFragmentosNuevaFactura.seleccionCliente){
             searchView.setQueryHint(getString(R.string.hint_busqueda_cliente));
         }
-        if(fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura) {
+        if(fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura ||
+                fragmentoActual == ListaFragmentosNuevaFactura.nuevaLinea) {
             menu.findItem(R.id.action_guardar_factura).setVisible(true);
         }else{
             menu.findItem(R.id.action_guardar_factura).setVisible(false);
@@ -154,6 +182,10 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
         return fragment;
     }
 
+    private void guardarFactura() {
+        //TODO
+    }
+
     private void inicializarToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
@@ -183,6 +215,25 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
         fm.executePendingTransactions();
     }
 
+    public void mostrarFragmentoNuevaLinea(boolean nuevo){
+        android.app.FragmentManager fm = getFragmentManager();
+        fragmentoNuevoProducto = (FragmentoNuevoProducto)fm.findFragmentByTag(TAG_FRAGMENTO_NUEVO_PRODUCTO);
+        FragmentTransaction transaction = fm.beginTransaction();
+        if(fragmentoNuevoProducto == null || nuevo){
+            fragmentoNuevoProducto = new FragmentoNuevoProducto();
+            Bundle b = new Bundle();
+            fragmentoNuevoProducto.setArguments(null);
+            b.putString("idCliente", "-1");
+            fragmentoNuevoProducto.setArguments(b);
+        }
+        invalidateOptionsMenu();
+        transaction.replace(R.id.relativeLayoutFactura, fragmentoNuevoProducto, TAG_FRAGMENTO_NUEVO_PRODUCTO);
+        fragmentoActual = ListaFragmentosNuevaFactura.nuevaLinea;
+        transaction.addToBackStack(TAG_FRAGMENTO_NUEVO_PRODUCTO);
+        transaction.commit();
+        fm.executePendingTransactions();
+    }
+
     /* *************************************************************************
      **************** Interfaz OnClienteSelectedListener ***********************
      *************************************************************************** */
@@ -198,8 +249,25 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
      *************************************************************************** */
 
     @Override
+    public void devolverProductoLista(Producto producto) {
+        mostrarFragmentoNuevaLinea(false);
+        fragmentoNuevoProducto.setProducto(producto);
+    }
+
+    @Override
     public void devolverProducto(Producto producto) {
         mostrarFragmentoNuevaFactura();
         fragmentoPrincipal.setProducto(producto);
     }
 }
+
+/*Fragment fragment = new FragmentoNuevoProducto();
+                NuevaFactura.fragmentoActual = NuevaFactura.ListaFragmentosNuevaFactura.nuevaLinea;
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("cliente", clienteSeleccionado);
+                fragment.setArguments(bundle);
+                FragmentoNuevaFactura.this.getActivity().invalidateOptionsMenu();
+                FragmentTransaction ft = getFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+                getFragmentManager().executePendingTransactions();*/

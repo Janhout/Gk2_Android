@@ -12,8 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.NumberFormat;
+
 import es.gk2.janhout.gk2_android.Actividades.Login;
-import es.gk2.janhout.gk2_android.Actividades.Principal;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.FontCache;
 
@@ -21,13 +22,11 @@ public class Metodos {
 
     public static String leerPreferenciasCompartidasString(Context contexto, String key) {
         SharedPreferences sharedPref = contexto.getSharedPreferences(contexto.getString(R.string.preferencias_compartidas), Context.MODE_PRIVATE);
-        String resultado = sharedPref.getString(key, "");
-        return resultado;
+        return sharedPref.getString(key, "");
     }
 
     public static void escribirPreferenciasCompartidasString(Context contexto, String key, String valor) {
         SharedPreferences sharedPref = contexto.getSharedPreferences(contexto.getString(R.string.preferencias_compartidas), Context.MODE_PRIVATE);
-        String resultado = sharedPref.getString(key, "");
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, valor);
         editor.apply();
@@ -50,13 +49,13 @@ public class Metodos {
         SharedPreferences sharedPref = contexto.getSharedPreferences(contexto.getString(R.string.preferencias_compartidas), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
     public static void redireccionarLogin(Context contexto){
         borrarPreferenciasCompartidas(contexto);
         Intent i = new Intent(contexto, Login.class);
-        Toast.makeText(contexto, "redireccionarLogin", Toast.LENGTH_SHORT).show();
+        Toast.makeText(contexto, contexto.getResources().getString(R.string.e_sesion_expirada), Toast.LENGTH_SHORT).show();
         contexto.startActivity(i);
         ((Activity)contexto).finish();
     }
@@ -125,5 +124,10 @@ public class Metodos {
 
     public static void textViewAwesomeComponente(Context contexto, View v, String texto) {
         Metodos.asignarFuenteComponente(contexto, v, contexto.getString(R.string.fuente_awesome), 2, texto);
+    }
+
+    public static String doubleToMoney(double valor){
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return formatter.format(valor);
     }
 }

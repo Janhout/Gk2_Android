@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,19 +21,30 @@ import android.widget.TextView;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.NuevaFactura;
+import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 import es.gk2.janhout.gk2_android.Util.Producto;
+import es.gk2.janhout.gk2_android.Util.Tarifa;
 
-public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener {
+public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener,
+        AsyncTaskGet.OnProcessCompleteListener {
 
     private NuevaFactura actividad;
 
@@ -44,15 +54,19 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     private EditText etFechaVenciminetoFactura;
     private Switch formatoPrecio;
     private LinearLayout llLineas;
+    private LinearLayout llTotalesIva;
     private ArrayList<Producto> listaProductos;
     private Spinner spCondiciones_pago;
     private EditText etNotas;
     private TextView tvSubtotal;
-    private TextView tvSubtotalEtiqueta;
     private TextView tvTotal;
+
+    private ArrayList<Tarifa> listaTarifas;
 
     public static final String FECHA_FACTURA_TAG = "fecha_factura";
     public static final String FECHA_VENCIMIENTO_TAG = "fecha_vencimiento";
+
+    public static final int CODIGO_PETICION_TARIFAS = 1;
 
     public FragmentoNuevaFactura() {
     }
@@ -78,6 +92,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        cargarListaTarifas();
         cargarView();
         if(savedInstanceState != null) {
             listaProductos = (ArrayList) savedInstanceState.getParcelableArrayList("listaProductos");
@@ -92,6 +107,57 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("listaProductos", listaProductos);
+    }
+
+    private void cargarTotales(){
+        Hashtable<Double, Double> tablaIva = new Hashtable<>();
+        double subtotal = 0.0;
+        double total = 0.0;
+        if(listaProductos.size()>0){
+            for(Producto producto : listaProductos){
+                double precio_producto_iva_incluido = Double.valueOf(producto.getPrecio_venta_final());
+                double iva_producto_porcentaje = Double.valueOf(producto.getP_iva());
+                double precio_sin_iva = precio_producto_iva_incluido;
+                if(producto.getTarifa_iva_incluido().equals("1")){
+                    precio_sin_iva = precio_producto_iva_incluido/(1+iva_producto_porcentaje/100);
+                } else {
+                    precio_producto_iva_incluido = precio_sin_iva * iva_producto_porcentaje;
+                }
+                double iva_producto = precio_producto_iva_incluido - precio_sin_iva;
+                if(!tablaIva.containsKey(iva_producto_porcentaje)){
+                    tablaIva.put(iva_producto_porcentaje, iva_producto*Double.valueOf(producto.getCantidad()));
+                } else {
+                    double temp = tablaIva.get(iva_producto_porcentaje);
+                    tablaIva.put(iva_producto_porcentaje, temp + iva_producto*Double.valueOf(producto.getCantidad()));
+                }
+                subtotal = subtotal + precio_sin_iva*Double.valueOf(producto.getCantidad());
+                total = total + precio_producto_iva_incluido*Double.valueOf(producto.getCantidad());
+            }
+        }
+        if(tablaIva.size()>0){
+            cargarTotalesIva(tablaIva);
+        }
+        tvTotal.setText(Metodos.doubleToMoney(total));
+        tvSubtotal.setText(Metodos.doubleToMoney(subtotal));
+    }
+
+    private void cargarTotalesIva(Hashtable<Double, Double> tablaIva){
+        llTotalesIva.removeAllViewsInLayout();
+        llTotalesIva.invalidate();
+        Enumeration<Double> keys = tablaIva.keys();
+        while(keys.hasMoreElements()) {
+            double key = keys.nextElement();
+            double value = tablaIva.get(key);
+            LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View detalle = inflador.inflate(R.layout.detalle_totales_iva, null);
+            TextView tv_etiqueta_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_etiqueta);
+            TextView tv_total_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_total);
+
+            tv_etiqueta_iva.setText("IVA " + key + "% de " + Metodos.doubleToMoney(value*100/key));
+            tv_total_iva.setText(Metodos.doubleToMoney(value));
+
+            llTotalesIva.addView(detalle);
+        }
     }
 
     private void cargarView(){
@@ -222,25 +288,15 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         llNuevaLinea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new FragmentoSeleccionarProducto();
-                NuevaFactura.fragmentoActual = NuevaFactura.ListaFragmentosNuevaFactura.seleccionarProducto;
-                Bundle bundle = new Bundle();
-                bundle.putString("query", "");
-                fragment.setArguments(bundle);
-                FragmentoNuevaFactura.this.getActivity().invalidateOptionsMenu();
-                FragmentTransaction ft = getFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
-                getFragmentManager().executePendingTransactions();
+                actividad.mostrarFragmentoNuevaLinea(true);
             }
         });
     }
 
     private void cargarViewTotales(){
         tvSubtotal = (TextView)getView().findViewById(R.id.nueva_factura_tv_subtotal);
-        tvSubtotalEtiqueta = (TextView)getView().findViewById(R.id.nueva_factura_tv_subtotal_etiqueta);
         tvTotal = (TextView)getView().findViewById(R.id.nueva_factura_tv_total);
-        cambiosNeto();
+        llTotalesIva = (LinearLayout)getView().findViewById(R.id.nueva_factura_layout_totales_iva);
     }
 
     private void cargarViewOpciones(){
@@ -249,21 +305,9 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         formatoPrecio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    cambiosNeto();
-                } else {
-                    cambiosBruto();
-                }
+                cargarListaProductos();
             }
         });
-    }
-
-    private void cambiosNeto(){
-        tvSubtotalEtiqueta.setText(getString(R.string.nueva_factura_subtotal));
-    }
-
-    private void cambiosBruto(){
-        tvSubtotalEtiqueta.setText(getString(R.string.nueva_factura_subtotal_sin_iva));
     }
 
     public void setCliente(Cliente cliente){
@@ -288,24 +332,47 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         } else {
             tv.setVisibility(View.VISIBLE);
         }
+        cargarTotales();
+    }
+
+    private void cargarListaTarifas(){
+        listaTarifas = new ArrayList<>();
+        AsyncTaskGet h = new AsyncTaskGet(getActivity(), this, Constantes.PRODUCTOS_TARIFAS, false, CODIGO_PETICION_TARIFAS);
+        h.execute(new Hashtable<String, String>());
     }
 
     private void crearViewLinea(Producto producto){
         LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View detalle = inflador.inflate(R.layout.detalle_linea_factura, null);
-        Button delete = (Button)detalle.findViewById(R.id.detalle_linea_bt_borrar);
-        TextView tv_descripcion = (TextView)detalle.findViewById(R.id.detalle_linea_tv_descripcion);
+        TextView tv_cantidad_precio = (TextView)detalle.findViewById(R.id.detalle_linea_tv_cantidad_precio);
         TextView tv_producto = (TextView)detalle.findViewById(R.id.detalle_linea_tv_producto);
-        tv_descripcion.setText(producto.getTitulo());
-        tv_producto.setText(producto.getTitulo());
-        delete.setTag(producto);
-        delete.setOnClickListener(new View.OnClickListener() {
+        TextView tv_precio = (TextView)detalle.findViewById(R.id.detalle_linea_tv_precio_total);
+        tv_producto.setText(producto.getArticulo());
+        double precio_producto_iva_incluido = Double.valueOf(producto.getPrecio_venta_final());
+        double iva_producto = Double.valueOf(producto.getP_iva());
+        double precio_sin_iva = precio_producto_iva_incluido;
+        if(producto.getTarifa_iva_incluido().equals("1")){
+            precio_sin_iva = precio_producto_iva_incluido/(1+iva_producto/100);
+        } else {
+            precio_producto_iva_incluido = precio_sin_iva * iva_producto;
+        }
+        if(formatoPrecio.isChecked()){
+            tv_cantidad_precio.setText(producto.getCantidad() + " " + producto.getUnidades() + getString(R.string.nueva_factura_por) + Metodos.doubleToMoney(precio_sin_iva));
+            tv_precio.setText(Metodos.doubleToMoney(Double.valueOf(producto.getCantidad())*precio_sin_iva));
+        } else {
+            tv_cantidad_precio.setText(producto.getCantidad() + " " + producto.getUnidades() + getString(R.string.nueva_factura_por) + Metodos.doubleToMoney(precio_producto_iva_incluido));
+            tv_precio.setText(Metodos.doubleToMoney(Double.valueOf(producto.getCantidad())*precio_producto_iva_incluido));
+        }
+        detalle.setTag(producto);
+        detalle.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-                Button b = (Button) v;
-                Producto pos = (Producto) b.getTag();
+            public boolean onLongClick(View v) {
+                Producto pos = (Producto) v.getTag();
                 listaProductos.remove(pos);
                 cargarListaProductos();
+
+                //TODO mostrar dialogo para borarr / editar
+                return true;
             }
         });
         llLineas.addView(detalle);
@@ -326,6 +393,27 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         } else if(datePickerDialog.getTag().equals(FECHA_VENCIMIENTO_TAG)){
             etFechaVenciminetoFactura.setText(day + "/" + (month + 1) + "/" + year);
             spCondiciones_pago.setSelection(0);
+        }
+    }
+
+    @Override
+    public void resultadoGet(String respuesta, int codigo_peticion) {
+        if(respuesta != null){
+            switch (codigo_peticion){
+                case CODIGO_PETICION_TARIFAS:
+                    JSONTokener token = new JSONTokener(respuesta);
+                    JSONArray array;
+                    try {
+                        array = new JSONArray(token);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
+                            listaTarifas.add(new Tarifa(obj));
+                        }
+                    } catch (JSONException e) {
+                        listaTarifas = null;
+                    }
+                    break;
+            }
         }
     }
 }

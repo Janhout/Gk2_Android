@@ -11,8 +11,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -156,7 +158,11 @@ public class Peticiones {
         while(keys.hasMoreElements()) {
             resultado.append(resultado.length() == 0 ? "" : "&");
             String key = keys.nextElement();
-            resultado.append(key).append("=").append(params.get(key));
+            try {
+                resultado.append(key).append("=").append(URLEncoder.encode(params.get(key), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                resultado.append(key).append("=").append(params.get(key));
+            }
         }
         return resultado.toString();
     }

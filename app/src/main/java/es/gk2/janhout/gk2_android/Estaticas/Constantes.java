@@ -28,11 +28,10 @@ public class Constantes {
     public final static String UNSET_FAVORITO = CLIENTES + "favorito_unset/";
 
     public final static String PRODUCTOS = MI_URL + "productos/";
+    public final static String PRODUCTOS_TARIFAS = PRODUCTOS + "tarifas/";
     public final static String PRODUCTOS_LISTAR = PRODUCTOS + "json/";
     public final static String PRODUCTOS_DETALLE = PRODUCTOS + "getinfobybarcode/";
     public final static String PRODUCTOS_OTROS_DETALLES = PRODUCTOS + "precio/";
-
-
 
     //Datos
     public final static String LOCALIDADES = CLIENTES + "get_localidades/ESP/";

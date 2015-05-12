@@ -1,18 +1,16 @@
 package es.gk2.janhout.gk2_android.Fragmentos;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,22 +18,19 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
-import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorAutoCompleteTextView;
 import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Provincia;
 
 public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnProcessCompleteListener,
-        MostrarCliente.ItemMenuPulsado {
+        MostrarCliente.ItemMenuPulsadoMostrarCliente {
 
+    private MostrarCliente actividad;
     private int idCliente;
-    private AsyncTaskGet asyncTask;
     private JSONObject cliente;
 
     private TextView nif;
@@ -66,9 +61,21 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
      *************************************************************************** */
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        MostrarCliente.escuchadorMenu = this;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        actividad = (MostrarCliente)activity;
+        actividad.setEscuchadorMenu(this);
     }
 
     @Override
@@ -89,9 +96,8 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
     private void cargarCliente() {
         String url;
         url = Constantes.CLIENTES_DETALLE + idCliente;
-        asyncTask = new AsyncTaskGet(getActivity(), this, url, false, CODIGO_PEDIR_CLIENTE);
-        Hashtable<String, String> parametros = null;
-        asyncTask.execute(parametros);
+        AsyncTaskGet asyncTask = new AsyncTaskGet(getActivity(), this, url, false, CODIGO_PEDIR_CLIENTE);
+        asyncTask.execute(new Hashtable<String, String>());
     }
 
     private void inicializarEventosBotones() {
@@ -135,7 +141,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
                 s_email = cliente.getString("cliente_mail");
                 s_numeroCuenta = cliente.getString("cliente_ccc");
                 s_favorito = cliente.getInt("favorito") == 1;
-            } catch (JSONException e) {
+            } catch (JSONException ignored) {
             }
         }
     }
@@ -191,7 +197,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
      *************************************************************************** */
 
     @Override
-    public void itemMenuPulsado(int itemMenu, String query) {
+    public void itemMenuPulsadoMostrarCliente(int itemMenu, String query) {
         switch (itemMenu) {
             case R.id.action_llamar:
                 llamarTelefono();

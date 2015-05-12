@@ -17,6 +17,7 @@ public class Cliente implements Parcelable, Serializable {
     private String telefono02;
     private String email;
     private boolean favorito;
+    private String tarifa;
 
     public static final Parcelable.Creator<Cliente> CREATOR = new Parcelable.Creator<Cliente>() {
         @Override
@@ -37,12 +38,14 @@ public class Cliente implements Parcelable, Serializable {
         this.telefono02 = parcel.readString();
         this.email = parcel.readString();
         this.favorito = parcel.readByte() == 1;
+        this.tarifa = parcel.readString();
     }
 
     public Cliente() {
     }
 
-    public Cliente(int id, String nombre_comercial, String nif, String telefono01, String telefono02, String email, boolean favorito) {
+    public Cliente(int id, String nombre_comercial, String nif, String telefono01, String telefono02,
+                   String email, boolean favorito, String tarifa) {
         this.id = id;
         this.nombre_comercial = nombre_comercial;
         this.nif = nif;
@@ -50,6 +53,7 @@ public class Cliente implements Parcelable, Serializable {
         this.telefono02 = telefono02;
         this.email = email;
         this.favorito = favorito;
+        this.tarifa = tarifa;
     }
 
     public Cliente(JSONObject clienteJSON){
@@ -61,8 +65,11 @@ public class Cliente implements Parcelable, Serializable {
             this.telefono02 = clienteJSON.getString("TELEFONO02");
             this.email = clienteJSON.getString("EMAIL");
             this.favorito = clienteJSON.getInt("FAVORITO") == 1;
-        } catch (JSONException e) {
-            e.getMessage();
+            this.tarifa = clienteJSON.getString("TARIFA");
+            if(tarifa.equals("") || tarifa == null){
+                tarifa = "NOR";
+            }
+        } catch (JSONException ignore) {
         }
     }
 
@@ -122,6 +129,14 @@ public class Cliente implements Parcelable, Serializable {
         this.favorito = favorito;
     }
 
+    public String getTarifa() {
+        return tarifa;
+    }
+
+    public void setTarifa(String tarifa) {
+        this.tarifa = tarifa;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -136,6 +151,7 @@ public class Cliente implements Parcelable, Serializable {
         parcel.writeString(telefono02);
         parcel.writeString(email);
         parcel.writeByte((byte) (favorito ? 1 : 0));
+        parcel.writeString(tarifa);
     }
 
     @Override
@@ -148,8 +164,10 @@ public class Cliente implements Parcelable, Serializable {
         if (favorito != cliente.favorito) return false;
         if (id != cliente.id) return false;
         if (email != null ? !email.equals(cliente.email) : cliente.email != null) return false;
-        if (!nif.equals(cliente.nif)) return false;
-        if (!nombre_comercial.equals(cliente.nombre_comercial)) return false;
+        if (nif != null ? !nif.equals(cliente.nif) : cliente.nif != null) return false;
+        if (nombre_comercial != null ? !nombre_comercial.equals(cliente.nombre_comercial) : cliente.nombre_comercial != null)
+            return false;
+        if (tarifa != null ? !tarifa.equals(cliente.tarifa) : cliente.tarifa != null) return false;
         if (telefono01 != null ? !telefono01.equals(cliente.telefono01) : cliente.telefono01 != null)
             return false;
         if (telefono02 != null ? !telefono02.equals(cliente.telefono02) : cliente.telefono02 != null)
@@ -161,12 +179,13 @@ public class Cliente implements Parcelable, Serializable {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + nombre_comercial.hashCode();
-        result = 31 * result + nif.hashCode();
+        result = 31 * result + (nombre_comercial != null ? nombre_comercial.hashCode() : 0);
+        result = 31 * result + (nif != null ? nif.hashCode() : 0);
         result = 31 * result + (telefono01 != null ? telefono01.hashCode() : 0);
         result = 31 * result + (telefono02 != null ? telefono02.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (favorito ? 1 : 0);
+        result = 31 * result + (tarifa != null ? tarifa.hashCode() : 0);
         return result;
     }
 
@@ -180,6 +199,7 @@ public class Cliente implements Parcelable, Serializable {
                 ", telefono02='" + telefono02 + '\'' +
                 ", email='" + email + '\'' +
                 ", favorito=" + favorito +
+                ", tarifa='" + tarifa + '\'' +
                 '}';
     }
 }

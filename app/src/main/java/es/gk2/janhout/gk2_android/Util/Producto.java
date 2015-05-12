@@ -19,6 +19,7 @@ public class Producto implements Parcelable, Serializable {
     private String control_stock;
     private String lotes;
     private String disponibilidad;
+    private String precio_venta_final;
     private String descuento;
     private String modo;
     private String modo_txt;
@@ -29,6 +30,7 @@ public class Producto implements Parcelable, Serializable {
     private String notas;
     private String unidades;
     private String p_iva;
+    private String cantidad;
 
     public static final Parcelable.Creator<Producto> CREATOR = new Parcelable.Creator<Producto>() {
         @Override
@@ -51,6 +53,7 @@ public class Producto implements Parcelable, Serializable {
         this.control_stock = parcel.readString();
         this.lotes = parcel.readString();
         this.disponibilidad = parcel.readString();
+        this.precio_venta_final = parcel.readString();
         this.descuento = parcel.readString();
         this.modo = parcel.readString();
         this.modo_txt = parcel.readString();
@@ -61,42 +64,49 @@ public class Producto implements Parcelable, Serializable {
         this.notas = parcel.readString();
         this.unidades = parcel.readString();
         this.p_iva = parcel.readString();
+        this.cantidad = parcel.readString();
     }
 
     public Producto(){
-
     }
 
     public Producto(JSONObject obj){
         try {
+            this.id_a = obj.getInt("ID_A");
+            this.articulo = obj.getString("ARTICULO");
             this.titulo = obj.getString("TITULO");
+            this.p_coste = String.valueOf(obj.getDouble("P_COSTE"));
+            this.familia = obj.getString("FAMILIA");
+            this.precio_venta = String.valueOf(obj.getDouble("PRECIO_VENTA"));
+            this.control_stock = String.valueOf(obj.getInt("CONTROL_STOCK"));
+            this.lotes = String.valueOf(obj.getInt("LOTES"));
+            this.disponibilidad = String.valueOf(obj.getInt("DISPONIBILIDAD"));
+            this.cantidad = "1";
         } catch (JSONException e) {
         }
     }
 
-    public Producto(int id_a, String articulo, String titulo, String p_coste, String familia,
-                    String precio_venta, String control_stock, String lotes, String disponibilidad,
-                    String descuento, String modo, String modo_txt, String tarifa, String tarifa_titulo,
-                    String tarifa_iva_incluido, String tipo_iva, String notas, String unidades, String p_iva) {
-        this.id_a = id_a;
-        this.articulo = articulo;
-        this.titulo = titulo;
-        this.p_coste = p_coste;
-        this.familia = familia;
-        this.precio_venta = precio_venta;
-        this.control_stock = control_stock;
-        this.lotes = lotes;
-        this.disponibilidad = disponibilidad;
-        this.descuento = descuento;
-        this.modo = modo;
-        this.modo_txt = modo_txt;
-        this.tarifa = tarifa;
-        this.tarifa_titulo = tarifa_titulo;
-        this.tarifa_iva_incluido = tarifa_iva_incluido;
-        this.tipo_iva = tipo_iva;
-        this.notas = notas;
-        this.unidades = unidades;
-        this.p_iva = p_iva;
+    public void datosAdicionales(JSONObject obj){
+        try {
+            this.tarifa_iva_incluido = String.valueOf(obj.getInt("IVA_INCLUIDO"));
+            this.tipo_iva = String.valueOf(obj.getInt("TIPO_IVA"));
+            this.notas = obj.getString("NOTAS");
+            this.unidades = obj.getString("UNIDADES");
+            this.p_iva = String.valueOf(obj.getDouble("P_IVA"));
+        } catch (JSONException e) {
+        }
+    }
+
+    public void otrosDetalles(JSONObject obj){
+        try {
+            this.precio_venta_final = String.valueOf(obj.getDouble("PRECIO"));
+            this.descuento = String.valueOf(obj.getDouble("DESCUENTO"));
+            this.modo = String.valueOf(obj.getInt("MODO"));
+            this.modo_txt = obj.getString("MODO_TEXT");
+            this.tarifa = obj.getJSONObject("TARIFA").getString("TARIFA");
+            this.tarifa_titulo = obj.getJSONObject("TARIFA").getString("TITULO");
+        } catch (JSONException e) {
+        }
     }
 
     public int getId_a() {
@@ -169,6 +179,14 @@ public class Producto implements Parcelable, Serializable {
 
     public void setDisponibilidad(String disponibilidad) {
         this.disponibilidad = disponibilidad;
+    }
+
+    public String getPrecio_venta_final() {
+        return precio_venta_final;
+    }
+
+    public void setPrecio_venta_final(String precio_venta_final) {
+        this.precio_venta_final = precio_venta_final;
     }
 
     public String getDescuento() {
@@ -251,6 +269,14 @@ public class Producto implements Parcelable, Serializable {
         this.p_iva = p_iva;
     }
 
+    public String getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(String cantidad) {
+        this.cantidad = cantidad;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -267,6 +293,7 @@ public class Producto implements Parcelable, Serializable {
         parcel.writeString(control_stock);
         parcel.writeString(lotes);
         parcel.writeString(disponibilidad);
+        parcel.writeString(precio_venta_final);
         parcel.writeString(descuento);
         parcel.writeString(modo);
         parcel.writeString(modo_txt);
@@ -277,6 +304,7 @@ public class Producto implements Parcelable, Serializable {
         parcel.writeString(notas);
         parcel.writeString(unidades);
         parcel.writeString(p_iva);
+        parcel.writeString(cantidad);
     }
 
     @Override
@@ -287,7 +315,8 @@ public class Producto implements Parcelable, Serializable {
         Producto producto = (Producto) o;
 
         if (id_a != producto.id_a) return false;
-        if (articulo != null ? !articulo.equals(producto.articulo) : producto.articulo != null)
+        if (!articulo.equals(producto.articulo)) return false;
+        if (cantidad != null ? !cantidad.equals(producto.cantidad) : producto.cantidad != null)
             return false;
         if (control_stock != null ? !control_stock.equals(producto.control_stock) : producto.control_stock != null)
             return false;
@@ -306,6 +335,8 @@ public class Producto implements Parcelable, Serializable {
             return false;
         if (p_iva != null ? !p_iva.equals(producto.p_iva) : producto.p_iva != null) return false;
         if (precio_venta != null ? !precio_venta.equals(producto.precio_venta) : producto.precio_venta != null)
+            return false;
+        if (precio_venta_final != null ? !precio_venta_final.equals(producto.precio_venta_final) : producto.precio_venta_final != null)
             return false;
         if (tarifa != null ? !tarifa.equals(producto.tarifa) : producto.tarifa != null)
             return false;
@@ -326,7 +357,7 @@ public class Producto implements Parcelable, Serializable {
     @Override
     public int hashCode() {
         int result = id_a;
-        result = 31 * result + (articulo != null ? articulo.hashCode() : 0);
+        result = 31 * result + articulo.hashCode();
         result = 31 * result + (titulo != null ? titulo.hashCode() : 0);
         result = 31 * result + (p_coste != null ? p_coste.hashCode() : 0);
         result = 31 * result + (familia != null ? familia.hashCode() : 0);
@@ -334,6 +365,7 @@ public class Producto implements Parcelable, Serializable {
         result = 31 * result + (control_stock != null ? control_stock.hashCode() : 0);
         result = 31 * result + (lotes != null ? lotes.hashCode() : 0);
         result = 31 * result + (disponibilidad != null ? disponibilidad.hashCode() : 0);
+        result = 31 * result + (precio_venta_final != null ? precio_venta_final.hashCode() : 0);
         result = 31 * result + (descuento != null ? descuento.hashCode() : 0);
         result = 31 * result + (modo != null ? modo.hashCode() : 0);
         result = 31 * result + (modo_txt != null ? modo_txt.hashCode() : 0);
@@ -344,6 +376,7 @@ public class Producto implements Parcelable, Serializable {
         result = 31 * result + (notas != null ? notas.hashCode() : 0);
         result = 31 * result + (unidades != null ? unidades.hashCode() : 0);
         result = 31 * result + (p_iva != null ? p_iva.hashCode() : 0);
+        result = 31 * result + (cantidad != null ? cantidad.hashCode() : 0);
         return result;
     }
 
@@ -359,6 +392,7 @@ public class Producto implements Parcelable, Serializable {
                 ", control_stock='" + control_stock + '\'' +
                 ", lotes='" + lotes + '\'' +
                 ", disponibilidad='" + disponibilidad + '\'' +
+                ", precio_venta_final='" + precio_venta_final + '\'' +
                 ", descuento='" + descuento + '\'' +
                 ", modo='" + modo + '\'' +
                 ", modo_txt='" + modo_txt + '\'' +
@@ -369,39 +403,7 @@ public class Producto implements Parcelable, Serializable {
                 ", notas='" + notas + '\'' +
                 ", unidades='" + unidades + '\'' +
                 ", p_iva='" + p_iva + '\'' +
+                ", cantidad='" + cantidad + '\'' +
                 '}';
     }
-
-    /* {"PRECIO":121
-        "DESCUENTO":0
-        "MODO":0
-        "MODO_TXT":"Precio y descuento de ficha"
-        "TARIFA":
-            {"TARIFA":"NOR"
-            "TITULO":"Tarifa normal"
-            "IVA_INCLUIDO":1}}
-    {"TITULO":"CARTUCHO TINTA IMAX C6578A N"
-        "PRECIO_VENTA":121
-        "P_COSTE":11.148
-        "IVA_INCLUIDO":1
-        "TIPO_IVA":1
-        "NOTAS":""
-        "ARTICULO":"PRUEBA"
-        "ID_A":23
-        "CONTROL_STOCK":1
-        "UNIDADES":"-"
-        "LOTES":0
-        "DISPONIBILIDAD":1
-        "P_IVA":21}
-    {"ID_A":23
-        "ARTICULO":"PRUEBA"
-        "TITULO":"CARTUCHO TINTA IMAX C6578A N"
-        "P_COSTE":11.148
-        "FAMILIA":"VAR"
-        "PRECIO_VENTA":121
-        "CONTROL_STOCK":1
-        "LOTES":0
-        "DISPONIBILIDAD":1
-        "IMAGENES":0
-        "BARRAS":0}*/
 }

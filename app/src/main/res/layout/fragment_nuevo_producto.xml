@@ -52,10 +52,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/estilos_edittext_personalizado"
-                    android:focusable="false"
                     android:hint="@string/hint_nombre_producto"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/nueva_factura_et_cantidad_producto"
+                    android:nextFocusForward="@+id/nueva_factura_et_cant_producto"
                     android:padding="10sp"/>
             </LinearLayout>
 
@@ -84,12 +83,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/estilos_edittext_personalizado"
-                    android:focusable="false"
                     android:hint="@string/hint_cantidad_producto"
                     android:padding="10sp"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/nueva_factura_et_precio_producto"
-                    android:inputType="number"/>
+                    android:inputType="number|numberDecimal"
+                    android:nextFocusForward="@+id/nueva_factura_et_precio_producto"/>
             </LinearLayout>
 
             <LinearLayout
@@ -108,10 +106,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/estilos_edittext_personalizado"
-                    android:focusable="false"
                     android:hint="@string/hint_precio_producto"
-                    android:padding="10sp"
-                    android:inputType="number"/>
+                    android:inputType="number|numberDecimal"
+                    android:padding="10sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -125,13 +122,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/hint_unidad_producto" />
 
-                <Spinner
-                    android:id="@+id/nueva_factura_sp_unidad_producto"
+                <EditText
+                    android:id="@+id/nueva_factura_et_unidad_producto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/estilos_edittext_personalizado"
-                    android:padding="10sp"
-                    android:focusable="false" />
+                    android:hint="@string/hint_unidad_producto"
+                    android:padding="10sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -168,9 +165,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/estilos_edittext_personalizado"
-                android:focusable="false"
                 android:hint="@string/hint_descripcion_producto"
-                android:padding="10sp"/>
+                android:padding="10sp" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

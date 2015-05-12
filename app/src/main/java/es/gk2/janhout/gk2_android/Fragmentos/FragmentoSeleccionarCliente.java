@@ -1,6 +1,5 @@
 package es.gk2.janhout.gk2_android.Fragmentos;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -25,6 +24,7 @@ import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.Estaticas.Constantes;
 import es.gk2.janhout.gk2_android.Estaticas.Metodos;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.ScrollInfinito;
 import es.gk2.janhout.gk2_android.Util.Cliente;
 
 public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGet.OnProcessCompleteListener{
@@ -37,6 +37,10 @@ public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGe
 
     private ListView lv;
     private TextView textoVacio;
+
+    private int page;
+    private static final int LIMITE_CONSULTA = 50;
+    private static final int ITEMS_BAJO_LISTA = 5;
 
     private static final int CODIGO_CONSULTA_CLIENTES = 1;
 
@@ -74,6 +78,13 @@ public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGe
                         listener.devolverCliente(listaClientes.get(position));
                     }
                 });
+                lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
+                    @Override
+                    public void cargaMas(int page, int totalItemsCount) {
+                        FragmentoSeleccionarCliente.this.page = page;
+                        cargarLista();
+                    }
+                });
             }
         }
     }
@@ -82,6 +93,8 @@ public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGe
         String url = Constantes.CLIENTES_JSON;
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("q", query);
+        parametros.put("page", page+"");
+        parametros.put("limit", LIMITE_CONSULTA+"");
         AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
         asyncTask.execute(parametros);
     }

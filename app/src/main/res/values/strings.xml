@@ -11,6 +11,7 @@
     <string name="title_activity_lector_pdf">Lector PDF</string>
     <string name="title_activity_mostrar_cliente">Mostrar Cliente</string>
     <string name="title_activity_recordar_pass">Recuperar Contraseña</string>
+    <string name="title_activity_nuevo_presupuesto">Nuevo presupuesto</string>
 
     <string name="action_nuevo_cliente">Nuevo cliente</string>
     <string name="action_buscar">Buscar</string>
@@ -57,9 +58,5 @@
 
     <!-- ERRORES -->
     <string name="e_sesion_expirada">Su sesión ha expirado</string>
-    <string name="title_activity_nuevo_presupuesto">Nuevo presupuesto</string>
-
-    <string name="hello_world">Hello world!</string>
-
 
 </resources>

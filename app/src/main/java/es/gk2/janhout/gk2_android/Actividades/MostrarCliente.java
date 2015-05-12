@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -23,7 +24,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     private static Dialog dialogo;
     private static boolean mostrarDialogo;
     private static boolean inicio;
-    public static ItemMenuPulsado escuchadorMenu;
+    private ItemMenuPulsadoMostrarCliente escuchadorMenu;
 
     public static enum ListaFragmentosCliente {
         ninguno,
@@ -90,15 +91,15 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
             invalidateOptionsMenu();
             return true;
         } else if (id == R.id.action_llamar){
-            escuchadorMenu.itemMenuPulsado(R.id.action_llamar, null);
+            escuchadorMenu.itemMenuPulsadoMostrarCliente(R.id.action_llamar, null);
             invalidateOptionsMenu();
             return true;
         } else if (id == R.id.action_email) {
-            escuchadorMenu.itemMenuPulsado(R.id.action_email, null);
+            escuchadorMenu.itemMenuPulsadoMostrarCliente(R.id.action_email, null);
             invalidateOptionsMenu();
             return true;
         } else if (id == R.id.action_facturas) {
-            escuchadorMenu.itemMenuPulsado(R.id.action_facturas, "");
+            escuchadorMenu.itemMenuPulsadoMostrarCliente(R.id.action_facturas, "");
             invalidateOptionsMenu();
             return true;
         } else if(id == R.id.action_nueva_factura){
@@ -132,7 +133,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mostrarDialogo = savedInstanceState.getBoolean("mostrarDialogo");
         fragmentoActual = (ListaFragmentosCliente)savedInstanceState.getSerializable("actual");
@@ -198,6 +199,10 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
         dialogo.show();
     }
 
+    public void setEscuchadorMenu(ItemMenuPulsadoMostrarCliente escuchadorMenu) {
+        this.escuchadorMenu = escuchadorMenu;
+    }
+
     public static void setInicio(boolean inicio){
         MostrarCliente.inicio = inicio;
     }
@@ -213,14 +218,14 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
 
     @Override
     protected void busqueda(String textoBusqueda) {
-        escuchadorMenu.itemMenuPulsado(R.id.action_facturas, textoBusqueda);
+        escuchadorMenu.itemMenuPulsadoMostrarCliente(R.id.action_facturas, textoBusqueda);
     }
 
     /* *************************************************************************
      ******************** Interfaz Menú Pulsado ********************************
      *************************************************************************** */
 
-    public interface ItemMenuPulsado {
-        public void itemMenuPulsado(int itemMenu, String query);
+    public interface ItemMenuPulsadoMostrarCliente {
+        public void itemMenuPulsadoMostrarCliente(int itemMenu, String query);
     }
 }

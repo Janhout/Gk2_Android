@@ -37,6 +37,14 @@
         <item>Caja</item>
     </string-array>
 
+    <string-array name="lista_iva">
+        <item>0.00</item>
+        <item>21.00</item>
+        <item>10.00</item>
+        <item>4.00</item>
+        <item>12.00</item>
+    </string-array>
+
     <string-array name="nuevoGasto_concepto">
         <item>Gasolina</item>
         <item>Comida</item>

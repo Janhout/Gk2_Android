@@ -188,6 +188,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/nueva_factura_layout_totales_iva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

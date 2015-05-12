@@ -34,16 +34,22 @@ public class AdaptadorSeleccionarProducto extends ArrayAdapter<Producto>{
             convertView = inflador.inflate(recurso, null);
             vh = new ViewHolder();
             vh.articulo = (TextView) convertView.findViewById(R.id.seleccionar_producto_articulo);
+            vh.titulo = (TextView) convertView.findViewById(R.id.seleccionar_producto_titulo);
+            vh.precio = (TextView) convertView.findViewById(R.id.seleccionar_producto_precio);
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        vh.articulo.setText(datos.get(position).toString());
+        vh.articulo.setText(datos.get(position).getArticulo());
+        vh.titulo.setText(datos.get(position).getTitulo());
+        vh.precio.setText(datos.get(position).getPrecio_venta());
         return convertView;
     }
 
     private static class ViewHolder {
         private TextView articulo;
+        private TextView titulo;
+        private TextView precio;
     }
 }
