@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Fragmentos;
+package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -20,16 +20,16 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Actividades.LectorPDF;
-import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
-import es.gk2.janhout.gk2_android.Actividades.Principal;
-import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaFacturas;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
+import es.gk2.janhout.gk2_android.actividades.LectorPDF;
+import es.gk2.janhout.gk2_android.actividades.MostrarCliente;
+import es.gk2.janhout.gk2_android.actividades.Principal;
+import es.gk2.janhout.gk2_android.adaptadores.AdaptadorListaFacturas;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.Constantes;
+import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.ScrollInfinito;
-import es.gk2.janhout.gk2_android.Util.Factura;
+import es.gk2.janhout.gk2_android.util.ScrollInfinito;
+import es.gk2.janhout.gk2_android.modelos.Factura;
 
 public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnProcessCompleteListener {
 
@@ -52,17 +52,9 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
     public FragmentoListaFacturas() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        listaFacturas = new ArrayList<>();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_lista, container, false);
-    }
+    /* *************************************************************************
+     **************************** Métodos on... ********************************
+     *************************************************************************** */
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -77,6 +69,68 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         query = getArguments().getString("query");
         idCliente = getArguments().getInt("idCliente");
         cargarLista();
+        inicializarListView();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listaFacturas = new ArrayList<>();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_lista, container, false);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("all", todas);
+    }
+
+    /* *************************************************************************
+     **************************** Auxialiares **********************************
+     *************************************************************************** */
+
+    private void cargarFacturas(String respuesta){
+        JSONTokener token = new JSONTokener(respuesta);
+        JSONArray array;
+        try {
+            array = new JSONArray(token);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                listaFacturas.add(new Factura(obj));
+                if (ad != null) {
+                    ad.notifyDataSetChanged();
+                }
+            }
+        } catch (JSONException e) {
+            Log.e("error carga facturas", e.toString());
+            listaFacturas = null;
+        }
+    }
+
+    private void cargarLista() {
+        AsyncTaskGet asyncTask;
+        String url;
+        Hashtable<String, String> parametros = new Hashtable<>();
+        url = Constantes.FACTURAS;
+        if (todas){
+            parametros.put("q", query);
+        } else {
+            parametros.put("q", "cliente:" + idCliente + "+" + query);
+        }
+        parametros.put("page", page+"");
+        parametros.put("orderBy", "");
+        parametros.put("orderDir", "");
+        parametros.put("formato", "json");
+        asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_FACTURAS);
+        asyncTask.execute(parametros);
+    }
+
+    private void inicializarListView(){
         if (listaFacturas != null) {
             if (getView() != null) {
                 lv = (ListView) getView().findViewById(R.id.lvLista);
@@ -100,28 +154,10 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("all", todas);
-    }
-
-    private void cargarLista() {
-        AsyncTaskGet asyncTask;
-        String url;
-        Hashtable<String, String> parametros = new Hashtable<>();
-        url = Constantes.FACTURAS;
-        if (todas){
-            parametros.put("q", query);
-        } else {
-            parametros.put("q", "cliente:" + idCliente + "+" + query);
-        }
-        parametros.put("page", page+"");
-        parametros.put("orderBy", "");
-        parametros.put("orderDir", "");
-        parametros.put("formato", "json");
-        asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_FACTURAS);
-        asyncTask.execute(parametros);
+    private void intentFactura(String respuesta){
+        Intent intentCompartir = new Intent(contexto, LectorPDF.class);
+        intentCompartir.putExtra("pdf", respuesta);
+        contexto.startActivity(intentCompartir);
     }
 
     private void verFactura(int position){
@@ -135,29 +171,9 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         a.execute(new Hashtable<String, String>());
     }
 
-    private void cargarFacturas(String respuesta){
-        JSONTokener token = new JSONTokener(respuesta);
-        JSONArray array;
-        try {
-            array = new JSONArray(token);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                listaFacturas.add(new Factura(obj));
-                if (ad != null) {
-                    ad.notifyDataSetChanged();
-                }
-            }
-        } catch (JSONException e) {
-            Log.e("error carga facturas", e.toString());
-            listaFacturas = null;
-        }
-    }
-
-    private void intentFactura(String respuesta){
-        Intent intentCompartir = new Intent(contexto, LectorPDF.class);
-        intentCompartir.putExtra("pdf", respuesta);
-        contexto.startActivity(intentCompartir);
-    }
+    /* *************************************************************************
+     ******************** Interfaz OnProcessCompleteListener *******************
+     *************************************************************************** */
 
     @Override
     public void resultadoGet(String respuesta, int codigo){

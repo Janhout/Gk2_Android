@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Fragmentos;
+package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,14 +18,14 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Actividades.NuevaFactura;
-import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorSeleccionarProducto;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
+import es.gk2.janhout.gk2_android.actividades.NuevaFactura;
+import es.gk2.janhout.gk2_android.adaptadores.AdaptadorSeleccionarProducto;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.Constantes;
+import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.ScrollInfinito;
-import es.gk2.janhout.gk2_android.Util.Producto;
+import es.gk2.janhout.gk2_android.util.ScrollInfinito;
+import es.gk2.janhout.gk2_android.modelos.Producto;
 
 public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskGet.OnProcessCompleteListener{
 
@@ -47,6 +47,25 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
     public FragmentoSeleccionarProducto() {
     }
 
+    /* *************************************************************************
+     **************************** Métodos on... ********************************
+     *************************************************************************** */
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.contexto = getActivity();
+        query = getArguments().getString("query");
+        listener = (NuevaFactura)getActivity();
+        inicializarListView();
+        if(query.length()>1) {
+            cargarLista();
+        } else {
+            textoVacio.setText("lista vacia");
+            lv.setEmptyView(textoVacio);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +78,22 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
         return inflater.inflate(R.layout.fragment_lista, container, false);
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        this.contexto = getActivity();
-        query = getArguments().getString("query");
-        listener = (NuevaFactura)getActivity();
+    /* *************************************************************************
+     ******************************* Auxiliares ********************************
+     *************************************************************************** */
+
+    private void cargarLista(){
+        String url = Constantes.PRODUCTOS_LISTAR;
+        Hashtable<String, String> parametros = new Hashtable<>();
+        parametros.put("q", query);
+        parametros.put("status", "1");
+        parametros.put("page", page+"");
+        parametros.put("limit", LIMITE_CONSULTA+"");
+        AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_PRODUCTOS);
+        asyncTask.execute(parametros);
+    }
+
+    private void inicializarListView(){
         if(listaProductos != null) {
             if (getView() != null) {
                 lv = (ListView) getView().findViewById(R.id.lvLista);
@@ -86,24 +115,11 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
                 });
             }
         }
-        if(query.length()>1) {
-            cargarLista();
-        } else {
-            textoVacio.setText("lista vacia");
-            lv.setEmptyView(textoVacio);
-        }
     }
 
-    private void cargarLista(){
-        String url = Constantes.PRODUCTOS_LISTAR;
-        Hashtable<String, String> parametros = new Hashtable<>();
-        parametros.put("q", query);
-        parametros.put("status", "1");
-        parametros.put("page", page+"");
-        parametros.put("limit", LIMITE_CONSULTA+"");
-        AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_PRODUCTOS);
-        asyncTask.execute(parametros);
-    }
+    /* *************************************************************************
+     ***************** Interfaz OnProcessCompleteListener **********************
+     *************************************************************************** */
 
     @Override
     public void resultadoGet(String respuesta, int codigo) {
@@ -128,6 +144,10 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
             Metodos.redireccionarLogin(contexto);
         }
     }
+
+    /* *************************************************************************
+     ********************* Interfaz cliente seleccionado ***********************
+     *************************************************************************** */
 
     public interface OnProductoListaSelectedListener{
         public void devolverProductoLista(Producto producto);

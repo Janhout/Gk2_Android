@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Actividades;
+package es.gk2.janhout.gk2_android.actividades;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -22,8 +22,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
+import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
 
 public class LectorPDF extends ActionBarActivity implements OnPageChangeListener,
@@ -32,7 +32,6 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
     private Integer pageNumber;
     private Intent intentCompartir;
     private String fichero;
-    private Toolbar toolbar;
 
     private static final String PARAMENTRO_MAILTO = "mailto";
     private static final String PARAMENTRO_ASUNTO = "asunto";
@@ -48,7 +47,7 @@ public class LectorPDF extends ActionBarActivity implements OnPageChangeListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lector_pdf);
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Fragmentos;
+package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,10 +20,10 @@ import org.json.JSONObject;
 
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
+import es.gk2.janhout.gk2_android.actividades.MostrarCliente;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.Constantes;
+import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
 
 public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnProcessCompleteListener,
@@ -96,7 +96,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
     private void cargarCliente() {
         String url;
         url = Constantes.CLIENTES_DETALLE + idCliente;
-        AsyncTaskGet asyncTask = new AsyncTaskGet(getActivity(), this, url, false, CODIGO_PEDIR_CLIENTE);
+        AsyncTaskGet asyncTask = new AsyncTaskGet(actividad, this, url, false, CODIGO_PEDIR_CLIENTE);
         asyncTask.execute(new Hashtable<String, String>());
     }
 
@@ -156,9 +156,9 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         numeroCuenta.setText(s_numeroCuenta);
 
         if (s_favorito) {
-            Metodos.botonAwesomeComponente(getActivity(), favorito, getString(R.string.icono_clientes_favoritos));
+            Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_favoritos));
         } else {
-            Metodos.botonAwesomeComponente(getActivity(), favorito, getString(R.string.icono_clientes_no_favoritos));
+            Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_no_favoritos));
         }
     }
 
@@ -181,14 +181,14 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
                 case CODIGO_SET_FAVORITO:
                     s_favorito = !s_favorito;
                     if (s_favorito) {
-                        Metodos.botonAwesomeComponente(getActivity(), favorito, getString(R.string.icono_clientes_favoritos));
+                        Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_favoritos));
                     } else {
-                        Metodos.botonAwesomeComponente(getActivity(), favorito, getString(R.string.icono_clientes_no_favoritos));
+                        Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_no_favoritos));
                     }
                     break;
             }
         } else {
-            Metodos.redireccionarLogin(getActivity());
+            Metodos.redireccionarLogin(actividad);
         }
     }
 
@@ -222,7 +222,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         } else {
             url = Constantes.SET_FAVORITO + idCliente;
         }
-        AsyncTaskGet h = new AsyncTaskGet(getActivity(), this, url, false, CODIGO_SET_FAVORITO);
+        AsyncTaskGet h = new AsyncTaskGet(actividad, this, url, false, CODIGO_SET_FAVORITO);
         h.execute(new Hashtable<String, String>());
     }
 
@@ -232,7 +232,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
 
     private void seleccionarTelefono(String telefono1, String telefono2) {
         final CharSequence telfs[] = new CharSequence[]{telefono1, telefono2};
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(actividad);
         builder.setTitle(getString(R.string.selecciona_telefono));
         builder.setItems(telfs, new DialogInterface.OnClickListener() {
             @Override
@@ -258,7 +258,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
             try {
                 startActivity(Intent.createChooser(i, getString(R.string.enviar_email)));
             } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(getActivity(), getString(R.string.no_app_disponible), Toast.LENGTH_SHORT).show();
+                Toast.makeText(actividad, getString(R.string.no_app_disponible), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -299,10 +299,10 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         MostrarCliente.fragmentoActual = MostrarCliente.ListaFragmentosCliente.facturas;
         Fragment fragmento = new FragmentoListaFacturas();
         fragmento.setArguments(bundle);
-        FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = actividad.getFragmentManager().beginTransaction();
         transaction.replace(R.id.relativeLayoutCliente, fragmento);
         transaction.addToBackStack(null);
-        ((MostrarCliente) getActivity()).setTituloActividad("Facturas - " + s_nombreComercial);
+        actividad.setTituloActividad("Facturas - " + s_nombreComercial);
         transaction.commit();
     }
 }

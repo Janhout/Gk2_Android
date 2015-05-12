@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Adaptadores;
+package es.gk2.janhout.gk2_android.adaptadores;
 
 import android.content.Context;
 
@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import es.gk2.janhout.gk2_android.Util.Localidad;
-import es.gk2.janhout.gk2_android.Util.Provincia;
-import es.gk2.janhout.gk2_android.Util.TipoDireccion;
+import es.gk2.janhout.gk2_android.modelos.Localidad;
+import es.gk2.janhout.gk2_android.modelos.Provincia;
+import es.gk2.janhout.gk2_android.modelos.TipoDireccion;
 
 public class AdaptadorAutoCompleteTextView extends ArrayAdapter {
 

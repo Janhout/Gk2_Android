@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Util;
+package es.gk2.janhout.gk2_android.util;
 
 import android.content.Context;
 import android.graphics.Typeface;

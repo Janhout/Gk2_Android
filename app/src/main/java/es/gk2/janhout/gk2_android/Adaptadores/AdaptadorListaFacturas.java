@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Adaptadores;
+package es.gk2.janhout.gk2_android.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
+import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Factura;
+import es.gk2.janhout.gk2_android.modelos.Factura;
 
 public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
 

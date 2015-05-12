@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Adaptadores;
+package es.gk2.janhout.gk2_android.adaptadores;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,11 +16,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.Constantes;
+import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Cliente;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
 
 public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements AsyncTaskGet.OnProcessCompleteListener{
 

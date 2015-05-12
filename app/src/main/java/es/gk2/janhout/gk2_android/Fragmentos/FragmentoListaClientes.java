@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Fragmentos;
+package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -19,14 +19,14 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Actividades.MostrarCliente;
-import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaClientes;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
+import es.gk2.janhout.gk2_android.actividades.MostrarCliente;
+import es.gk2.janhout.gk2_android.adaptadores.AdaptadorListaClientes;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.Constantes;
+import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.ScrollInfinito;
-import es.gk2.janhout.gk2_android.Util.Cliente;
+import es.gk2.janhout.gk2_android.util.ScrollInfinito;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
 
 public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnProcessCompleteListener {
 
@@ -49,16 +49,9 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
     public FragmentoListaClientes() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        listaClientes = new ArrayList<>();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_lista, container, false);
-    }
+    /* *************************************************************************
+     **************************** Métodos on... ********************************
+     *************************************************************************** */
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -72,6 +65,48 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
         }
         query = getArguments().getString("query");
         cargarLista();
+        inicializarListView();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listaClientes = new ArrayList<>();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_lista, container, false);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("fav", favoritos);
+    }
+
+    /* *************************************************************************
+     ******************************* Auxiliares ********************************
+     *************************************************************************** */
+
+    private void cargarLista(){
+        String url;
+        if (favoritos){
+            url = Constantes.CLIENTES_LISTAR_FAVORITOS;
+        } else {
+            url = Constantes.CLIENTES_LISTAR;
+        }
+        Hashtable<String, String> parametros = new Hashtable<>();
+        parametros.put("q", query);
+        parametros.put("page", page+"");
+        parametros.put("orderBy", "");
+        parametros.put("orderDir", "");
+        parametros.put("limit", LIMITE_CONSULTA+"");
+        AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
+        asyncTask.execute(parametros);
+    }
+
+    private void inicializarListView() {
         if(listaClientes != null) {
             if (getView() != null) {
                 lv = (ListView) getView().findViewById(R.id.lvLista);
@@ -99,28 +134,9 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("fav", favoritos);
-    }
-
-    private void cargarLista(){
-        String url;
-        if (favoritos){
-            url = Constantes.CLIENTES_LISTAR_FAVORITOS;
-        } else {
-            url = Constantes.CLIENTES_LISTAR;
-        }
-        Hashtable<String, String> parametros = new Hashtable<>();
-        parametros.put("q", query);
-        parametros.put("page", page+"");
-        parametros.put("orderBy", "");
-        parametros.put("orderDir", "");
-        parametros.put("limit", LIMITE_CONSULTA+"");
-        AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
-        asyncTask.execute(parametros);
-    }
+    /* *************************************************************************
+    **************** Interfaz OnProcessCompleteListener ***********************
+    *************************************************************************** */
 
     @Override
     public void resultadoGet(String respuesta, int codigo) {

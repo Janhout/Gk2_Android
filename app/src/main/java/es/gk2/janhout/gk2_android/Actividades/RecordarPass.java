@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Actividades;
+package es.gk2.janhout.gk2_android.actividades;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
+import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
 
 public class RecordarPass extends ActionBarActivity implements AsyncTaskPost.OnProcessCompleteListener{

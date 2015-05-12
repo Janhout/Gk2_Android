@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Fragmentos;
+package es.gk2.janhout.gk2_android.fragmentos;
 
 
 import android.app.Activity;
@@ -19,11 +19,11 @@ import org.json.JSONObject;
 
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Actividades.NuevaFactura;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.actividades.NuevaFactura;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Producto;
+import es.gk2.janhout.gk2_android.modelos.Producto;
 
 public class FragmentoNuevoProducto extends Fragment implements AsyncTaskGet.OnProcessCompleteListener{
 
@@ -163,7 +163,8 @@ public class FragmentoNuevoProducto extends Fragment implements AsyncTaskGet.OnP
         etPrecioProducto.setText(producto.getPrecio_venta_final());
         etUnidad.setText(producto.getUnidades());
         etDescripcionProducto.setText(producto.getNotas());
-        //TODO poner iva prodcuto
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////ivaproducto falta
     }
 
     private void pedirOtrosDatos(){

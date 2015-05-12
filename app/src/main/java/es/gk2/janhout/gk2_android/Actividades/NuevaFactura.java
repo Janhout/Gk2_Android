@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Actividades;
+package es.gk2.janhout.gk2_android.actividades;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -10,14 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import es.gk2.janhout.gk2_android.ActionBarActivityBusqueda;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoNuevaFactura;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoNuevoProducto;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoSeleccionarCliente;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoSeleccionarProducto;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoNuevaFactura;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoNuevoProducto;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoSeleccionarCliente;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoSeleccionarProducto;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Cliente;
-import es.gk2.janhout.gk2_android.Util.Producto;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
+import es.gk2.janhout.gk2_android.modelos.Producto;
 
 public class NuevaFactura extends ActionBarActivityBusqueda implements FragmentoSeleccionarCliente.OnClienteSelectedListener,
         FragmentoSeleccionarProducto.OnProductoListaSelectedListener, FragmentoNuevoProducto.OnProductoSelectedListener {
@@ -183,7 +182,8 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
     }
 
     private void guardarFactura() {
-        //TODO
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //falta guardar factura
     }
 
     private void inicializarToolbar(){

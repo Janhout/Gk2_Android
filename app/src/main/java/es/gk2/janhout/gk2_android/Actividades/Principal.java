@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Actividades;
+package es.gk2.janhout.gk2_android.actividades;
 
 import android.app.Dialog;
 import android.app.Fragment;
@@ -20,13 +20,12 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import es.gk2.janhout.gk2_android.ActionBarActivityBusqueda;
-import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorListaNavigationDrawer;
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaCompras;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaFacturas;
-import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
+import es.gk2.janhout.gk2_android.adaptadores.AdaptadorListaNavigationDrawer;
+import es.gk2.janhout.gk2_android.util.Metodos;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaClientes;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaCompras;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaFacturas;
+import es.gk2.janhout.gk2_android.modelos.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
 
 public class Principal extends ActionBarActivityBusqueda {

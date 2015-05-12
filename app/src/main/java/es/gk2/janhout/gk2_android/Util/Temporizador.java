@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Util;
+package es.gk2.janhout.gk2_android.util;
 
 import android.os.AsyncTask;
 
@@ -23,16 +23,16 @@ public class Temporizador extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        listener.temporizadorCompletado(false);
+    }
+
+    @Override
     protected void onPostExecute(Boolean s) {
         if(s) {
             listener.temporizadorCompletado(true);
         }
-    }
-
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
-        listener.temporizadorCompletado(false);
     }
 
     public interface OnTimerCompleteListener{

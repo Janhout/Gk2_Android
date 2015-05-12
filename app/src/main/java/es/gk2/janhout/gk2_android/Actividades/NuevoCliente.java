@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Actividades;
+package es.gk2.janhout.gk2_android.actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,14 +21,14 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Adaptadores.AdaptadorAutoCompleteTextView;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskPost;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
+import es.gk2.janhout.gk2_android.adaptadores.AdaptadorAutoCompleteTextView;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
+import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Localidad;
-import es.gk2.janhout.gk2_android.Util.Provincia;
-import es.gk2.janhout.gk2_android.Util.TipoDireccion;
+import es.gk2.janhout.gk2_android.modelos.Localidad;
+import es.gk2.janhout.gk2_android.modelos.Provincia;
+import es.gk2.janhout.gk2_android.modelos.TipoDireccion;
 
 public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnProcessCompleteListener, AsyncTaskGet.OnProcessCompleteListener {
 

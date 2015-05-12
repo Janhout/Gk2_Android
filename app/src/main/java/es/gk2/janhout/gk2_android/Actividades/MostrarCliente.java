@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Actividades;
+package es.gk2.janhout.gk2_android.actividades;
 
 import android.app.Dialog;
 import android.app.Fragment;
@@ -12,8 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import es.gk2.janhout.gk2_android.ActionBarActivityBusqueda;
-import es.gk2.janhout.gk2_android.Fragmentos.FragmentoDatosCliente;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoDatosCliente;
 import es.gk2.janhout.gk2_android.R;
 
 public class MostrarCliente extends ActionBarActivityBusqueda{

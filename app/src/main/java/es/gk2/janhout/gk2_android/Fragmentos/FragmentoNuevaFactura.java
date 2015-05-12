@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Fragmentos;
+package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -34,14 +34,14 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.Actividades.NuevaFactura;
-import es.gk2.janhout.gk2_android.Estaticas.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.Estaticas.Constantes;
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
+import es.gk2.janhout.gk2_android.actividades.NuevaFactura;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.Constantes;
+import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Cliente;
-import es.gk2.janhout.gk2_android.Util.Producto;
-import es.gk2.janhout.gk2_android.Util.Tarifa;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
+import es.gk2.janhout.gk2_android.modelos.Producto;
+import es.gk2.janhout.gk2_android.modelos.Tarifa;
 
 public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener,
         AsyncTaskGet.OnProcessCompleteListener {
@@ -71,6 +71,24 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     public FragmentoNuevaFactura() {
     }
 
+    /* *************************************************************************
+     **************************** Métodos on... ********************************
+     *************************************************************************** */
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        cargarListaTarifas();
+        cargarView();
+        if(savedInstanceState != null) {
+            listaProductos = (ArrayList) savedInstanceState.getParcelableArrayList("listaProductos");
+        }
+        if(listaProductos == null) {
+            listaProductos = new ArrayList<>();
+        }
+        cargarListaProductos();
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -90,23 +108,69 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        cargarListaTarifas();
-        cargarView();
-        if(savedInstanceState != null) {
-            listaProductos = (ArrayList) savedInstanceState.getParcelableArrayList("listaProductos");
-        }
-        if(listaProductos == null) {
-            listaProductos = new ArrayList<>();
-        }
-        cargarListaProductos();
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("listaProductos", listaProductos);
+    }
+
+    /* *************************************************************************
+     **************************** Auxialiares **********************************
+     *************************************************************************** */
+
+    private void cambioFechaVencimiento(int position){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        try {
+            date = formatoFecha.parse(etFechaFactura.getText().toString());
+            cal.setTime(date);
+        } catch (ParseException ignored) {
+        }
+        cal.setTime(date);
+        int dias = 0;
+        switch (position){
+            case 0:
+                break;
+            case 1:
+                dias = 8;
+                break;
+            case 2:
+                dias = 14;
+                break;
+            case 3:
+                dias = 30;
+                break;
+            case 4:
+                dias = 0;
+                break;
+        }
+        if(position != 0) {
+            cal.add(Calendar.DAY_OF_MONTH, dias);
+            etFechaVenciminetoFactura.setText(formatearFecha(cal.get(Calendar.DAY_OF_MONTH),
+                    cal.get(Calendar.MONTH)+1,
+                    cal.get(Calendar.YEAR)));
+        }
+    }
+
+    private void cargarListaProductos(){
+        llLineas.removeAllViewsInLayout();
+        llLineas.invalidate();
+        TextView tv = (TextView)getView().findViewById(R.id.nueva_factura_tv_sin_producto);
+        if (listaProductos.size()>0) {
+            tv.setVisibility(View.GONE);
+            for (Producto producto : listaProductos) {
+                crearViewLinea(producto);
+            }
+        } else {
+            tv.setVisibility(View.VISIBLE);
+        }
+        cargarTotales();
+    }
+
+    private void cargarListaTarifas(){
+        listaTarifas = new ArrayList<>();
+        AsyncTaskGet h = new AsyncTaskGet(getActivity(), this, Constantes.PRODUCTOS_TARIFAS, false, CODIGO_PETICION_TARIFAS);
+        h.execute(new Hashtable<String, String>());
     }
 
     private void cargarTotales(){
@@ -245,41 +309,6 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         });
     }
 
-    private void cambioFechaVencimiento(int position){
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = null;
-        try {
-            date = formatoFecha.parse(etFechaFactura.getText().toString());
-            cal.setTime(date);
-        } catch (ParseException ignored) {
-        }
-        cal.setTime(date);
-        int dias = 0;
-        switch (position){
-            case 0:
-                break;
-            case 1:
-                dias = 8;
-                break;
-            case 2:
-                dias = 14;
-                break;
-            case 3:
-                dias = 30;
-                break;
-            case 4:
-                dias = 0;
-                break;
-        }
-        if(position != 0) {
-            cal.add(Calendar.DAY_OF_MONTH, dias);
-            etFechaVenciminetoFactura.setText(formatearFecha(cal.get(Calendar.DAY_OF_MONTH),
-                    cal.get(Calendar.MONTH)+1,
-                    cal.get(Calendar.YEAR)));
-        }
-    }
-
     private void cargarViewLineasFactura(){
         TextView et_nuevaLinea = (TextView)getView().findViewById(R.id.nueva_factura_bt_nueva_linea);
         Metodos.textViewAwesomeComponente(getActivity(), et_nuevaLinea, getString(R.string.icono_nueva_linea));
@@ -293,12 +322,6 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         });
     }
 
-    private void cargarViewTotales(){
-        tvSubtotal = (TextView)getView().findViewById(R.id.nueva_factura_tv_subtotal);
-        tvTotal = (TextView)getView().findViewById(R.id.nueva_factura_tv_total);
-        llTotalesIva = (LinearLayout)getView().findViewById(R.id.nueva_factura_layout_totales_iva);
-    }
-
     private void cargarViewOpciones(){
         formatoPrecio = (Switch) getView().findViewById(R.id.nueva_factura_sw_formato_precio);
         formatoPrecio.setChecked(true);
@@ -310,35 +333,10 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         });
     }
 
-    public void setCliente(Cliente cliente){
-        clienteSeleccionado = cliente;
-        etCliente.setText(clienteSeleccionado.getNombre_comercial());
-    }
-
-    public void setProducto(Producto producto){
-        listaProductos.add(producto);
-        cargarListaProductos();
-    }
-
-    private void cargarListaProductos(){
-        llLineas.removeAllViewsInLayout();
-        llLineas.invalidate();
-        TextView tv = (TextView)getView().findViewById(R.id.nueva_factura_tv_sin_producto);
-        if (listaProductos.size()>0) {
-            tv.setVisibility(View.GONE);
-            for (Producto producto : listaProductos) {
-                crearViewLinea(producto);
-            }
-        } else {
-            tv.setVisibility(View.VISIBLE);
-        }
-        cargarTotales();
-    }
-
-    private void cargarListaTarifas(){
-        listaTarifas = new ArrayList<>();
-        AsyncTaskGet h = new AsyncTaskGet(getActivity(), this, Constantes.PRODUCTOS_TARIFAS, false, CODIGO_PETICION_TARIFAS);
-        h.execute(new Hashtable<String, String>());
+    private void cargarViewTotales(){
+        tvSubtotal = (TextView)getView().findViewById(R.id.nueva_factura_tv_subtotal);
+        tvTotal = (TextView)getView().findViewById(R.id.nueva_factura_tv_total);
+        llTotalesIva = (LinearLayout)getView().findViewById(R.id.nueva_factura_layout_totales_iva);
     }
 
     private void crearViewLinea(Producto producto){
@@ -371,7 +369,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
                 listaProductos.remove(pos);
                 cargarListaProductos();
 
-                //TODO mostrar dialogo para borarr / editar
+      ////////////////////////////////////////////////////////          // mostrar dialogo para borarr / editar
                 return true;
             }
         });
@@ -385,6 +383,20 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         return dia + "/" + mes + "/" + anio;
     }
 
+    public void setCliente(Cliente cliente){
+        clienteSeleccionado = cliente;
+        etCliente.setText(clienteSeleccionado.getNombre_comercial());
+    }
+
+    public void setProducto(Producto producto){
+        listaProductos.add(producto);
+        cargarListaProductos();
+    }
+
+    /* *************************************************************************
+     ************************* Interfaz OnDateSetListener **********************
+     *************************************************************************** */
+
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
         if(datePickerDialog.getTag().equals(FECHA_FACTURA_TAG)) {
@@ -395,6 +407,10 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
             spCondiciones_pago.setSelection(0);
         }
     }
+
+    /* *************************************************************************
+     ******************** Interfaz OnProcessCompleteListener *******************
+     *************************************************************************** */
 
     @Override
     public void resultadoGet(String respuesta, int codigo_peticion) {

@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Adaptadores;
+package es.gk2.janhout.gk2_android.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.Util.Producto;
+import es.gk2.janhout.gk2_android.modelos.Producto;
 
 public class AdaptadorSeleccionarProducto extends ArrayAdapter<Producto>{
 

@@ -1,4 +1,4 @@
-package es.gk2.janhout.gk2_android.Adaptadores;
+package es.gk2.janhout.gk2_android.adaptadores;
 
 
 import android.content.Context;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import es.gk2.janhout.gk2_android.Estaticas.Metodos;
-import es.gk2.janhout.gk2_android.ItemNavigationDrawer;
+import es.gk2.janhout.gk2_android.util.Metodos;
+import es.gk2.janhout.gk2_android.modelos.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
 
 public class AdaptadorListaNavigationDrawer extends ArrayAdapter {
