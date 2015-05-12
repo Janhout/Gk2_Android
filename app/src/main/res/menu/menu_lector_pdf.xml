@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="es.gk2.janhout.gk2_android.Actividades.LectorPDF">
+    tools:context="es.gk2.janhout.gk2_android.actividades.LectorPDF">
 
     <item android:id="@+id/action_enviar_cliente"
         android:icon="@drawable/ic_action_enviar"

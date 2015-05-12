@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="es.gk2.janhout.gk2_android.Actividades.NuevoCliente">
+    tools:context="es.gk2.janhout.gk2_android.actividades.NuevoCliente">
 
     <include
         android:id="@+id/tool_bar"

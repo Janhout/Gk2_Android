@@ -10,7 +10,7 @@ import android.database.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.gk2.janhout.gk2_android.Util.Factura;
+import es.gk2.janhout.gk2_android.modelos.Factura;
 
 public class GestorFacturaDB {
 

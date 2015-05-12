@@ -10,7 +10,7 @@ import android.database.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.gk2.janhout.gk2_android.Util.Cliente;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
 
 public class GestorClienteDB {
 

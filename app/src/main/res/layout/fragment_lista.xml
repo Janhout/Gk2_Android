@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="es.gk2.janhout.gk2_android.Fragmentos.FragmentoListaClientes">
+    tools:context="es.gk2.janhout.gk2_android.fragmentos.FragmentoListaClientes">
 
     <LinearLayout
         android:layout_width="match_parent"
