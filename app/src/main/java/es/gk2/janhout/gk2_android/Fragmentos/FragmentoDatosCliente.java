@@ -2,8 +2,8 @@ package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -299,7 +299,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         MostrarCliente.fragmentoActual = MostrarCliente.ListaFragmentosCliente.facturas;
         Fragment fragmento = new FragmentoListaFacturas();
         fragmento.setArguments(bundle);
-        FragmentTransaction transaction = actividad.getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = actividad.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.relativeLayoutCliente, fragmento);
         transaction.addToBackStack(null);
         actividad.setTituloActividad("Facturas - " + s_nombreComercial);

@@ -1,7 +1,7 @@
 package es.gk2.janhout.gk2_android.actividades;
 
 import android.app.Dialog;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -169,7 +169,7 @@ public class MostrarCliente extends ActionBarActivityBusqueda{
             Bundle bundle = new Bundle();
             bundle.putInt("idCliente", idCliente);
             fragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutCliente, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutCliente, fragment).commit();
         }
     }
 

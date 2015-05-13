@@ -13,13 +13,15 @@ import java.util.Date;
 
 public class Factura implements Parcelable, Serializable {
 
+    private int cliente;
+    private String nombreComercialCliente;
     private String numeroFactura;
     private Date fechaFactura;
     private int estadoFactura; // 0: impagada | 1: pagada | 2: borrador
     private float importeFactura;
     private float importePagado;
-    private int impreso; //0: no impresa | 1: impresa
-    private int enviado; //0: no enviada | 1: enviada
+    private int impreso; //0: no impresa | >1: impresa
+    private int enviado; //0: no enviada | >1: enviada
     private int idImpresion;
 
     public static final Parcelable.Creator<Factura> CREATOR = new Parcelable.Creator<Factura>() {
@@ -34,6 +36,8 @@ public class Factura implements Parcelable, Serializable {
     };
 
     public Factura(Parcel parcel) {
+        this.cliente = parcel.readInt();
+        this.nombreComercialCliente = parcel.readString();
         this.numeroFactura = parcel.readString();
         this.fechaFactura = stringToDate(parcel.readString());
         this.estadoFactura = parcel.readInt();
@@ -47,7 +51,9 @@ public class Factura implements Parcelable, Serializable {
     public Factura(){
     }
 
-    public Factura(String numeroFactura, String fechaFactura, int estadoFactura, float importeFactura, float importePagado, int impreso, int enviado, int idImpresion) {
+    public Factura(int cliente, String nombreComercialCliente, String numeroFactura, String fechaFactura, int estadoFactura, float importeFactura, float importePagado, int impreso, int enviado, int idImpresion) {
+        this.cliente = cliente;
+        this.nombreComercialCliente = nombreComercialCliente;
         this.numeroFactura = numeroFactura;
         this.fechaFactura = stringToDate(fechaFactura);
         this.estadoFactura = estadoFactura;
@@ -60,6 +66,8 @@ public class Factura implements Parcelable, Serializable {
 
     public Factura(JSONObject facturaJSON) {
         try {
+            this.cliente = facturaJSON.getInt("CLIENTE");
+            this.nombreComercialCliente = facturaJSON.getString("NOMBRE_COMERCIAL");
             this.numeroFactura = facturaJSON.getString("NUMERO");
             String stringFecha = facturaJSON.getString("FECHA");
             SimpleDateFormat toDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -81,9 +89,28 @@ public class Factura implements Parcelable, Serializable {
             this.impreso = facturaJSON.getInt("PRINTED");
             this.enviado = facturaJSON.getInt("SENT");
             this.idImpresion = facturaJSON.getInt("ID_S");
-        } catch (JSONException | ParseException e) {
-            e.getMessage();
+        } catch (JSONException | ParseException ignored) {
         }
+    }
+
+    public int getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(int cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getNombreComercialCliente() {
+        return nombreComercialCliente;
+    }
+
+    public void setNombreComercialCliente(String nombreComercialCliente) {
+        this.nombreComercialCliente = nombreComercialCliente;
+    }
+
+    public void setFechaFactura(Date fechaFactura) {
+        this.fechaFactura = fechaFactura;
     }
 
     public String getNumeroFactura() {
@@ -150,6 +177,19 @@ public class Factura implements Parcelable, Serializable {
         this.idImpresion = idImpresion;
     }
 
+    private String dateToString(){
+        SimpleDateFormat toStringFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        return toStringFormatter.format(fechaFactura);
+    }
+
+    private Date stringToDate(String s){
+        SimpleDateFormat toStringFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return toStringFormatter.parse(s);
+        } catch (ParseException e) {
+            return new Date();
+        }
+    }
 
     @Override
     public int describeContents() {
@@ -158,6 +198,8 @@ public class Factura implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(cliente);
+        parcel.writeString(nombreComercialCliente);
         parcel.writeString(numeroFactura);
         parcel.writeString(dateToString());
         parcel.writeInt(estadoFactura);
@@ -175,6 +217,7 @@ public class Factura implements Parcelable, Serializable {
 
         Factura factura = (Factura) o;
 
+        if (cliente != factura.cliente) return false;
         if (enviado != factura.enviado) return false;
         if (estadoFactura != factura.estadoFactura) return false;
         if (idImpresion != factura.idImpresion) return false;
@@ -183,15 +226,18 @@ public class Factura implements Parcelable, Serializable {
         if (impreso != factura.impreso) return false;
         if (fechaFactura != null ? !fechaFactura.equals(factura.fechaFactura) : factura.fechaFactura != null)
             return false;
-        if (numeroFactura != null ? !numeroFactura.equals(factura.numeroFactura) : factura.numeroFactura != null)
+        if (nombreComercialCliente != null ? !nombreComercialCliente.equals(factura.nombreComercialCliente) : factura.nombreComercialCliente != null)
             return false;
+        if (!numeroFactura.equals(factura.numeroFactura)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = numeroFactura != null ? numeroFactura.hashCode() : 0;
+        int result = cliente;
+        result = 31 * result + (nombreComercialCliente != null ? nombreComercialCliente.hashCode() : 0);
+        result = 31 * result + numeroFactura.hashCode();
         result = 31 * result + (fechaFactura != null ? fechaFactura.hashCode() : 0);
         result = 31 * result + estadoFactura;
         result = 31 * result + (importeFactura != +0.0f ? Float.floatToIntBits(importeFactura) : 0);
@@ -205,7 +251,9 @@ public class Factura implements Parcelable, Serializable {
     @Override
     public String toString() {
         return "Factura{" +
-                "numeroFactura='" + numeroFactura + '\'' +
+                "cliente=" + cliente +
+                ", nombreComercialCliente='" + nombreComercialCliente + '\'' +
+                ", numeroFactura='" + numeroFactura + '\'' +
                 ", fechaFactura=" + fechaFactura +
                 ", estadoFactura=" + estadoFactura +
                 ", importeFactura=" + importeFactura +
@@ -214,20 +262,5 @@ public class Factura implements Parcelable, Serializable {
                 ", enviado=" + enviado +
                 ", idImpresion=" + idImpresion +
                 '}';
-    }
-
-
-    private String dateToString(){
-        SimpleDateFormat toStringFormatter = new SimpleDateFormat("dd/MM/yyyy");
-        return toStringFormatter.format(fechaFactura);
-    }
-
-    private Date stringToDate(String s){
-        SimpleDateFormat toStringFormatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            return toStringFormatter.parse(s);
-        } catch (ParseException e) {
-            return new Date();
-        }
     }
 }

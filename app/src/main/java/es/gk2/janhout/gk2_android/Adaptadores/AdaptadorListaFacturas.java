@@ -42,36 +42,39 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
             vh.importePagado = (TextView) convertView.findViewById(R.id.importePagado);
             vh.iconoEnviado = (TextView) convertView.findViewById(R.id.detalle_factura_iconoEnviado);
             vh.iconoImpreso = (TextView) convertView.findViewById(R.id.detalle_factura_iconoImpreso);
-
+            vh.nombreCliente = (TextView) convertView.findViewById(R.id.detalle_factura_nombreCliente);
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        if (datos.get(position).getEstadoFactura() == 0)
+        if (datos.get(position).getEstadoFactura() == 0) {
             vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.rojo));
-        else if (datos.get(position).getEstadoFactura() == 1)
+        }else if (datos.get(position).getEstadoFactura() == 1) {
             vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.verde));
-        else if (datos.get(position).getEstadoFactura() == 2)
+        }else if (datos.get(position).getEstadoFactura() == 2) {
             vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.amarillo));
+        }
 
-        if (datos.get(position).getEnviado() > 0)
+        if (datos.get(position).getEnviado() > 0) {
             Metodos.textViewAwesomeComponente(contexto, vh.iconoEnviado, contexto.getString(R.string.icono_enviado));
-        else
+        } else {
             vh.iconoEnviado.setText("");
-        if (datos.get(position).getImpreso() > 0)
+        }
+        if (datos.get(position).getImpreso() > 0) {
             Metodos.textViewAwesomeComponente(contexto, vh.iconoImpreso, contexto.getString(R.string.icono_impreso));
-        else
+        } else {
             vh.iconoImpreso.setText("");
-
-        vh.numeroFactura.setText(position+" - "+datos.get(position).getNumeroFactura());
+        }
+        vh.nombreCliente.setText(datos.get(position).getNombreComercialCliente());
+        vh.numeroFactura.setText(datos.get(position).getNumeroFactura());
         vh.fechaFactura.setText(datos.get(position).getFechaFactura());
         vh.importeFactura.setText(contexto.getString(R.string.s_facturas_importe) + Float.toString(datos.get(position).getImporteFactura())+contexto.getString(R.string.moneda));
-        if (datos.get(position).getEstadoFactura() == 0)
-            vh.importePagado.setText(contexto.getString(R.string.s_facturas_pendiente) + Float.toString(datos.get(position).getImportePagado())+contexto.getString(R.string.moneda));
-        else
+        if (datos.get(position).getEstadoFactura() == 0) {
+            vh.importePagado.setText(contexto.getString(R.string.s_facturas_pendiente) + Float.toString(datos.get(position).getImportePagado()) + contexto.getString(R.string.moneda));
+        } else {
             vh.importePagado.setText("");
-
+        }
         return convertView;
     }
 
@@ -83,5 +86,6 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         public TextView importePagado;
         public TextView iconoEnviado;
         public TextView iconoImpreso;
+        public TextView nombreCliente;
     }
 }

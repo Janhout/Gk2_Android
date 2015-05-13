@@ -1,10 +1,9 @@
 package es.gk2.janhout.gk2_android.fragmentos;
 
-
 import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -62,10 +61,14 @@ public class FragmentoNuevoProducto extends Fragment implements AsyncTaskGet.OnP
         super.onActivityCreated(savedInstanceState);
         listener = (NuevaFactura)getActivity();
         idCliente = this.getArguments().getString("idCliente");
+        producto = this.getArguments().getParcelable("productoModificar");
         if(idCliente == null){
             idCliente = "";
         }
         cargarView();
+        if(producto != null){
+            mostrarDatosProducto();
+        }
     }
 
     @Override

@@ -1,8 +1,9 @@
 package es.gk2.janhout.gk2_android.actividades;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.os.PersistableBundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -52,7 +53,8 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
                 super.onBackPressed();
                 break;
             case seleccionarProducto:
-                mostrarFragmentoNuevaLinea(false);
+                FragmentoNuevaFactura.productoModificar = -1;
+                mostrarFragmentoNuevaLinea(false, null);
                 break;
             case seleccionCliente:
             case nuevaLinea:
@@ -100,7 +102,8 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
             } else if (fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura){
                 finish();
             } else if (fragmentoActual == ListaFragmentosNuevaFactura.seleccionarProducto){
-                mostrarFragmentoNuevaLinea(false);
+                FragmentoNuevaFactura.productoModificar = -1;
+                mostrarFragmentoNuevaLinea(false, null);
             }
             invalidateOptionsMenu();
             return true;
@@ -155,7 +158,7 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
             f = fragmentoProductos(textoBusqueda);
         }
         if (f != null) {
-            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, f).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, f).commit();
         }
     }
 
@@ -198,7 +201,7 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
     }
 
     private void mostrarFragmentoNuevaFactura(){
-        android.app.FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         fragmentoPrincipal = (FragmentoNuevaFactura)fm.findFragmentByTag(TAG_FRAGMENTO_PRINCIPAL);
         if(fragmentoPrincipal == null){
             fragmentoPrincipal = new FragmentoNuevaFactura();
@@ -209,14 +212,14 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
         }
         fragmentoActual = ListaFragmentosNuevaFactura.nuevaFactura;
         invalidateOptionsMenu();
-        FragmentTransaction ft = getFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, fragmentoPrincipal, TAG_FRAGMENTO_PRINCIPAL);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, fragmentoPrincipal, TAG_FRAGMENTO_PRINCIPAL);
         ft.addToBackStack(TAG_FRAGMENTO_PRINCIPAL);
         ft.commit();
         fm.executePendingTransactions();
     }
 
-    public void mostrarFragmentoNuevaLinea(boolean nuevo){
-        android.app.FragmentManager fm = getFragmentManager();
+    public void mostrarFragmentoNuevaLinea(boolean nuevo, Producto productoModificar){
+        FragmentManager fm = getSupportFragmentManager();
         fragmentoNuevoProducto = (FragmentoNuevoProducto)fm.findFragmentByTag(TAG_FRAGMENTO_NUEVO_PRODUCTO);
         FragmentTransaction transaction = fm.beginTransaction();
         if(fragmentoNuevoProducto == null || nuevo){
@@ -224,6 +227,7 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
             Bundle b = new Bundle();
             fragmentoNuevoProducto.setArguments(null);
             b.putString("idCliente", "-1");
+            b.putParcelable("productoModificar", productoModificar);
             fragmentoNuevoProducto.setArguments(b);
         }
         invalidateOptionsMenu();
@@ -250,7 +254,8 @@ public class NuevaFactura extends ActionBarActivityBusqueda implements Fragmento
 
     @Override
     public void devolverProductoLista(Producto producto) {
-        mostrarFragmentoNuevaLinea(false);
+        FragmentoNuevaFactura.productoModificar = -1;
+        mostrarFragmentoNuevaLinea(false, null);
         fragmentoNuevoProducto.setProducto(producto);
     }
 

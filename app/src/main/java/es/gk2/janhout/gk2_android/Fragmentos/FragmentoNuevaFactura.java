@@ -1,10 +1,10 @@
 package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,6 +67,8 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     public static final String FECHA_VENCIMIENTO_TAG = "fecha_vencimiento";
 
     public static final int CODIGO_PETICION_TARIFAS = 1;
+
+    public static int productoModificar;
 
     public FragmentoNuevaFactura() {
     }
@@ -187,15 +189,14 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
                 } else {
                     precio_producto_iva_incluido = precio_sin_iva * iva_producto_porcentaje;
                 }
-                double iva_producto = precio_producto_iva_incluido - precio_sin_iva;
                 if(!tablaIva.containsKey(iva_producto_porcentaje)){
-                    tablaIva.put(iva_producto_porcentaje, iva_producto*Double.valueOf(producto.getCantidad()));
+                    tablaIva.put(iva_producto_porcentaje, Metodos.redondear(precio_sin_iva * Double.valueOf(producto.getCantidad()), 2));
                 } else {
                     double temp = tablaIva.get(iva_producto_porcentaje);
-                    tablaIva.put(iva_producto_porcentaje, temp + iva_producto*Double.valueOf(producto.getCantidad()));
+                    tablaIva.put(iva_producto_porcentaje, Metodos.redondear(temp + precio_sin_iva*Double.valueOf(producto.getCantidad()),2));
                 }
-                subtotal = subtotal + precio_sin_iva*Double.valueOf(producto.getCantidad());
-                total = total + precio_producto_iva_incluido*Double.valueOf(producto.getCantidad());
+                subtotal = Metodos.redondear(subtotal + precio_sin_iva*Double.valueOf(producto.getCantidad()),2);
+                total = Metodos.redondear(total + precio_producto_iva_incluido*Double.valueOf(producto.getCantidad()),2);
             }
         }
         if(tablaIva.size()>0){
@@ -217,8 +218,8 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
             TextView tv_etiqueta_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_etiqueta);
             TextView tv_total_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_total);
 
-            tv_etiqueta_iva.setText("IVA " + key + "% de " + Metodos.doubleToMoney(value*100/key));
-            tv_total_iva.setText(Metodos.doubleToMoney(value));
+            tv_etiqueta_iva.setText("IVA " + key + "% de " + Metodos.doubleToMoney(value));
+            tv_total_iva.setText(Metodos.doubleToMoney(value*key/100));
 
             llTotalesIva.addView(detalle);
         }
@@ -317,7 +318,8 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         llNuevaLinea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actividad.mostrarFragmentoNuevaLinea(true);
+                productoModificar = -1;
+                actividad.mostrarFragmentoNuevaLinea(true, null);
             }
         });
     }
@@ -339,7 +341,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         llTotalesIva = (LinearLayout)getView().findViewById(R.id.nueva_factura_layout_totales_iva);
     }
 
-    private void crearViewLinea(Producto producto){
+    private void crearViewLinea(final Producto producto){
         LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View detalle = inflador.inflate(R.layout.detalle_linea_factura, null);
         TextView tv_cantidad_precio = (TextView)detalle.findViewById(R.id.detalle_linea_tv_cantidad_precio);
@@ -362,6 +364,14 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
             tv_precio.setText(Metodos.doubleToMoney(Double.valueOf(producto.getCantidad())*precio_producto_iva_incluido));
         }
         detalle.setTag(producto);
+        detalle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Producto pos = (Producto) v.getTag();
+                productoModificar = listaProductos.indexOf(pos);
+                actividad.mostrarFragmentoNuevaLinea(true, pos);
+            }
+        });
         detalle.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -389,7 +399,12 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     }
 
     public void setProducto(Producto producto){
-        listaProductos.add(producto);
+        if(productoModificar == -1) {
+            listaProductos.add(producto);
+        } else {
+            listaProductos.set(productoModificar, producto);
+        }
+        productoModificar = -1;
         cargarListaProductos();
     }
 

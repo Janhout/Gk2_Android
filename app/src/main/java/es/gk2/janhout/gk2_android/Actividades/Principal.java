@@ -1,7 +1,7 @@
 package es.gk2.janhout.gk2_android.actividades;
 
 import android.app.Dialog;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -63,6 +63,7 @@ public class Principal extends ActionBarActivityBusqueda {
             case ninguno:
             case clientes_favoritos:
             case clientes:
+            case facturas:
                 super.onBackPressed();
                 break;
             case compras:
@@ -184,7 +185,7 @@ public class Principal extends ActionBarActivityBusqueda {
     private void cargarFragmentoInicial(){
         if(inicio) {
             Fragment fragment = fragmentoClientes(true, "");
-            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
             drawerList.setItemChecked(1, true);
             setTituloActividad(tituloActividad + " - " + titulos[1]);
         }
@@ -283,7 +284,7 @@ public class Principal extends ActionBarActivityBusqueda {
             fragmentoActual = ListaFragmentosPrincipal.facturas;
         }
         if (f != null) {
-            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
         }
     }
 
@@ -344,7 +345,7 @@ public class Principal extends ActionBarActivityBusqueda {
         }
 
         if(position != 4) {
-            getFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
 
             drawerList.setItemChecked(position, true);
             setTituloActividad(titulos[position]);

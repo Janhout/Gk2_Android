@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 
 import es.gk2.janhout.gk2_android.actividades.Login;
@@ -133,7 +135,7 @@ public class Metodos {
 
     public static String doubleToMoney(double valor){
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        return formatter.format(valor);
+        return formatter.format(Metodos.redondear(valor, 2));
     }
 
     public static void redireccionarLogin(Context contexto){
@@ -142,5 +144,14 @@ public class Metodos {
         Toast.makeText(contexto, contexto.getResources().getString(R.string.e_sesion_expirada), Toast.LENGTH_SHORT).show();
         contexto.startActivity(i);
         ((Activity)contexto).finish();
+    }
+
+    public static double redondear(double valor, int decimales) {
+        if (decimales > -1){
+            BigDecimal bd = new BigDecimal(valor);
+            bd = bd.setScale(decimales, RoundingMode.HALF_UP);
+            return bd.doubleValue();
+        }
+        return valor;
     }
 }
