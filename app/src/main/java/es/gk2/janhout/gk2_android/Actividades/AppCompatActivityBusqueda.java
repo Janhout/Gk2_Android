@@ -1,11 +1,11 @@
 package es.gk2.janhout.gk2_android.actividades;
 
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 
 import es.gk2.janhout.gk2_android.util.Temporizador;
 
-public abstract class ActionBarActivityBusqueda extends ActionBarActivity implements Temporizador.OnTimerCompleteListener,
+public abstract class AppCompatActivityBusqueda extends AppCompatActivity implements Temporizador.OnTimerCompleteListener,
         SearchView.OnQueryTextListener {
 
     private String textoBusqueda;

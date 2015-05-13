@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoDatosCliente;
 import es.gk2.janhout.gk2_android.R;
 
-public class MostrarCliente extends ActionBarActivityBusqueda{
+public class MostrarCliente extends AppCompatActivityBusqueda {
 
     private String tituloActividad;
     private int idCliente;

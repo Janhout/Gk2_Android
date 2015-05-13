@@ -2,7 +2,7 @@ package es.gk2.janhout.gk2_android.actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,7 +14,7 @@ import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
 
-public class Login extends ActionBarActivity implements AsyncTaskPost.OnProcessCompleteListener{
+public class Login extends AppCompatActivity implements AsyncTaskPost.OnProcessCompleteListener{
 
     private static final String PARAMENTRO_USUARIO = "usuario";
     private static final String PARAMENTRO_PASS = "pass";

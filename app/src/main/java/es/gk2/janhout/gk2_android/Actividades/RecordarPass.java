@@ -1,7 +1,7 @@
 package es.gk2.janhout.gk2_android.actividades;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,7 +12,7 @@ import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
 
-public class RecordarPass extends ActionBarActivity implements AsyncTaskPost.OnProcessCompleteListener{
+public class RecordarPass extends AppCompatActivity implements AsyncTaskPost.OnProcessCompleteListener{
 
     private final static String PARAMETRO_USUARIO = "usuario";
 

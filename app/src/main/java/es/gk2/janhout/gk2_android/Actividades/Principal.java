@@ -28,7 +28,7 @@ import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.modelos.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
 
-public class Principal extends ActionBarActivityBusqueda {
+public class Principal extends AppCompatActivityBusqueda {
 
     private DrawerLayout drawerLayout;
     private ListView drawerList;

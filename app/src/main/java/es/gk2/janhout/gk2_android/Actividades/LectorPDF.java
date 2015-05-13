@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +26,7 @@ import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
 
-public class LectorPDF extends ActionBarActivity implements OnPageChangeListener,
+public class LectorPDF extends AppCompatActivity implements OnPageChangeListener,
         AsyncTaskPost.OnProcessCompleteListener {
 
     private Integer pageNumber;

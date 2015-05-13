@@ -19,7 +19,7 @@ import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.modelos.Cliente;
 import es.gk2.janhout.gk2_android.modelos.Producto;
 
-public class NuevaFactura extends ActionBarActivityBusqueda implements FragmentoSeleccionarCliente.OnClienteSelectedListener,
+public class NuevaFactura extends AppCompatActivityBusqueda implements FragmentoSeleccionarCliente.OnClienteSelectedListener,
         FragmentoSeleccionarProducto.OnProductoListaSelectedListener, FragmentoNuevoProducto.OnProductoSelectedListener {
 
     private FragmentoNuevaFactura fragmentoPrincipal;

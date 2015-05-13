@@ -2,7 +2,7 @@ package es.gk2.janhout.gk2_android.actividades;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -30,7 +30,7 @@ import es.gk2.janhout.gk2_android.modelos.Localidad;
 import es.gk2.janhout.gk2_android.modelos.Provincia;
 import es.gk2.janhout.gk2_android.modelos.TipoDireccion;
 
-public class NuevoCliente extends ActionBarActivity implements AsyncTaskPost.OnProcessCompleteListener, AsyncTaskGet.OnProcessCompleteListener {
+public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnProcessCompleteListener, AsyncTaskGet.OnProcessCompleteListener {
 
     private Toolbar toolbar;
     private EditText inputNombreComercial;
