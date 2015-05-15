@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         if (convertView == null) {
             convertView = inflador.inflate(recurso, null);
             vh = new ViewHolder();
-            vh.filaFactura = (LinearLayout) convertView.findViewById(R.id.filaFactura);
             vh.numeroFactura = (TextView) convertView.findViewById(R.id.numeroFactura);
             vh.fechaFactura = (TextView) convertView.findViewById(R.id.fechaFactura);
             vh.importeFactura = (TextView) convertView.findViewById(R.id.importeFactura);
@@ -48,14 +46,6 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
-
-        /*if (datos.get(position).getEstadoFactura() == 0) {
-            vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.rojo));
-        }else if (datos.get(position).getEstadoFactura() == 1) {
-            vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.verde));
-        }else if (datos.get(position).getEstadoFactura() == 2) {
-            vh.filaFactura.setBackgroundColor(contexto.getResources().getColor(R.color.amarillo));
-        }*/
 
         if (datos.get(position).getEnviado() > 0) {
             Metodos.textViewAwesomeComponente(contexto, vh.iconoEnviado, contexto.getString(R.string.icono_enviado));
@@ -82,7 +72,6 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
     }
 
     public static class ViewHolder {
-        public LinearLayout filaFactura;
         public TextView numeroFactura;
         public TextView fechaFactura;
         public TextView importeFactura;
