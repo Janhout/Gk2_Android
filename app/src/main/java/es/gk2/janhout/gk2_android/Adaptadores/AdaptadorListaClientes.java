@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +91,15 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Asy
 
         String telefono1 = datos.get(position).getTelefono01().trim();
         String telefono2 = datos.get(position).getTelefono02().trim();
-//&& !android.text.TextUtils.isDigitsOnly(telefono1) && !android.text.TextUtils.isDigitsOnly(telefono2)
+        telefono1 = telefono1.replaceAll(" ", "");
+        telefono2 = telefono2.replaceAll(" ", "");
+        if(!TextUtils.isDigitsOnly(telefono1)){
+            telefono1 = "";
+        }
+        if(!TextUtils.isDigitsOnly(telefono2)){
+            telefono2 = "";
+        }
+
         if(telefono1.equals("") && telefono2.equals("")){
             vh.btTelefono.setEnabled(false);
         }else{
@@ -131,13 +141,15 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Asy
     private void clickTelefono(int position){
         String telefono01 = datos.get(position).getTelefono01().trim();
         String telefono02 = datos.get(position).getTelefono02().trim();
+        telefono01 = telefono01.replaceAll(" ", "");
+        telefono02 = telefono02.replaceAll(" ", "");
 
         String uri = "";
         if(!telefono01.equals("") && !telefono02.equals("")){
             seleccionarTelefono(telefono01, telefono02);
         } else if(!telefono01.equals("")) {
             uri = "tel:" + telefono01;
-        } else if(!telefono01.equals("")) {
+        } else if(!telefono02.equals("")) {
             uri = "tel:" + telefono02;
         }
 

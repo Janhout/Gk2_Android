@@ -21,6 +21,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import es.gk2.janhout.gk2_android.adaptadores.AdaptadorListaNavigationDrawer;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoContenedorListaFacturas;
 import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaCompras;
@@ -72,10 +73,13 @@ public class Principal extends AppCompatActivityBusqueda {
                 break;
         }
     }
-
+///////////////////////////////////////////////////////////////////////////////////
+   // public static Context contexto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ///////////////////////////////////////////////////////////////////////////////
+        //contexto = getApplicationContext();
         setContentView(R.layout.activity_principal);
         inicio = true;
         if(savedInstanceState != null) {
@@ -324,12 +328,17 @@ public class Principal extends AppCompatActivityBusqueda {
                 fragmentoActual = ListaFragmentosPrincipal.clientes_favoritos;
                 break;
             case 2:
-                fragment = new FragmentoListaFacturas();
+                /*fragment = new FragmentoListaFacturas();
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("todo", true);
+                bundle.putBoolean("t odo", true);
+                bundle.putString("query", "");
+                fragment.setArguments(bundle);*/
+                fragmentoActual = ListaFragmentosPrincipal.facturas;
+                fragment = new FragmentoContenedorListaFacturas();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("todas", true);
                 bundle.putString("query", "");
                 fragment.setArguments(bundle);
-                fragmentoActual = ListaFragmentosPrincipal.facturas;
                 break;
             case 3:
                 fragment = new FragmentoListaCompras();

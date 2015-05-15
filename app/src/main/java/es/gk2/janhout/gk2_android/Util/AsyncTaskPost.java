@@ -2,7 +2,7 @@ package es.gk2.janhout.gk2_android.util;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -23,7 +23,7 @@ public class AsyncTaskPost extends AsyncTask<Hashtable<String, String>, Void, St
         this.contexto = contexto;
         this.url = url;
         this.listener = listener;
-        this.layoutProgreso = ((LinearLayout)((ActionBarActivity)contexto).findViewById(R.id.dialogo_progreso));
+        this.layoutProgreso = ((LinearLayout)((AppCompatActivity)contexto).findViewById(R.id.dialogo_progreso));
         this.codigo_peticion = codigo_peticion;
     }
 

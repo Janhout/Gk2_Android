@@ -59,4 +59,7 @@
     <!-- ERRORES -->
     <string name="e_sesion_expirada">Su sesión ha expirado</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -24,6 +24,8 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
     private static boolean mostrarDialogo;
     private static boolean inicio;
     private ItemMenuPulsadoMostrarCliente escuchadorMenu;
+    private boolean mostrarTelefono;
+    private boolean mostrarEmail;
 
     public static enum ListaFragmentosCliente {
         ninguno,
@@ -120,8 +122,8 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
             menu.findItem(R.id.action_nueva_factura).setVisible(false);
         }
         if(fragmentoActual == ListaFragmentosCliente.clienteActual){
-            menu.findItem(R.id.action_llamar).setVisible(true);
-            menu.findItem(R.id.action_email).setVisible(true);
+            menu.findItem(R.id.action_llamar).setVisible(mostrarTelefono);
+            menu.findItem(R.id.action_email).setVisible(mostrarEmail);
             menu.findItem(R.id.action_facturas).setVisible(true);
         } else {
             menu.findItem(R.id.action_llamar).setVisible(false);
@@ -204,6 +206,14 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
 
     public static void setInicio(boolean inicio){
         MostrarCliente.inicio = inicio;
+    }
+
+    public void setMostrarTelefono(boolean mostrarTelefono){
+        this.mostrarTelefono = mostrarTelefono;
+    }
+
+    public void setMostrarEmail(boolean mostrarEmail){
+        this.mostrarEmail = mostrarEmail;
     }
 
     public void setTituloActividad(String tituloActividad){

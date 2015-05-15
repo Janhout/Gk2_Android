@@ -39,7 +39,7 @@ public class GestorFacturaDB {
         valores.put(ContratoDB.TablaFactura.FECHA_FACTURA, objeto.getFechaFactura());
         valores.put(ContratoDB.TablaFactura.ESTADO_FACTURA, objeto.getEstadoFactura());
         valores.put(ContratoDB.TablaFactura.IMPORTE_FACTURA, objeto.getImporteFactura());
-        valores.put(ContratoDB.TablaFactura.IMPORTE_PAGADO, objeto.getImportePagado());
+        valores.put(ContratoDB.TablaFactura.IMPORTE_PAGADO, objeto.getImportePendiente());
         valores.put(ContratoDB.TablaFactura.IMPRESO, objeto.getImpreso());
         valores.put(ContratoDB.TablaFactura.ENVIDADO, objeto.getEnviado());
         valores.put(ContratoDB.TablaFactura.ID_IMPRESION, objeto.getIdImpresion());
@@ -62,7 +62,7 @@ public class GestorFacturaDB {
         valores.put(ContratoDB.TablaFactura.FECHA_FACTURA, objeto.getFechaFactura());
         valores.put(ContratoDB.TablaFactura.ESTADO_FACTURA, objeto.getEstadoFactura());
         valores.put(ContratoDB.TablaFactura.IMPORTE_FACTURA, objeto.getImporteFactura());
-        valores.put(ContratoDB.TablaFactura.IMPORTE_PAGADO, objeto.getImportePagado());
+        valores.put(ContratoDB.TablaFactura.IMPORTE_PAGADO, objeto.getImportePendiente());
         valores.put(ContratoDB.TablaFactura.IMPRESO, objeto.getImpreso());
         valores.put(ContratoDB.TablaFactura.ENVIDADO, objeto.getEnviado());
         valores.put(ContratoDB.TablaFactura.ID_IMPRESION, objeto.getIdImpresion());
@@ -92,7 +92,7 @@ public class GestorFacturaDB {
         objeto.setFechaFactura(c.getString(2));
         objeto.setEstadoFactura(c.getInt(3));
         objeto.setImporteFactura(c.getFloat(4));
-        objeto.setImportePagado(c.getFloat(5));
+        objeto.setImportePendiente(c.getFloat(5));
         objeto.setImpreso(c.getInt(6));
         objeto.setEnviado(c.getInt(7));
         objeto.setIdImpresion(c.getInt(8));

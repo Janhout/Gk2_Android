@@ -19,7 +19,7 @@ public class Factura implements Parcelable, Serializable {
     private Date fechaFactura;
     private int estadoFactura; // 0: impagada | 1: pagada | 2: borrador
     private float importeFactura;
-    private float importePagado;
+    private float importePendiente;
     private int impreso; //0: no impresa | >1: impresa
     private int enviado; //0: no enviada | >1: enviada
     private int idImpresion;
@@ -42,7 +42,7 @@ public class Factura implements Parcelable, Serializable {
         this.fechaFactura = stringToDate(parcel.readString());
         this.estadoFactura = parcel.readInt();
         this.importeFactura = parcel.readFloat();
-        this.importePagado = parcel.readFloat();
+        this.importePendiente = parcel.readFloat();
         this.impreso = parcel.readInt();
         this.enviado = parcel.readInt();
         this.idImpresion = parcel.readInt();
@@ -51,14 +51,14 @@ public class Factura implements Parcelable, Serializable {
     public Factura(){
     }
 
-    public Factura(int cliente, String nombreComercialCliente, String numeroFactura, String fechaFactura, int estadoFactura, float importeFactura, float importePagado, int impreso, int enviado, int idImpresion) {
+    public Factura(int cliente, String nombreComercialCliente, String numeroFactura, String fechaFactura, int estadoFactura, float importeFactura, float importePendiente, int impreso, int enviado, int idImpresion) {
         this.cliente = cliente;
         this.nombreComercialCliente = nombreComercialCliente;
         this.numeroFactura = numeroFactura;
         this.fechaFactura = stringToDate(fechaFactura);
         this.estadoFactura = estadoFactura;
         this.importeFactura = importeFactura;
-        this.importePagado = importePagado;
+        this.importePendiente = importePendiente;
         this.impreso = impreso;
         this.enviado = enviado;
         this.idImpresion = idImpresion;
@@ -85,7 +85,7 @@ public class Factura implements Parcelable, Serializable {
                     break;
             }
             this.importeFactura = Float.parseFloat(facturaJSON.getString("LIQUIDO"));
-            this.importePagado = Float.parseFloat(facturaJSON.getString("PENDIENTE"));
+            this.importePendiente = Float.parseFloat(facturaJSON.getString("PENDIENTE"));
             this.impreso = facturaJSON.getInt("PRINTED");
             this.enviado = facturaJSON.getInt("SENT");
             this.idImpresion = facturaJSON.getInt("ID_S");
@@ -145,12 +145,12 @@ public class Factura implements Parcelable, Serializable {
         this.importeFactura = importeFactura;
     }
 
-    public float getImportePagado() {
-        return importePagado;
+    public float getImportePendiente() {
+        return importePendiente;
     }
 
-    public void setImportePagado(float importePagado) {
-        this.importePagado = importePagado;
+    public void setImportePendiente(float importePendiente) {
+        this.importePendiente = importePendiente;
     }
 
     public int getImpreso() {
@@ -204,7 +204,7 @@ public class Factura implements Parcelable, Serializable {
         parcel.writeString(dateToString());
         parcel.writeInt(estadoFactura);
         parcel.writeFloat(importeFactura);
-        parcel.writeFloat(importePagado);
+        parcel.writeFloat(importePendiente);
         parcel.writeInt(impreso);
         parcel.writeInt(enviado);
         parcel.writeInt(idImpresion);
@@ -222,7 +222,7 @@ public class Factura implements Parcelable, Serializable {
         if (estadoFactura != factura.estadoFactura) return false;
         if (idImpresion != factura.idImpresion) return false;
         if (Float.compare(factura.importeFactura, importeFactura) != 0) return false;
-        if (Float.compare(factura.importePagado, importePagado) != 0) return false;
+        if (Float.compare(factura.importePendiente, importePendiente) != 0) return false;
         if (impreso != factura.impreso) return false;
         if (fechaFactura != null ? !fechaFactura.equals(factura.fechaFactura) : factura.fechaFactura != null)
             return false;
@@ -241,7 +241,7 @@ public class Factura implements Parcelable, Serializable {
         result = 31 * result + (fechaFactura != null ? fechaFactura.hashCode() : 0);
         result = 31 * result + estadoFactura;
         result = 31 * result + (importeFactura != +0.0f ? Float.floatToIntBits(importeFactura) : 0);
-        result = 31 * result + (importePagado != +0.0f ? Float.floatToIntBits(importePagado) : 0);
+        result = 31 * result + (importePendiente != +0.0f ? Float.floatToIntBits(importePendiente) : 0);
         result = 31 * result + impreso;
         result = 31 * result + enviado;
         result = 31 * result + idImpresion;
@@ -257,7 +257,7 @@ public class Factura implements Parcelable, Serializable {
                 ", fechaFactura=" + fechaFactura +
                 ", estadoFactura=" + estadoFactura +
                 ", importeFactura=" + importeFactura +
-                ", importePagado=" + importePagado +
+                ", importePendiente=" + importePendiente +
                 ", impreso=" + impreso +
                 ", enviado=" + enviado +
                 ", idImpresion=" + idImpresion +

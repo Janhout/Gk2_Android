@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,8 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
     private String s_telefonos;
     private String s_email;
     private String s_numeroCuenta;
+    private String telf1;
+    private String telf2;
     private boolean s_favorito;
 
     private static final int CODIGO_PEDIR_CLIENTE = 1;
@@ -127,8 +130,8 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
             try {
                 s_nombreComercial = cliente.getString("cliente_name");
                 s_nif = cliente.getString("cliente_nif");
-                String telf1 = cliente.getString("cliente_tlf1");
-                String telf2 = cliente.getString("cliente_tlf2");
+                telf1 = cliente.getString("cliente_tlf1");
+                telf2 = cliente.getString("cliente_tlf2");
                 s_telefonos = "";
                 if (!telf1.equals("") && !telf2.equals("")) {
                     s_telefonos = telf1 + " / " + telf2;
@@ -154,6 +157,27 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         telefonos.setText(s_telefonos);
         email.setText(s_email);
         numeroCuenta.setText(s_numeroCuenta);
+
+        boolean telefono = true;
+        boolean email = true;
+        telf1 = telf1.replaceAll(" ", "");
+        telf2 = telf2.replaceAll(" ", "");
+        if(!TextUtils.isDigitsOnly(telf1)){
+            telf1 = "";
+        }
+        if(!TextUtils.isDigitsOnly(telf2)){
+            telf2 = "";
+        }
+        if(telf1.equals("") && telf2.equals("")){
+            telefono = false;
+        }
+        if(s_email.trim().equals("")){
+            email = false;
+        }
+
+        actividad.setMostrarEmail(email);
+        actividad.setMostrarTelefono(telefono);
+        actividad.invalidateOptionsMenu();
 
         if (s_favorito) {
             Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_favoritos));
@@ -281,7 +305,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
             seleccionarTelefono(telefono01, telefono02);
         } else if (!telefono01.equals("")) {
             uri = "tel:" + telefono01;
-        } else if (!telefono01.equals("")) {
+        } else if (!telefono02.equals("")) {
             uri = "tel:" + telefono02;
         }
 
@@ -295,9 +319,12 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
     private void verFacturas(String query) {
         Bundle bundle = new Bundle();
         bundle.putInt("idCliente", idCliente);
-        bundle.putString("query", query);
+        bundle.putBoolean("todas", false);
+        bundle.putString("query", "");
+        //bundle.putString("query", query);
         MostrarCliente.fragmentoActual = MostrarCliente.ListaFragmentosCliente.facturas;
-        Fragment fragmento = new FragmentoListaFacturas();
+        //Fragment fragmento = new FragmentoListaFacturas();
+        Fragment fragmento = new FragmentoContenedorListaFacturas();
         fragmento.setArguments(bundle);
         FragmentTransaction transaction = actividad.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.relativeLayoutCliente, fragmento);

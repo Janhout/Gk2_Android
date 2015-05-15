@@ -14,6 +14,9 @@ public class Constantes {
     public final static String URL_LOGIN = MI_URL + "login/process/";
     public final static String URL_RECUPERAR_PASS = MI_URL + "login/recovery_process";
     public final static String FACTURAS = MI_URL + "facturas/";
+    public final static String FACTURAS_BORRADOR = FACTURAS + "draft/";
+    public final static String FACTURAS_PAGADAS = FACTURAS + "done";
+    public final static String FACTURAS_IMPAGADAS = FACTURAS + "unpaid";
     public final static String CLIENTES = MI_URL + "clientes/";
     public final static String COMPRAS = MI_URL + "compras/facturas/";
     public final static String PDF_URL = FACTURAS + "pdf/";

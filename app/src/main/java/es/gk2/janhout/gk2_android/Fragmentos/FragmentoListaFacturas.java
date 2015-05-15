@@ -1,5 +1,6 @@
 package es.gk2.janhout.gk2_android.fragmentos;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +49,21 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
     private static final int CODIGO_CONSULTA_FACTURAS = 1;
     private static final int CODIGO_PEDIR_PDF = 2;
 
+
+
+    public static FragmentoListaFacturas newInstance(boolean todasFacturas, String query, int idCliente, int estadoFactura) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("todo", todasFacturas);
+        bundle.putString("query", query);
+        bundle.putInt("idCliente", idCliente);
+        bundle.putInt("estadoFactura", estadoFactura);
+
+        FragmentoListaFacturas fragmento = new FragmentoListaFacturas();
+        fragmento.setArguments(bundle);
+
+        return fragmento;
+    }
+
     public FragmentoListaFacturas() {
     }
 
@@ -58,15 +74,15 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.contexto = getActivity();
         page = 0;
-        if(savedInstanceState != null) {
+        contexto = getActivity();
+        /*if(savedInstanceState != null) {
             todas = savedInstanceState.getBoolean("all");
         } else {
             todas = getArguments().getBoolean("todo");
-        }
-        query = getArguments().getString("query");
-        idCliente = getArguments().getInt("idCliente");
+        }*/
+        //query = getArguments().getString("query");
+        //idCliente = getArguments().getInt("idCliente");
         cargarLista();
         inicializarListView();
     }
@@ -82,6 +98,22 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_lista, container, false);
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Bundle args = getArguments();
+
+        if (args != null) {
+
+            todas = args.getBoolean("todo");
+            query = args.getString("query");
+            idCliente = args.getInt("idCliente");
+            estadoFactura = args.getInt("estadoFactura");
+        }
+    }
+
+    private int estadoFactura;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -100,7 +132,10 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
             array = new JSONArray(token);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                listaFacturas.add(new Factura(obj));
+                Factura f = new Factura(obj);
+                if(!listaFacturas.contains(f)) {
+                    listaFacturas.add(f);
+                }
                 if (ad != null) {
                     ad.notifyDataSetChanged();
                 }
@@ -115,6 +150,17 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         String url;
         Hashtable<String, String> parametros = new Hashtable<>();
         url = Constantes.FACTURAS;
+        switch (estadoFactura){
+            case 1:
+                url = Constantes.FACTURAS_PAGADAS;
+                break;
+            case 2:
+                url = Constantes.FACTURAS_BORRADOR;
+                break;
+            case 0:
+                url = Constantes.FACTURAS_IMPAGADAS;
+                break;
+        }
         if (todas){
             parametros.put("q", query);
         } else {
