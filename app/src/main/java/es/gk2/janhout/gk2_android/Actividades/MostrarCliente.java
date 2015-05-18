@@ -106,7 +106,6 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
         } else if(id == R.id.action_nueva_factura){
             Intent i = new Intent(this, NuevaFactura.class);
             startActivity(i);
-            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -115,8 +114,9 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if(fragmentoActual == ListaFragmentosCliente.facturas) {
-            menu.findItem(R.id.action_search).setVisible(true);
+            //menu.findItem(R.id.action_search).setVisible(true);
             menu.findItem(R.id.action_nueva_factura).setVisible(true);
+            menu.findItem(R.id.action_search).setVisible(false);
         } else {
             menu.findItem(R.id.action_search).setVisible(false);
             menu.findItem(R.id.action_nueva_factura).setVisible(false);

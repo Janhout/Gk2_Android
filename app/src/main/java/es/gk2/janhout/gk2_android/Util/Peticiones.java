@@ -31,6 +31,7 @@ public class Peticiones {
             } else {
                 u = new URL(url);
             }
+
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
             conexion.setInstanceFollowRedirects(false);

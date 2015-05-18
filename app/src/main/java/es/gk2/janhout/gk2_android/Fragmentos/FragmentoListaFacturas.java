@@ -79,7 +79,7 @@ public class FragmentoListaFacturas extends Fragment implements AsyncTaskGet.OnP
         /*if(savedInstanceState != null) {
             todas = savedInstanceState.getBoolean("all");
         } else {
-            todas = getArguments().getBoolean("todo");
+            todas = getArguments().getBoolean("t odo");
         }*/
         //query = getArguments().getString("query");
         //idCliente = getArguments().getInt("idCliente");

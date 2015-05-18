@@ -5,7 +5,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener;
@@ -36,6 +39,7 @@ import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.actividades.NuevaFactura;
 import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
@@ -44,7 +48,7 @@ import es.gk2.janhout.gk2_android.modelos.Producto;
 import es.gk2.janhout.gk2_android.modelos.Tarifa;
 
 public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener,
-        AsyncTaskGet.OnProcessCompleteListener {
+        AsyncTaskGet.OnProcessCompleteListener, AsyncTaskPost.OnProcessCompleteListener {
 
     private NuevaFactura actividad;
 
@@ -67,6 +71,21 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     public static final String FECHA_VENCIMIENTO_TAG = "fecha_vencimiento";
 
     public static final int CODIGO_PETICION_TARIFAS = 1;
+    public static final int CODIGO_PETICION_FACTURA = 2;
+
+    private static final String PARAMETRO_FECHA = "fecha";
+    private static final String PARAMETRO_CLIENTE = "cliente";
+    private static final String PARAMETRO_DESCRIPCION = "descripcion";
+    private static final String PARAMETRO_NOTAS = "notas";
+    private static final String PARAMETRO_SERIE = "serie";
+    private static final String PARAMETRO_TARIFA = "tarifa";
+    private static final String PARAMETRO_ALMACEN = "almacen";
+    private static final String PARAMETRO_ID_DOCUMENTO = "id_documento";
+    private static final String PARAMETRO_DOCUMENTO = "documento";
+    private static final String PARAMETRO_LOTES = "lotes";
+    private static final String PARAMETRO_TIPO_IRPF = "tipo_irpf";
+    private static final String PARAMETRO_VENCIMIENTO = "vencimiento";
+
 
     public static int productoModificar;
 
@@ -101,12 +120,31 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_nueva_factura, container, false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_guardar_factura){
+            if(NuevaFactura.fragmentoActual == NuevaFactura.ListaFragmentosNuevaFactura.nuevaFactura){
+                if(listaProductos.size()<0){
+                    Toast.makeText(actividad, "no has seleccionado ningun producto", Toast.LENGTH_SHORT).show();
+                } else if(clienteSeleccionado == null){
+                    Toast.makeText(actividad, "no has seleccionado ningun cliente", Toast.LENGTH_SHORT).show();
+                } else {
+                    guardarFactura();
+                }
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -121,7 +159,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
 
     private void cambioFechaVencimiento(int position){
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = formatoFecha.parse(etFechaFactura.getText().toString());
@@ -341,6 +379,42 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         llTotalesIva = (LinearLayout)getView().findViewById(R.id.nueva_factura_layout_totales_iva);
     }
 
+    private Hashtable<String, String> crearParametros(){
+        Hashtable<String, String> parametros = new Hashtable<>();
+        parametros.put(PARAMETRO_VENCIMIENTO, etFechaVenciminetoFactura.getText().toString());
+        parametros.put(PARAMETRO_ALMACEN, "000");
+        parametros.put(PARAMETRO_CLIENTE, clienteSeleccionado.getId()+"");
+        parametros.put(PARAMETRO_DESCRIPCION, "");
+        parametros.put(PARAMETRO_FECHA, etFechaFactura.getText().toString());
+        parametros.put(PARAMETRO_ID_DOCUMENTO, "0");
+        parametros.put(PARAMETRO_LOTES, "[[],[],[]]");
+        parametros.put(PARAMETRO_NOTAS, etNotas.getText().toString());
+        parametros.put(PARAMETRO_SERIE, "A");
+        //parametros.put(PARAMETRO_TARIFA, "clienteSeleccionado.getTarifa()");
+        parametros.put(PARAMETRO_TARIFA, "NOR");
+        parametros.put(PARAMETRO_TIPO_IRPF, "0");
+        StringBuilder productos = new StringBuilder();
+        productos.append("[");
+        for (int i = 0; i < listaProductos.size() ; i++) {
+            StringBuilder obj = new StringBuilder();
+            if(i!=0){
+                obj.append(",");
+            }
+            obj.append("[\"");
+            obj.append(listaProductos.get(i).getArticulo() + "\",\"");
+            obj.append(listaProductos.get(i).getTitulo() + "\",\"");
+            obj.append(listaProductos.get(i).getCantidad() + "\",\"");
+            obj.append(listaProductos.get(i).getPrecio_venta_final() + "\",\"");
+            obj.append(listaProductos.get(i).getDescuento() + "\",\"");
+            obj.append(listaProductos.get(i).getNotas());
+            obj.append("\"]");
+            productos.append(obj);
+        }
+        productos.append("]");
+        parametros.put(PARAMETRO_DOCUMENTO, productos.toString());
+        return parametros;
+    }
+
     private void crearViewLinea(final Producto producto){
         LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View detalle = inflador.inflate(R.layout.detalle_linea_factura, null);
@@ -390,7 +464,13 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         String dia = ("0" + d).substring(("0" + d).length()-2);
         String mes = ("0" + m).substring(("0" + m).length()-2);
         String anio = "" + y;
-        return dia + "/" + mes + "/" + anio;
+        return anio + "-" + mes + "-" + dia;
+    }
+
+    private void guardarFactura(){
+        Hashtable<String, String> parametros = crearParametros();
+        AsyncTaskPost peticion = new AsyncTaskPost(actividad, this, Constantes.GUARDAR_FACTURAS, CODIGO_PETICION_FACTURA);
+        peticion.execute(parametros);
     }
 
     public void setCliente(Cliente cliente){
@@ -443,6 +523,17 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
                     } catch (JSONException e) {
                         listaTarifas = null;
                     }
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void resultadoPost(String respuesta, int codigo_peticion) {
+        if(respuesta != null){
+            switch (codigo_peticion){
+                case CODIGO_PETICION_FACTURA:
+                    Log.v("mio", respuesta);
                     break;
             }
         }

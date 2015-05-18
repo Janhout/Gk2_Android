@@ -50,7 +50,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         switch (fragmentoActual){
             case ninguno:
             case nuevaFactura:
-                super.onBackPressed();
+                finish();
                 break;
             case seleccionarProducto:
                 FragmentoNuevaFactura.productoModificar = -1;
@@ -99,7 +99,8 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
             if(fragmentoActual == ListaFragmentosNuevaFactura.seleccionCliente ||
                     fragmentoActual == ListaFragmentosNuevaFactura.nuevaLinea){
                 mostrarFragmentoNuevaFactura();
-            } else if (fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura){
+            } else if (fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura ||
+                    fragmentoActual == ListaFragmentosNuevaFactura.ninguno){
                 finish();
             } else if (fragmentoActual == ListaFragmentosNuevaFactura.seleccionarProducto){
                 FragmentoNuevaFactura.productoModificar = -1;
@@ -109,8 +110,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
             return true;
         } else if(id == R.id.action_guardar_factura){
             if(fragmentoActual == ListaFragmentosNuevaFactura.nuevaFactura){
-                guardarFactura();
-                return true;
+                return false;
             }
         }
         return super.onOptionsItemSelected(item);
@@ -182,11 +182,6 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         bundle.putString("query", query);
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    private void guardarFactura() {
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //falta guardar factura
     }
 
     private void inicializarToolbar(){

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="s_facturas_importe">Importe:&#160;</string>
-    <string name="s_facturas_pendiente">Pendiente:&#160;</string>
+    <string name="s_facturas_importe">Importe:</string>
+    <string name="s_facturas_pendiente">Pendiente:</string>
+    <string name="s_facturas_pagadas">Pagadas</string>
+    <string name="s_facturas_borradores">Borradores</string>
+    <string name="s_facturas_impagadas">Impagadas</string>
+    <string name="s_facturas_otras">Otras facturas</string>
 </resources>

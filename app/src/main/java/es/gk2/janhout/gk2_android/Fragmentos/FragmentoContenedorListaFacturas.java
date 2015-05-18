@@ -82,7 +82,7 @@ public class FragmentoContenedorListaFacturas extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new SampleFragmentPagerAdapter(getChildFragmentManager()));
+        mViewPager.setAdapter(new AdaptadorPager(getChildFragmentManager()));
 
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setDistributeEvenly(true);
@@ -103,12 +103,11 @@ public class FragmentoContenedorListaFacturas extends Fragment {
                 }
             }
         });
-
     }
 
-    class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+    class AdaptadorPager extends FragmentPagerAdapter {
 
-        SampleFragmentPagerAdapter(FragmentManager fm) {
+        AdaptadorPager(FragmentManager fm) {
             super(fm);
         }
 
@@ -124,21 +123,22 @@ public class FragmentoContenedorListaFacturas extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String titulo = "";
+            String titulo;
             switch (mTabs.get(position).getEstadoFactura()){
                 case 0:
-                    titulo = "Impagadas";
+                    titulo = getString(R.string.s_facturas_impagadas);
                     break;
                 case 1:
-                    titulo = "Pagadas";
+                    titulo = getString(R.string.s_facturas_pagadas);
                     break;
                 case 2:
-                    titulo = "Borradores";
+                    titulo = getString(R.string.s_facturas_borradores);
+                    break;
+                default:
+                    titulo = getString(R.string.s_facturas_otras);
                     break;
             }
             return titulo;
         }
     }
-
-
 }

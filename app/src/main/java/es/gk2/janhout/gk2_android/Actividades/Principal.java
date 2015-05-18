@@ -25,7 +25,6 @@ import es.gk2.janhout.gk2_android.fragmentos.FragmentoContenedorListaFacturas;
 import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaCompras;
-import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaFacturas;
 import es.gk2.janhout.gk2_android.modelos.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.R;
 
@@ -73,13 +72,10 @@ public class Principal extends AppCompatActivityBusqueda {
                 break;
         }
     }
-///////////////////////////////////////////////////////////////////////////////////
-   // public static Context contexto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ///////////////////////////////////////////////////////////////////////////////
-        //contexto = getApplicationContext();
         setContentView(R.layout.activity_principal);
         inicio = true;
         if(savedInstanceState != null) {
@@ -141,14 +137,12 @@ public class Principal extends AppCompatActivityBusqueda {
         } else {
             menu.findItem(R.id.action_nuevo_cliente).setVisible(false);
         }
-
         if(fragmentoActual == ListaFragmentosPrincipal.facturas ||
                 fragmentoActual == ListaFragmentosPrincipal.clientes) {
             menu.findItem(R.id.action_search).setVisible(true);
         } else {
             menu.findItem(R.id.action_search).setVisible(false);
         }
-
         if(fragmentoActual == ListaFragmentosPrincipal.compras){
             menu.findItem(R.id.action_nuevoGasto).setVisible(true);
         }else{
@@ -280,9 +274,14 @@ public class Principal extends AppCompatActivityBusqueda {
         } else if (fragmentoActual == ListaFragmentosPrincipal.gastos) {
             f = null;
         } else if (fragmentoActual == ListaFragmentosPrincipal.facturas) {
-            f = new FragmentoListaFacturas();
+            /*f = new FragmentoListaFacturas();
             Bundle bundle = new Bundle();
-            bundle.putBoolean("todo", true);
+            bundle.putBoolean("t odo", true);
+            bundle.putString("query", textoBusqueda);
+            f.setArguments(bundle);*/
+            f = new FragmentoContenedorListaFacturas();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("todas", true);
             bundle.putString("query", textoBusqueda);
             f.setArguments(bundle);
             fragmentoActual = ListaFragmentosPrincipal.facturas;
