@@ -47,12 +47,14 @@ public class AdaptadorAutoCompleteTextView extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (sugerencias.get(position).getClass().getName().contains("Provincia"))
-            holder.title.setText(((Provincia) sugerencias.get(position)).getTituloProvincia());
-        else if (sugerencias.get(position).getClass().getName().contains("Localidad"))
-            holder.title.setText(((Localidad) sugerencias.get(position)).getTituloLocalidad());
-        else if (sugerencias.get(position).getClass().getName().contains("TipoDireccion"))
-            holder.title.setText(((TipoDireccion) sugerencias.get(position)).getTituloTipoDireccion());
+        if (sugerencias.size() > 0) {
+            if (sugerencias.get(position).getClass().getName().contains("Provincia"))
+                holder.title.setText(((Provincia) sugerencias.get(position)).getTituloProvincia());
+            else if (sugerencias.get(position).getClass().getName().contains("Localidad"))
+                holder.title.setText(((Localidad) sugerencias.get(position)).getTituloLocalidad());
+            else if (sugerencias.get(position).getClass().getName().contains("TipoDireccion"))
+                holder.title.setText(((TipoDireccion) sugerencias.get(position)).getTituloTipoDireccion());
+        }
 
         return convertView;
     }

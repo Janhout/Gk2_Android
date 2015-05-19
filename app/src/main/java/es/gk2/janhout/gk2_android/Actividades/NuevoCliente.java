@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,14 +20,14 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import es.gk2.janhout.gk2_android.adaptadores.AdaptadorAutoCompleteTextView;
-import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
-import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
-import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.adaptadores.AdaptadorAutoCompleteTextView;
 import es.gk2.janhout.gk2_android.modelos.Localidad;
 import es.gk2.janhout.gk2_android.modelos.Provincia;
 import es.gk2.janhout.gk2_android.modelos.TipoDireccion;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
+import es.gk2.janhout.gk2_android.util.Constantes;
 
 public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnProcessCompleteListener, AsyncTaskGet.OnProcessCompleteListener {
 
@@ -67,11 +66,27 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
     private String CODIGO_POSTAL_SELECCIONADO;
     private String TIPO_VIA_SELECCIONADA;
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (PROVINCIA_SELECCIONADA != null) {
+            outState.putString("Provincia", PROVINCIA_SELECCIONADA);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        PROVINCIA_SELECCIONADA = savedInstanceState.getString("Provincia");
+        if (PROVINCIA_SELECCIONADA != null) {
+            AsyncTaskGet cargarLocalidades = new AsyncTaskGet(NuevoCliente.this, NuevoCliente.this, Constantes.LOCALIDADES + PROVINCIA_SELECCIONADA, false, CODIGO_GET_LOCALIDADES);
+            cargarLocalidades.execute(new Hashtable<String, String>());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("mio", "hola");
         setContentView(R.layout.activity_nuevo_cliente);
         inicializarToolbar();
 
@@ -99,6 +114,7 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
         cargarProvincias.execute(new Hashtable<String, String>());
         AsyncTaskGet cargarTiposDireccion = new AsyncTaskGet(this, this, Constantes.TIPOS_DIRECCION, false, CODIGO_GET_TIPOS_DIRECCION);
         cargarTiposDireccion.execute(new Hashtable<String, String>());
+
 
     }
 
