@@ -14,10 +14,12 @@
         <TextView
             android:id="@+id/detalle_factura_nombreCliente"
             android:layout_width="0dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:layout_weight="70"/>
         <TextView
             android:id="@+id/detalle_factura_iconoImpreso"
+            android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -26,19 +28,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/importe"
-                android:text="@string/s_facturas_importe"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_weight="1"/>
+            android:orientation="horizontal"
+            android:gravity="end">
             <TextView
                 android:id="@+id/importeFactura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"/>
+                android:gravity="end"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -51,15 +47,18 @@
             android:id="@+id/numeroFactura"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="20" />
+            android:layout_weight="20"
+            android:textColor="@color/gris_borde"/>
         <TextView
             android:id="@+id/fechaFactura"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="50"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="@color/material_blue_grey_800"/>
         <TextView
             android:id="@+id/detalle_factura_iconoEnviado"
+            android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -68,17 +67,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/pendiente"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:layout_weight="1"/>
+            android:orientation="horizontal"
+            android:gravity="end">
             <TextView
                 android:id="@+id/importePendiente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/rojo2"
                 android:gravity="end"/>
         </LinearLayout>
     </LinearLayout>

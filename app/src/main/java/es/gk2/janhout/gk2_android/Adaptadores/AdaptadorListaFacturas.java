@@ -41,7 +41,7 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
             vh.iconoEnviado = (TextView) convertView.findViewById(R.id.detalle_factura_iconoEnviado);
             vh.iconoImpreso = (TextView) convertView.findViewById(R.id.detalle_factura_iconoImpreso);
             vh.nombreCliente = (TextView) convertView.findViewById(R.id.detalle_factura_nombreCliente);
-            vh.pendiente = (TextView) convertView.findViewById(R.id.pendiente);
+            //vh.pendiente = (TextView) convertView.findViewById(R.id.pendiente);
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
@@ -62,10 +62,10 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         vh.fechaFactura.setText(datos.get(position).getFechaFactura());
         vh.importeFactura.setText(Metodos.doubleToMoney(datos.get(position).getImporteFactura()));
         if (datos.get(position).getEstadoFactura() == 0) {
-            vh.pendiente.setText(contexto.getString(R.string.s_facturas_pendiente));
+            //vh.pendiente.setText(contexto.getString(R.string.s_facturas_pendiente));
             vh.importePendiente.setText(Metodos.doubleToMoney(datos.get(position).getImportePendiente()));
         } else {
-            vh.pendiente.setText("");
+            //vh.pendiente.setText("");
             vh.importePendiente.setText("");
         }
         return convertView;
@@ -79,6 +79,6 @@ public class AdaptadorListaFacturas extends ArrayAdapter<Factura> {
         public TextView iconoEnviado;
         public TextView iconoImpreso;
         public TextView nombreCliente;
-        public TextView pendiente;
+       // public TextView pendiente;
     }
 }

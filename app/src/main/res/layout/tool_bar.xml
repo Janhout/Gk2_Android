@@ -5,5 +5,5 @@
     app:theme="@style/action_bar_styles"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/button_ver_background_enabled_end">
+    android:background="@color/azul_toolbar">
 </android.support.v7.widget.Toolbar>

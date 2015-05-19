@@ -47,7 +47,7 @@ public class AdaptadorAutoCompleteTextView extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (sugerencias.size() > 0) {
+        if (sugerencias.size() > position) {
             if (sugerencias.get(position).getClass().getName().contains("Provincia"))
                 holder.title.setText(((Provincia) sugerencias.get(position)).getTituloProvincia());
             else if (sugerencias.get(position).getClass().getName().contains("Localidad"))
