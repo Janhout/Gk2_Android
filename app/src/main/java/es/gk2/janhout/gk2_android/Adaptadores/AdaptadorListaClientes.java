@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
 import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
-import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.modelos.Cliente;
 
 public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements AsyncTaskGet.OnProcessCompleteListener{
 
@@ -102,11 +101,13 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Asy
 
         if(telefono1.equals("") && telefono2.equals("")){
             vh.btTelefono.setEnabled(false);
+            //vh.btTelefono.setTextColor(contexto.getResources().getColor(R.color.gris_deslizar));
         }else{
             vh.btTelefono.setEnabled(true);
         }
         if(datos.get(position).getEmail().trim().equals("")){
             vh.btEmail.setEnabled(false);
+            //vh.btEmail.setTextColor(contexto.getResources().getColor(R.color.mi_material_primary_light));
         }else{
             vh.btEmail.setEnabled(true);
         }

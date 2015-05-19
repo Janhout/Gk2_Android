@@ -22,6 +22,6 @@
     <dimen name="padding_lista">8dp</dimen>
 
     <!-- DIVIDERS -->
-    <dimen name="standard_divider_size">2dp</dimen>
+    <dimen name="standard_divider_size">1dp</dimen>
 
 </resources>

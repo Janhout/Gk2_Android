@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="es.aplicacion.janhout.login.RecordarPass">
+    tools:context="es.gk2.janhout.gk2_android.actividades.RecordarPass">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -29,51 +29,31 @@
                 android:layout_marginBottom="@dimen/margin_bottom_login"
                 android:src="@drawable/logo" />
 
-            <TextView
-                android:id="@+id/tvSubtitulo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:text="@string/recuperar_pass"
-                android:textSize="16sp" />
-
             <EditText
                 android:id="@+id/etUsuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_bottom_login"
-                android:layout_marginLeft="@dimen/margin_lateral_login"
-                android:layout_marginRight="@dimen/margin_lateral_login"
-                android:background="@drawable/estilos_edittext_personalizado"
-                android:hint="@string/email"
-                android:padding="@dimen/campos_texto"
-                android:singleLine="true" />
+                style="@style/editTextLogin"
+                android:hint="@string/usuario"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@+id/etPass"
+                android:text="jadelgado" />
+
 
             <Button
                 android:id="@+id/btRecuperar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_bottom_login"
-                android:layout_marginLeft="@dimen/margin_lateral_login"
-                android:layout_marginRight="@dimen/margin_lateral_login"
-                android:background="@drawable/boton_login"
+                style="@style/botonPersonalizado"
                 android:onClick="recuperar"
-                android:text="@string/recuperar"
-                android:textColor="@color/blanco" />
+                android:text="@string/recuperar" />
 
             <Button
                 android:id="@+id/btVolverLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:background="@drawable/bt_recordar"
                 android:onClick="volverLogin"
                 android:text="@string/volver_login"
-                android:textColor="@color/azul_logo"
+                android:textColor="@color/mi_material_primary"
                 android:textSize="16sp" />
-
         </LinearLayout>
     </FrameLayout>
+
 </RelativeLayout>

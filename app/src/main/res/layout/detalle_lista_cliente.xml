@@ -23,7 +23,9 @@
             android:textColor="@color/icono_favoritos"/>
 
         <TextView
+            android:layout_marginRight="@dimen/margin_button_clientes"
             android:layout_width="0dp"
+            android:singleLine="true"
             android:layout_height="match_parent"
             android:id="@+id/nombre_cliente"
             android:layout_weight="6"

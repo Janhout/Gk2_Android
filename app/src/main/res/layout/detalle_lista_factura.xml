@@ -17,13 +17,7 @@
             android:singleLine="true"
             android:layout_height="wrap_content"
             android:layout_weight="70"/>
-        <TextView
-            android:id="@+id/detalle_factura_iconoImpreso"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="5"/>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,6 +30,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/detalle_factura_iconoImpreso"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/margin_button_clientes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_weight="5"/>
     </LinearLayout>
 
     <LinearLayout
@@ -55,14 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="50"
             android:gravity="center_horizontal"
-            android:textColor="@color/material_blue_grey_800"/>
-        <TextView
-            android:id="@+id/detalle_factura_iconoEnviado"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_weight="5"/>
+            android:textColor="@color/gris_borde"/>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -76,5 +72,13 @@
                 android:textColor="@color/rojo2"
                 android:gravity="end"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/detalle_factura_iconoEnviado"
+            android:layout_marginLeft="@dimen/margin_button_clientes"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_weight="5"/>
     </LinearLayout>
 </LinearLayout>

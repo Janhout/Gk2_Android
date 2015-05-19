@@ -58,7 +58,7 @@
                 android:background="@drawable/bt_recordar"
                 android:onClick="recuperaPass"
                 android:text="@string/recuperar_pass"
-                android:textColor="@color/azul_logo"
+                android:textColor="@color/mi_material_primary"
                 android:textSize="16sp" />
         </LinearLayout>
     </FrameLayout>

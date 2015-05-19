@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nueva_factura_cliente"
-                android:textColor="@color/azul_logo"
+                android:textColor="@color/mi_material_primary"
                 android:textSize="@dimen/title_size" />
 
             <include layout="@layout/linea_separadora_titulo" />
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nueva_factura_informacion_factura"
-                android:textColor="@color/azul_logo"
+                android:textColor="@color/mi_material_primary"
                 android:textSize="@dimen/title_size" />
 
             <include layout="@layout/linea_separadora_titulo" />
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nueva_factura_lineas_factura"
-                android:textColor="@color/azul_logo"
+                android:textColor="@color/mi_material_primary"
                 android:textSize="@dimen/title_size" />
 
             <include layout="@layout/linea_separadora_titulo" />
@@ -150,7 +150,7 @@
                     android:id="@+id/nueva_factura_bt_nueva_linea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/azul_logo"
+                    android:textColor="@color/mi_material_primary"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nueva_factura_totales"
-                android:textColor="@color/azul_logo"
+                android:textColor="@color/mi_material_primary"
                 android:textSize="@dimen/title_size" />
 
             <include layout="@layout/linea_separadora_titulo" />
@@ -217,7 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nueva_factura_opciones"
-                android:textColor="@color/azul_logo"
+                android:textColor="@color/mi_material_primary"
                 android:textSize="@dimen/title_size" />
 
             <include layout="@layout/linea_separadora_titulo" />

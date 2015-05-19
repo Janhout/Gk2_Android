@@ -83,7 +83,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         mTabStrip = new SlidingTabStrip(context);
         addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        this.setBackgroundColor(context.getResources().getColor(R.color.button_ver_background_enabled_end));
+        this.setBackgroundColor(context.getResources().getColor(R.color.mi_material_primary));
     }
 
     /**
