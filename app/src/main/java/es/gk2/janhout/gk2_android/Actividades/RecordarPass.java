@@ -53,11 +53,9 @@ public class RecordarPass extends AppCompatActivity implements AsyncTaskPost.OnP
     /* *************************************************************************
     **************** Interfaz OnProcessCompleteListener ***********************
     *************************************************************************** */
-
-    /*Le hemos enviado un correo a rafagr8@gmail.com con las instrucciones para
-    recuperar su contraseña, por favor revíselo antes de 24 horas.
-     */
-
+/*Le hemos enviado un correo a rafagr8@gmail.com con las instrucciones para
+    recuperar su contraseña.
+* */
     @Override
     public void resultadoPost(String location, int codigo) {
         if (location != null) {

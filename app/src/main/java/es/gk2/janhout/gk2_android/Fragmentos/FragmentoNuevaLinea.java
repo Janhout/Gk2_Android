@@ -23,8 +23,9 @@ import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.modelos.Producto;
+import es.gk2.janhout.gk2_android.util.Metodos;
 
-public class FragmentoNuevoProducto extends Fragment implements AsyncTaskGet.OnProcessCompleteListener{
+public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProcessCompleteListener{
 
     private NuevaFactura actividad;
     private String idCliente;
@@ -43,7 +44,7 @@ public class FragmentoNuevoProducto extends Fragment implements AsyncTaskGet.OnP
     private static final int CODIGO_DATOS_ADICIONALES = 1;
     private static final int CODIGO_OTROS_DATOS = 2;
 
-    public FragmentoNuevoProducto() {
+    public FragmentoNuevaLinea() {
     }
 
     /* *************************************************************************
@@ -127,14 +128,22 @@ public class FragmentoNuevoProducto extends Fragment implements AsyncTaskGet.OnP
         etPrecioProducto = (EditText)getView().findViewById(R.id.nueva_factura_et_precio_producto);
         etUnidad = (EditText)getView().findViewById(R.id.nueva_factura_et_unidad_producto);
         spIva = (Spinner)getView().findViewById(R.id.nueva_factura_sp_iva_producto);
-
-        etPrecioProducto.setText("0.00");
-        etCantidadProducto.setText("1");
-        spIva.setSelection(1);
-
+        etPrecioProducto.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus && ((EditText)v).getText().toString().equals("")){
+                    etPrecioProducto.setText(Metodos.doubleToString(0.00));
+                } else if (hasFocus && ((EditText)v).getText().toString().equals(Metodos.doubleToString(0.00))){
+                    etPrecioProducto.setText("");
+                }
+            }
+        });
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.lista_iva, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spIva.setAdapter(adapter);
+        etPrecioProducto.setText(Metodos.doubleToString(0.00));
+        etCantidadProducto.setText("1");
+        spIva.setSelection(1);
     }
 
     private void cargarViewProducto(){
@@ -149,7 +158,7 @@ public class FragmentoNuevoProducto extends Fragment implements AsyncTaskGet.OnP
                     Bundle bundle = new Bundle();
                     bundle.putString("query", "");
                     fragment.setArguments(bundle);
-                    FragmentoNuevoProducto.this.getActivity().invalidateOptionsMenu();
+                    FragmentoNuevaLinea.this.getActivity().invalidateOptionsMenu();
                     FragmentTransaction ft = getFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, fragment);
                     ft.addToBackStack(null);
                     ft.commit();
@@ -165,7 +174,7 @@ public class FragmentoNuevoProducto extends Fragment implements AsyncTaskGet.OnP
         etCantidadProducto.setText(producto.getCantidad());
         etPrecioProducto.setText(producto.getPrecio_venta_final());
         etUnidad.setText(producto.getUnidades());
-        etDescripcionProducto.setText(producto.getNotas());
+        etDescripcionProducto.setText(producto.getTitulo());
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////ivaproducto falta
     }

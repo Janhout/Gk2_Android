@@ -138,6 +138,10 @@ public class Metodos {
         return formatter.format(Metodos.redondear(valor, 2));
     }
 
+    public static String doubleToString(double valor){
+        return String.format("%.2f", Metodos.redondear(valor, 2));
+    }
+
     public static void redireccionarLogin(Context contexto){
         borrarPreferenciasCompartidas(contexto);
         Intent i = new Intent(contexto, Login.class);

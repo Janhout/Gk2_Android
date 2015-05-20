@@ -35,7 +35,7 @@ public class Peticiones {
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
             conexion.setInstanceFollowRedirects(false);
-            conexion.setReadTimeout(5000);
+            conexion.setReadTimeout(15000);
             conexion.setConnectTimeout(5000);
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
@@ -75,7 +75,7 @@ public class Peticiones {
             HttpURLConnection conexion = (HttpURLConnection) u.openConnection();
             conexion.setDoOutput(false);
             conexion.setInstanceFollowRedirects(false);
-            conexion.setReadTimeout(5000);
+            conexion.setReadTimeout(15000);
             conexion.setConnectTimeout(5000);
 
             String cookieSesion = Metodos.leerPreferenciasCompartidasString(contexto, "cookieSesion");
@@ -116,7 +116,7 @@ public class Peticiones {
             HttpURLConnection conexion = (HttpURLConnection)u.openConnection();
 
             conexion.setInstanceFollowRedirects(false);
-            conexion.setReadTimeout(5000);
+            conexion.setReadTimeout(15000);
             conexion.setConnectTimeout(5000);
             //conexion.setRequestProperty("Accept-Encoding", "gzip, deflate");
             //conexion.setRequestProperty("Accept", "application/json");

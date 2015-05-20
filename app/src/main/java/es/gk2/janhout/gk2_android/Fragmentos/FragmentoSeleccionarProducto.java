@@ -146,7 +146,7 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
     }
 
     /* *************************************************************************
-     ******************** Interfaz producto seleccionado ***********************
+     ******************** Interfaz OnProductoSeleccionado **********************
      *************************************************************************** */
 
     public interface OnProductoListaSelectedListener{

@@ -118,6 +118,9 @@ public class Principal extends AppCompatActivityBusqueda {
         } else if(id == R.id.action_search) {
             mSearchView.setIconified(false);
             return true;
+        } else if(id == R.id.action_nueva_factura){
+            nuevaFactura();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -136,6 +139,11 @@ public class Principal extends AppCompatActivityBusqueda {
             menu.findItem(R.id.action_nuevo_cliente).setVisible(true);
         } else {
             menu.findItem(R.id.action_nuevo_cliente).setVisible(false);
+        }
+        if(fragmentoActual == ListaFragmentosPrincipal.facturas) {
+            menu.findItem(R.id.action_nueva_factura).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_nueva_factura).setVisible(false);
         }
         if(fragmentoActual == ListaFragmentosPrincipal.facturas ||
                 fragmentoActual == ListaFragmentosPrincipal.clientes) {
@@ -294,10 +302,14 @@ public class Principal extends AppCompatActivityBusqueda {
     /* *************************************************************************
      ******************** Métodos items menú ***********************************
      *************************************************************************** */
+
+    private void nuevaFactura() {
+        startActivity(new Intent(this, NuevaFactura.class));
+    }
+
     private void nuevoCliente() {
         startActivity(new Intent(this, NuevoCliente.class));
     }
-
 
     private void nuevoGasto() {
         startActivity(new Intent(this, NuevoGasto.class));

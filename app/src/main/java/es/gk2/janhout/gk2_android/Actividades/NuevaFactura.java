@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoNuevaFactura;
-import es.gk2.janhout.gk2_android.fragmentos.FragmentoNuevoProducto;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoNuevaLinea;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoSeleccionarCliente;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoSeleccionarProducto;
 import es.gk2.janhout.gk2_android.R;
@@ -20,10 +20,10 @@ import es.gk2.janhout.gk2_android.modelos.Cliente;
 import es.gk2.janhout.gk2_android.modelos.Producto;
 
 public class NuevaFactura extends AppCompatActivityBusqueda implements FragmentoSeleccionarCliente.OnClienteSelectedListener,
-        FragmentoSeleccionarProducto.OnProductoListaSelectedListener, FragmentoNuevoProducto.OnProductoSelectedListener {
+        FragmentoSeleccionarProducto.OnProductoListaSelectedListener, FragmentoNuevaLinea.OnProductoSelectedListener {
 
     private FragmentoNuevaFactura fragmentoPrincipal;
-    private FragmentoNuevoProducto fragmentoNuevoProducto;
+    private FragmentoNuevaLinea fragmentoNuevaLinea;
     private String tituloActividad;
     private SearchView searchView;
     private boolean inicio;
@@ -215,18 +215,18 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
 
     public void mostrarFragmentoNuevaLinea(boolean nuevo, Producto productoModificar){
         FragmentManager fm = getSupportFragmentManager();
-        fragmentoNuevoProducto = (FragmentoNuevoProducto)fm.findFragmentByTag(TAG_FRAGMENTO_NUEVO_PRODUCTO);
+        fragmentoNuevaLinea = (FragmentoNuevaLinea)fm.findFragmentByTag(TAG_FRAGMENTO_NUEVO_PRODUCTO);
         FragmentTransaction transaction = fm.beginTransaction();
-        if(fragmentoNuevoProducto == null || nuevo){
-            fragmentoNuevoProducto = new FragmentoNuevoProducto();
+        if(fragmentoNuevaLinea == null || nuevo){
+            fragmentoNuevaLinea = new FragmentoNuevaLinea();
             Bundle b = new Bundle();
-            fragmentoNuevoProducto.setArguments(null);
+            fragmentoNuevaLinea.setArguments(null);
             b.putString("idCliente", "-1");
             b.putParcelable("productoModificar", productoModificar);
-            fragmentoNuevoProducto.setArguments(b);
+            fragmentoNuevaLinea.setArguments(b);
         }
         invalidateOptionsMenu();
-        transaction.replace(R.id.relativeLayoutFactura, fragmentoNuevoProducto, TAG_FRAGMENTO_NUEVO_PRODUCTO);
+        transaction.replace(R.id.relativeLayoutFactura, fragmentoNuevaLinea, TAG_FRAGMENTO_NUEVO_PRODUCTO);
         fragmentoActual = ListaFragmentosNuevaFactura.nuevaLinea;
         transaction.addToBackStack(TAG_FRAGMENTO_NUEVO_PRODUCTO);
         transaction.commit();
@@ -251,7 +251,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
     public void devolverProductoLista(Producto producto) {
         FragmentoNuevaFactura.productoModificar = -1;
         mostrarFragmentoNuevaLinea(false, null);
-        fragmentoNuevoProducto.setProducto(producto);
+        fragmentoNuevaLinea.setProducto(producto);
     }
 
     @Override
@@ -261,7 +261,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
     }
 }
 
-/*Fragment fragment = new FragmentoNuevoProducto();
+/*Fragment fragment = new FragmentoNuevaLinea();
                 NuevaFactura.fragmentoActual = NuevaFactura.ListaFragmentosNuevaFactura.nuevaLinea;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("cliente", clienteSeleccionado);

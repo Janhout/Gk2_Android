@@ -3,7 +3,6 @@ package es.gk2.janhout.gk2_android.fragmentos;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.util.ScrollInfinito;
+//import es.gk2.janhout.gk2_android.util.ScrollInfinito;
 import es.gk2.janhout.gk2_android.modelos.Cliente;
 
 public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGet.OnProcessCompleteListener{
@@ -39,9 +38,9 @@ public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGe
     private ListView lv;
     private TextView textoVacio;
 
-    private int page;
+    //private int page;
     private static final int LIMITE_CONSULTA = 50;
-    private static final int ITEMS_BAJO_LISTA = 5;
+    //private static final int ITEMS_BAJO_LISTA = 5;
 
     private static final int CODIGO_CONSULTA_CLIENTES = 1;
 
@@ -82,7 +81,7 @@ public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGe
         String url = Constantes.CLIENTES_JSON;
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("q", query);
-        parametros.put("page", page+"");
+        //parametros.put("page", page+"");
         parametros.put("limit", LIMITE_CONSULTA+"");
         AsyncTaskGet asyncTask = new AsyncTaskGet(contexto, this, url, false, CODIGO_CONSULTA_CLIENTES);
         asyncTask.execute(parametros);
@@ -101,13 +100,13 @@ public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGe
                         listener.devolverCliente(listaClientes.get(position));
                     }
                 });
-                lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
+                /*lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
                     @Override
                     public void cargaMas(int page, int totalItemsCount) {
                         FragmentoSeleccionarCliente.this.page = page;
                         cargarLista();
                     }
-                });
+                });*/
             }
         }
     }
