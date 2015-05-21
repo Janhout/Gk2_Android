@@ -22,6 +22,7 @@ import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.adaptadores.AdaptadorAutoCompleteTextView;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
 import es.gk2.janhout.gk2_android.modelos.Localidad;
 import es.gk2.janhout.gk2_android.modelos.Provincia;
 import es.gk2.janhout.gk2_android.modelos.TipoDireccion;
@@ -31,7 +32,6 @@ import es.gk2.janhout.gk2_android.util.Constantes;
 
 public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnProcessCompleteListener, AsyncTaskGet.OnProcessCompleteListener {
 
-    private Toolbar toolbar;
     private EditText inputNombreComercial;
     private EditText inputNIF;
     private EditText inputDireccion;
@@ -46,10 +46,6 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
     private AutoCompleteTextView inputProvincia;
     private AutoCompleteTextView inputLocalidad;
     private AutoCompleteTextView inputTipoDireccion;
-
-    private AdaptadorAutoCompleteTextView adProvincias;
-    private AdaptadorAutoCompleteTextView adLocalidades;
-    private AdaptadorAutoCompleteTextView adTiposDireccion;
 
     private ArrayList<Object> listaProvincias;
     private ArrayList<Object> listaLocalidades;
@@ -181,7 +177,11 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
                         Toast.makeText(this, R.string.s_nuevoCliente_insertar_correcto, Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(this, MostrarCliente.class);
                         Bundle b = new Bundle();
-                        b.putInt("cliente", Integer.parseInt(location.substring(location.lastIndexOf("/") + 1)));
+                        Cliente cliente = new Cliente(Integer.parseInt(location.substring(location.lastIndexOf("/") + 1)),
+                                inputNombreComercial.getText().toString(), inputNIF.getText().toString(),
+                                inputTelefono1.getText().toString(), inputTelefono2.getText().toString(),
+                                inputEmail.getText().toString());
+                        b.putParcelable("cliente", cliente);
                         i.putExtras(b);
                         startActivity(i);
                         finish();
@@ -259,7 +259,7 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
                             JSONObject obj = array.getJSONObject(i);
                             listaLocalidades.add(new Localidad(obj));
                         }
-                        adLocalidades = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaLocalidades);
+                        AdaptadorAutoCompleteTextView adLocalidades = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaLocalidades);
                         inputLocalidad.setAdapter(adLocalidades);
                     } catch (JSONException e) {
                         listaLocalidades = null;
@@ -278,7 +278,7 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
                             listaProvincias.add(new Provincia(obj));
                         }
 
-                        adProvincias = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaProvincias);
+                        AdaptadorAutoCompleteTextView adProvincias = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaProvincias);
                         inputProvincia.setAdapter(adProvincias);
                     } catch (JSONException e) {
                         listaProvincias = null;
@@ -296,7 +296,7 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
                             JSONObject obj = array.getJSONObject(i);
                             listaTiposDireccion.add(new TipoDireccion(obj));
                         }
-                        adTiposDireccion = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaTiposDireccion);
+                        AdaptadorAutoCompleteTextView adTiposDireccion = new AdaptadorAutoCompleteTextView(this, android.R.layout.simple_dropdown_item_1line, listaTiposDireccion);
                         inputTipoDireccion.setAdapter(adTiposDireccion);
                     } catch (JSONException e) {
                         listaTiposDireccion = null;
@@ -338,7 +338,7 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
     }
 
     private void inicializarToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

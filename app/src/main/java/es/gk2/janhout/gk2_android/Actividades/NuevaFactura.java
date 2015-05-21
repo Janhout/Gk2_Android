@@ -1,8 +1,8 @@
 package es.gk2.janhout.gk2_android.actividades;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
@@ -27,6 +27,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
     private String tituloActividad;
     private SearchView searchView;
     private boolean inicio;
+    private Cliente clienteFactura;
 
     private final static String TAG_FRAGMENTO_PRINCIPAL = "fragmento_principal";
     private final static String TAG_FRAGMENTO_NUEVO_PRODUCTO = "fragmento_nuevo_producto";
@@ -70,9 +71,14 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         inicio = true;
         if(savedInstanceState != null) {
             inicio = savedInstanceState.getBoolean("ini");
+            clienteFactura = savedInstanceState.getParcelable("clienteFactura");
         }
         inicializarToolbar();
         if(inicio) {
+            Bundle b = getIntent().getExtras();
+            if(b != null) {
+                clienteFactura = b.getParcelable("cliente");
+            }
             mostrarFragmentoNuevaFactura();
         }
     }
@@ -140,9 +146,17 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        fragmentoActual = (ListaFragmentosNuevaFactura)savedInstanceState.getSerializable("fragmentoActual");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         outState.putBoolean("ini", inicio);
+        outState.putParcelable("clienteFactura", clienteFactura);
+        outState.putSerializable("fragmentoActual", fragmentoActual);
     }
 
     /* *************************************************************************
@@ -184,6 +198,10 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         return fragment;
     }
 
+    public Cliente getClienteFactura(){
+        return clienteFactura;
+    }
+
     private void inicializarToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setLogo(R.mipmap.ic_launcher);
@@ -221,7 +239,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
             fragmentoNuevaLinea = new FragmentoNuevaLinea();
             Bundle b = new Bundle();
             fragmentoNuevaLinea.setArguments(null);
-            b.putString("idCliente", "-1");
+            b.putParcelable("cliente", clienteFactura);
             b.putParcelable("productoModificar", productoModificar);
             fragmentoNuevaLinea.setArguments(b);
         }
@@ -233,14 +251,19 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         fm.executePendingTransactions();
     }
 
+    public void setInicio(boolean inicio){
+        this.inicio = inicio;
+    }
+
     /* *************************************************************************
      **************** Interfaz OnClienteSelectedListener ***********************
      *************************************************************************** */
 
     @Override
     public void devolverCliente(Cliente cliente) {
+        this.clienteFactura = cliente;
         mostrarFragmentoNuevaFactura();
-        fragmentoPrincipal.setCliente(cliente);
+        fragmentoPrincipal.setCliente();
     }
 
     /* *************************************************************************

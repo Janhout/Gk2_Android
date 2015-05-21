@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.actividades.NuevaFactura;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
 import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.R;
@@ -28,7 +29,7 @@ import es.gk2.janhout.gk2_android.util.Metodos;
 public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProcessCompleteListener{
 
     private NuevaFactura actividad;
-    private String idCliente;
+    private Cliente cliente;
     private Producto producto;
 
     private EditText etNombreProducto;
@@ -61,11 +62,8 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         listener = (NuevaFactura)getActivity();
-        idCliente = this.getArguments().getString("idCliente");
+        cliente = this.getArguments().getParcelable("cliente");
         producto = this.getArguments().getParcelable("productoModificar");
-        if(idCliente == null){
-            idCliente = "";
-        }
         cargarView();
         if(producto != null){
             mostrarDatosProducto();
@@ -82,7 +80,7 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_nuevo_producto, container, false);
+        return inflater.inflate(R.layout.fragment_nueva_linea, container, false);
     }
 
     @Override
@@ -93,12 +91,15 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
                 if(producto == null) {
                     producto = new Producto();
                 }
-                producto.setPrecio_venta_final(etPrecioProducto.getText().toString());
-                producto.setCantidad(etCantidadProducto.getText().toString());
+                String precio = etPrecioProducto.getText().toString().equals("") ? etPrecioProducto.getText().toString():"0";
+                producto.setPrecio_venta_final(Metodos.stringToDouble(precio)+"");
+                String cantidad = etCantidadProducto.getText().toString();
+                producto.setCantidad(cantidad);
                 producto.setArticulo(etNombreProducto.getText().toString());
                 producto.setUnidades(etUnidad.getText().toString());
-                producto.setNotas(etDescripcionProducto.getText().toString());
+                producto.setTitulo(etDescripcionProducto.getText().toString());
                 producto.setP_iva(spIva.getSelectedItem().toString());
+                producto.setNotas("");
                 producto.setTarifa_iva_incluido("1");
                 listener.devolverProducto(producto);
                 return true;
@@ -183,8 +184,10 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
         AsyncTaskGet otrosDatos = new AsyncTaskGet(actividad, this, Constantes.PRODUCTOS_OTROS_DETALLES, false, CODIGO_OTROS_DATOS);
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("articulo", producto.getArticulo());
-        parametros.put("tarifa", "NOR");
+        String tarifa = (cliente==null) ? "NOR":cliente.getTarifa();
+        parametros.put("tarifa", tarifa);
         parametros.put("unidades", producto.getCantidad());
+        String idCliente = (cliente==null) ? "":cliente.getId()+"";
         parametros.put("cliente", idCliente);
         otrosDatos.execute(parametros);
     }

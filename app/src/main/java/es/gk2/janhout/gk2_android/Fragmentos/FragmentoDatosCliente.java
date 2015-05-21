@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.actividades.MostrarCliente;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
 import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
@@ -31,8 +32,8 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         MostrarCliente.ItemMenuPulsadoMostrarCliente {
 
     private MostrarCliente actividad;
-    private int idCliente;
-    private JSONObject cliente;
+    private Cliente clienteMostrar;
+    private JSONObject clienteJSON;
 
     private TextView nif;
     private TextView nombreComercial;
@@ -42,16 +43,6 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
     private TextView numeroCuenta;
 
     private Button favorito;
-
-    private String s_nif;
-    private String s_nombreComercial;
-    private String s_direccion;
-    private String s_telefonos;
-    private String s_email;
-    private String s_numeroCuenta;
-    private String telf1;
-    private String telf2;
-    private boolean s_favorito;
 
     private static final int CODIGO_PEDIR_CLIENTE = 1;
     private static final int CODIGO_SET_FAVORITO = 2;
@@ -85,8 +76,8 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_datos_cliente, container, false);
-        idCliente = getArguments().getInt("idCliente");
-        MostrarCliente.setInicio(false);
+        clienteMostrar = getArguments().getParcelable("cliente");
+        actividad.setInicio(false);
         inicializarViews(v);
         cargarCliente();
         return v;
@@ -98,7 +89,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
 
     private void cargarCliente() {
         String url;
-        url = Constantes.CLIENTES_DETALLE + idCliente;
+        url = Constantes.CLIENTES_DETALLE + clienteMostrar.getId();
         AsyncTaskGet asyncTask = new AsyncTaskGet(actividad, this, url, false, CODIGO_PEDIR_CLIENTE);
         asyncTask.execute(new Hashtable<String, String>());
     }
@@ -125,43 +116,45 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         inicializarEventosBotones();
     }
 
-    private void leerDatosJSON() {
-        if (cliente != null) {
-            try {
+    private void completarDatosCliente() {
+        if (clienteJSON != null) {
+            /*try {
                 s_nombreComercial = cliente.getString("cliente_name");
                 s_nif = cliente.getString("cliente_nif");
                 telf1 = cliente.getString("cliente_tlf1");
                 telf2 = cliente.getString("cliente_tlf2");
-                s_telefonos = "";
-                if (!telf1.equals("") && !telf2.equals("")) {
-                    s_telefonos = telf1 + " / " + telf2;
-                } else if (!telf1.equals("")) {
-                    s_telefonos = telf1;
-                } else if (!telf2.equals("")) {
-                    s_telefonos = telf2;
-                }
                 s_direccion = cliente.getString("cliente_direccion");
                 s_email = cliente.getString("cliente_mail");
                 s_numeroCuenta = cliente.getString("cliente_ccc");
                 s_favorito = cliente.getInt("favorito") == 1;
             } catch (JSONException ignored) {
-            }
+            }*/
+            clienteMostrar.datosAdicionales(clienteJSON);
+            actividad.setCliente(clienteMostrar);
         }
     }
 
     private void mostrarDatosCliente() {
-        leerDatosJSON();
-        direccion.setText(s_direccion);
-        nombreComercial.setText(s_nombreComercial);
-        nif.setText(s_nif);
-        telefonos.setText(s_telefonos);
-        email.setText(s_email);
-        numeroCuenta.setText(s_numeroCuenta);
+        completarDatosCliente();
+        direccion.setText(clienteMostrar.getDireccion());
+        nombreComercial.setText(clienteMostrar.getNombre_comercial());
+        nif.setText(clienteMostrar.getNif());
+        String telfs = "";
+        if (!clienteMostrar.getTelefono01().equals("") && !clienteMostrar.getTelefono02().equals("")) {
+            telfs = clienteMostrar.getTelefono01() + " / " + clienteMostrar.getTelefono02();
+        } else if (!clienteMostrar.getTelefono01().equals("")) {
+            telfs = clienteMostrar.getTelefono01();
+        } else if (!clienteMostrar.getTelefono02().equals("")) {
+            telfs = clienteMostrar.getTelefono02();
+        }
+        telefonos.setText(telfs);
+        email.setText(clienteMostrar.getEmail());
+        numeroCuenta.setText(clienteMostrar.getNumero_cuenta());
 
         boolean telefono = true;
         boolean email = true;
-        telf1 = telf1.replaceAll(" ", "");
-        telf2 = telf2.replaceAll(" ", "");
+        String telf1 = clienteMostrar.getTelefono01().replaceAll(" ", "");
+        String telf2 = clienteMostrar.getTelefono02().replaceAll(" ", "");
         if(!TextUtils.isDigitsOnly(telf1)){
             telf1 = "";
         }
@@ -171,7 +164,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         if(telf1.equals("") && telf2.equals("")){
             telefono = false;
         }
-        if(s_email.trim().equals("")){
+        if(clienteMostrar.getEmail().trim().equals("")){
             email = false;
         }
 
@@ -179,7 +172,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         actividad.setMostrarTelefono(telefono);
         actividad.invalidateOptionsMenu();
 
-        if (s_favorito) {
+        if (clienteMostrar.isFavorito()) {
             Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_favoritos));
         } else {
             Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_no_favoritos));
@@ -196,15 +189,15 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
             switch (codigo) {
                 case CODIGO_PEDIR_CLIENTE:
                     try {
-                        cliente = new JSONObject(respuesta);
+                        clienteJSON = new JSONObject(respuesta);
                     } catch (JSONException e) {
-                        cliente = null;
+                        clienteJSON = null;
                     }
                     mostrarDatosCliente();
                     break;
                 case CODIGO_SET_FAVORITO:
-                    s_favorito = !s_favorito;
-                    if (s_favorito) {
+                    clienteMostrar.setFavorito(!clienteMostrar.isFavorito());
+                    if (clienteMostrar.isFavorito()) {
                         Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_favoritos));
                     } else {
                         Metodos.botonAwesomeComponente(actividad, favorito, getString(R.string.icono_clientes_no_favoritos));
@@ -241,10 +234,10 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
 
     private void cambiarFavorito() {
         String url;
-        if (s_favorito) {
-            url = Constantes.UNSET_FAVORITO + idCliente;
+        if (clienteMostrar.isFavorito()) {
+            url = Constantes.UNSET_FAVORITO + clienteMostrar.getId();
         } else {
-            url = Constantes.SET_FAVORITO + idCliente;
+            url = Constantes.SET_FAVORITO + clienteMostrar.getId();
         }
         AsyncTaskGet h = new AsyncTaskGet(actividad, this, url, false, CODIGO_SET_FAVORITO);
         h.execute(new Hashtable<String, String>());
@@ -275,10 +268,10 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
      *************************************************************************** */
 
     public void enviarEmail() {
-        if (!s_email.trim().equals("")) {
+        if (!clienteMostrar.getEmail().trim().equals("")) {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("message/rfc822");
-            i.putExtra(Intent.EXTRA_EMAIL, new String[]{s_email.trim()});
+            i.putExtra(Intent.EXTRA_EMAIL, new String[]{clienteMostrar.getEmail().trim()});
             try {
                 startActivity(Intent.createChooser(i, getString(R.string.enviar_email)));
             } catch (android.content.ActivityNotFoundException ex) {
@@ -289,16 +282,9 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
 
     public void llamarTelefono() {
         String telefono01, telefono02;
-        try {
-            telefono01 = cliente.getString("cliente_tlf1").trim();
-        } catch (JSONException e) {
-            telefono01 = "";
-        }
-        try {
-            telefono02 = cliente.getString("cliente_tlf2").trim();
-        } catch (JSONException e) {
-            telefono02 = "";
-        }
+
+        telefono01 = clienteMostrar.getTelefono01().trim();
+        telefono02 = clienteMostrar.getTelefono02().trim();
 
         String uri = "";
         if (!telefono01.equals("") && !telefono02.equals("")) {
@@ -318,10 +304,9 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
 
     private void verFacturas(String query) {
         Bundle bundle = new Bundle();
-        bundle.putInt("idCliente", idCliente);
+        bundle.putInt("idCliente", clienteMostrar.getId());
         bundle.putBoolean("todas", false);
-        bundle.putString("query", "");
-        //bundle.putString("query", query);
+        bundle.putString("query", query);
         MostrarCliente.fragmentoActual = MostrarCliente.ListaFragmentosCliente.facturas;
         //Fragment fragmento = new FragmentoListaFacturas();
         Fragment fragmento = new FragmentoContenedorListaFacturas();
@@ -329,7 +314,7 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
         FragmentTransaction transaction = actividad.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.relativeLayoutCliente, fragmento);
         transaction.addToBackStack(null);
-        actividad.setTituloActividad("Facturas - " + s_nombreComercial);
+        actividad.setTituloActividad("Facturas - " + clienteMostrar.getNombre_comercial());
         transaction.commit();
     }
 }

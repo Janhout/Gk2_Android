@@ -118,7 +118,7 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent i = new Intent(contexto, MostrarCliente.class);
                         Bundle b = new Bundle();
-                        b.putInt("cliente", listaClientes.get(position).getId());
+                        b.putParcelable("cliente", listaClientes.get(position));
                         i.putExtras(b);
                         contexto.startActivity(i);
                     }

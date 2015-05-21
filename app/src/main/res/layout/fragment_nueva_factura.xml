@@ -29,12 +29,9 @@
 
             <EditText
                 android:id="@+id/nueva_factura_et_cliente"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/estilos_edittext_personalizado"
+                style="@style/editTextPersonalizado"
                 android:focusable="false"
-                android:hint="@string/hint_pulsar_seleccionar_cliente"
-                android:padding="10sp" />
+                android:hint="@string/hint_pulsar_seleccionar_cliente" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,19 +55,15 @@
 
                 <EditText
                     android:id="@+id/nueva_factura_et_fecha_factura"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/estilos_edittext_personalizado"
+                    style="@style/editTextPersonalizado"
                     android:focusable="false"
-                    android:hint="@string/hint_fecha_factura"
-                    android:padding="10sp"/>
+                    android:hint="@string/hint_fecha_factura"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -79,19 +72,14 @@
 
                 <Spinner
                     android:id="@+id/nueva_factura_sp_condiciones_pago"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/estilos_edittext_personalizado"
-                    android:padding="10sp"
+                    style="@style/editTextPersonalizado"
                     android:focusable="false" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,21 +88,15 @@
 
                 <EditText
                     android:id="@+id/nueva_factura_et_fecha_vencimiento"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/estilos_edittext_personalizado"
+                    style="@style/editTextPersonalizado"
                     android:focusable="false"
-                    android:hint="@string/hint_fecha_vencimiento"
-                    android:padding="10sp" />
+                    android:hint="@string/hint_fecha_vencimiento" />
             </LinearLayout>
 
             <EditText
                 android:id="@+id/nueva_factura_et_notas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/estilos_edittext_personalizado"
-                android:hint="@string/hint_notas"
-                android:padding="10sp" />
+                style="@style/editTextPersonalizado"
+                android:hint="@string/hint_notas" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -183,8 +165,7 @@
                 <TextView
                     android:id="@+id/nueva_factura_tv_subtotal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0,0" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -209,8 +190,7 @@
                 <TextView
                     android:id="@+id/nueva_factura_tv_total"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0,0" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <TextView

@@ -57,8 +57,13 @@ public class FragmentoSeleccionarCliente extends Fragment implements AsyncTaskGe
         this.contexto = getActivity();
         query = getArguments().getString("query");
         listener = (NuevaFactura)getActivity();
-        cargarLista();
         inicializarListView();
+        if(query.length()>1) {
+            cargarLista();
+        } else {
+            textoVacio.setText("lista vacia");
+            lv.setEmptyView(textoVacio);
+        }
     }
 
     @Override

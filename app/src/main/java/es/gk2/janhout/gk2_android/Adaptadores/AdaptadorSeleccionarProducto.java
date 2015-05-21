@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.modelos.Producto;
+import es.gk2.janhout.gk2_android.util.Metodos;
 
 public class AdaptadorSeleccionarProducto extends ArrayAdapter<Producto>{
 
@@ -43,7 +44,7 @@ public class AdaptadorSeleccionarProducto extends ArrayAdapter<Producto>{
 
         vh.articulo.setText(datos.get(position).getArticulo());
         vh.titulo.setText(datos.get(position).getTitulo());
-        vh.precio.setText(datos.get(position).getPrecio_venta());
+        vh.precio.setText(Metodos.stringToMoney(datos.get(position).getPrecio_venta()));
         return convertView;
     }
 

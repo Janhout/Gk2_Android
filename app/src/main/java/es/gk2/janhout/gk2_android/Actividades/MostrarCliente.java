@@ -14,15 +14,16 @@ import android.view.MenuItem;
 
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoDatosCliente;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.modelos.Cliente;
 
 public class MostrarCliente extends AppCompatActivityBusqueda {
 
     private String tituloActividad;
-    private int idCliente;
+    private Cliente cliente;
     private SearchView searchView;
     private static Dialog dialogo;
     private static boolean mostrarDialogo;
-    private static boolean inicio;
+    private boolean inicio;
     private ItemMenuPulsadoMostrarCliente escuchadorMenu;
     private boolean mostrarTelefono;
     private boolean mostrarEmail;
@@ -45,7 +46,7 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
         switch (fragmentoActual){
             case ninguno:
             case clienteActual:
-                super.onBackPressed();
+                finish();
                 break;
             case facturas:
                 inicio = true;
@@ -62,7 +63,7 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
         if(savedInstanceState != null) {
             inicio = savedInstanceState.getBoolean("ini");
         }
-        idCliente = getIntent().getExtras().getInt("cliente");
+        cliente = getIntent().getExtras().getParcelable("cliente");
         inicializarToolbar();
         cargarFragmentoInicial();
     }
@@ -105,6 +106,9 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
             return true;
         } else if(id == R.id.action_nueva_factura){
             Intent i = new Intent(this, NuevaFactura.class);
+            Bundle b = new Bundle();
+            b.putParcelable("cliente", cliente);
+            i.putExtras(b);
             startActivity(i);
             return true;
         }
@@ -169,7 +173,7 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
             fragmentoActual = ListaFragmentosCliente.clienteActual;
             setTituloActividad(getString(R.string.title_activity_mostrar_cliente));
             Bundle bundle = new Bundle();
-            bundle.putInt("idCliente", idCliente);
+            bundle.putParcelable("cliente", cliente);
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutCliente, fragment).commit();
         }
@@ -200,12 +204,16 @@ public class MostrarCliente extends AppCompatActivityBusqueda {
         dialogo.show();
     }
 
+    public void setCliente(Cliente cliente){
+        this.cliente = cliente;
+    }
+
     public void setEscuchadorMenu(ItemMenuPulsadoMostrarCliente escuchadorMenu) {
         this.escuchadorMenu = escuchadorMenu;
     }
 
-    public static void setInicio(boolean inicio){
-        MostrarCliente.inicio = inicio;
+    public void setInicio(boolean inicio){
+        this.inicio = inicio;
     }
 
     public void setMostrarTelefono(boolean mostrarTelefono){

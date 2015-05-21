@@ -2,7 +2,6 @@ package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.app.Activity;
 import android.support.v4.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -43,7 +42,6 @@ import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
-import es.gk2.janhout.gk2_android.modelos.Cliente;
 import es.gk2.janhout.gk2_android.modelos.Producto;
 import es.gk2.janhout.gk2_android.modelos.Tarifa;
 
@@ -53,7 +51,6 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     private NuevaFactura actividad;
 
     private EditText etCliente;
-    private Cliente clienteSeleccionado;
     private EditText etFechaFactura;
     private EditText etFechaVenciminetoFactura;
     private Switch formatoPrecio;
@@ -107,6 +104,9 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         if(listaProductos == null) {
             listaProductos = new ArrayList<>();
         }
+        if(actividad.getClienteFactura() != null){
+            setCliente();
+        }
         cargarListaProductos();
     }
 
@@ -126,6 +126,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        actividad.setInicio(false);
         return inflater.inflate(R.layout.fragment_nueva_factura, container, false);
     }
 
@@ -136,7 +137,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
             if(NuevaFactura.fragmentoActual == NuevaFactura.ListaFragmentosNuevaFactura.nuevaFactura){
                 if(listaProductos.size()<0){
                     Toast.makeText(actividad, "no has seleccionado ningun producto", Toast.LENGTH_SHORT).show();
-                } else if(clienteSeleccionado == null){
+                } else if(actividad.getClienteFactura() == null) {//clienteSeleccionado == null){
                     Toast.makeText(actividad, "no has seleccionado ningun cliente", Toast.LENGTH_SHORT).show();
                 } else {
                     guardarFactura();
@@ -219,8 +220,8 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         double total = 0.0;
         if(listaProductos.size()>0){
             for(Producto producto : listaProductos){
-                double precio_producto_iva_incluido = Double.valueOf(producto.getPrecio_venta_final());
-                double iva_producto_porcentaje = Double.valueOf(producto.getP_iva());
+                double precio_producto_iva_incluido = Metodos.stringToDouble(producto.getPrecio_venta_final());
+                double iva_producto_porcentaje = Metodos.stringToDouble(producto.getP_iva());
                 double precio_sin_iva = precio_producto_iva_incluido;
                 if(producto.getTarifa_iva_incluido().equals("1")){
                     precio_sin_iva = precio_producto_iva_incluido/(1+iva_producto_porcentaje/100);
@@ -228,13 +229,13 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
                     precio_producto_iva_incluido = precio_sin_iva * iva_producto_porcentaje;
                 }
                 if(!tablaIva.containsKey(iva_producto_porcentaje)){
-                    tablaIva.put(iva_producto_porcentaje, Metodos.redondear(precio_sin_iva * Double.valueOf(producto.getCantidad()), 2));
+                    tablaIva.put(iva_producto_porcentaje, Metodos.redondear(precio_sin_iva * Metodos.stringToDouble(producto.getCantidad()), 2));
                 } else {
                     double temp = tablaIva.get(iva_producto_porcentaje);
-                    tablaIva.put(iva_producto_porcentaje, Metodos.redondear(temp + precio_sin_iva*Double.valueOf(producto.getCantidad()),2));
+                    tablaIva.put(iva_producto_porcentaje, Metodos.redondear(temp + precio_sin_iva*Metodos.stringToDouble(producto.getCantidad()),2));
                 }
-                subtotal = Metodos.redondear(subtotal + precio_sin_iva*Double.valueOf(producto.getCantidad()),2);
-                total = Metodos.redondear(total + precio_producto_iva_incluido*Double.valueOf(producto.getCantidad()),2);
+                subtotal = Metodos.redondear(subtotal + precio_sin_iva*Metodos.stringToDouble(producto.getCantidad()),2);
+                total = Metodos.redondear(total + precio_producto_iva_incluido*Metodos.stringToDouble(producto.getCantidad()),2);
             }
         }
         if(tablaIva.size()>0){
@@ -251,8 +252,9 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         while(keys.hasMoreElements()) {
             double key = keys.nextElement();
             double value = tablaIva.get(key);
-            LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View detalle = inflador.inflate(R.layout.detalle_totales_iva, null);
+            //LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //View detalle = inflador.inflate(R.layout.detalle_totales_iva, null);
+            View detalle = View.inflate(actividad, R.layout.detalle_totales_iva, null);
             TextView tv_etiqueta_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_etiqueta);
             TextView tv_total_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_total);
 
@@ -383,15 +385,15 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put(PARAMETRO_VENCIMIENTO, etFechaVenciminetoFactura.getText().toString());
         parametros.put(PARAMETRO_ALMACEN, "000");
-        parametros.put(PARAMETRO_CLIENTE, clienteSeleccionado.getId()+"");
+        parametros.put(PARAMETRO_CLIENTE, actividad.getClienteFactura().getId()+"");//clienteSeleccionado.getId()+"");
         parametros.put(PARAMETRO_DESCRIPCION, "");
         parametros.put(PARAMETRO_FECHA, etFechaFactura.getText().toString());
         parametros.put(PARAMETRO_ID_DOCUMENTO, "0");
         parametros.put(PARAMETRO_LOTES, "[[],[],[]]");
         parametros.put(PARAMETRO_NOTAS, etNotas.getText().toString());
         parametros.put(PARAMETRO_SERIE, "A");
-        //parametros.put(PARAMETRO_TARIFA, "clienteSeleccionado.getTarifa()");
-        parametros.put(PARAMETRO_TARIFA, "NOR");
+        String tarifa = (actividad.getClienteFactura()==null) ? "NOR":actividad.getClienteFactura().getTarifa();
+        parametros.put(PARAMETRO_TARIFA, tarifa);
         parametros.put(PARAMETRO_TIPO_IRPF, "0");
         StringBuilder productos = new StringBuilder();
         productos.append("[");
@@ -401,11 +403,11 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
                 obj.append(",");
             }
             obj.append("[\"");
-            obj.append(listaProductos.get(i).getArticulo() + "\",\"");
-            obj.append(listaProductos.get(i).getTitulo() + "\",\"");
-            obj.append(listaProductos.get(i).getCantidad() + "\",\"");
-            obj.append(listaProductos.get(i).getPrecio_venta_final() + "\",\"");
-            obj.append(listaProductos.get(i).getDescuento() + "\",\"");
+            obj.append(listaProductos.get(i).getArticulo().concat("\",\""));
+            obj.append(listaProductos.get(i).getTitulo().concat("\",\""));
+            obj.append(listaProductos.get(i).getCantidad().concat("\",\""));
+            obj.append(listaProductos.get(i).getPrecio_venta_final().concat("\",\""));
+            obj.append(listaProductos.get(i).getDescuento().concat("\",\""));
             obj.append(listaProductos.get(i).getNotas());
             obj.append("\"]");
             productos.append(obj);
@@ -416,14 +418,15 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     }
 
     private void crearViewLinea(final Producto producto){
-        LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View detalle = inflador.inflate(R.layout.detalle_linea_factura, null);
+        //LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //View detalle = inflador.inflate(R.layout.detalle_linea_factura, null);
+        View detalle = View.inflate(actividad, R.layout.detalle_linea_factura, null);
         TextView tv_cantidad_precio = (TextView)detalle.findViewById(R.id.detalle_linea_tv_cantidad_precio);
         TextView tv_producto = (TextView)detalle.findViewById(R.id.detalle_linea_tv_producto);
         TextView tv_precio = (TextView)detalle.findViewById(R.id.detalle_linea_tv_precio_total);
         tv_producto.setText(producto.getArticulo());
-        double precio_producto_iva_incluido = Double.valueOf(producto.getPrecio_venta_final());
-        double iva_producto = Double.valueOf(producto.getP_iva());
+        double precio_producto_iva_incluido = Metodos.stringToDouble(producto.getPrecio_venta_final());
+        double iva_producto = Metodos.stringToDouble(producto.getP_iva());
         double precio_sin_iva = precio_producto_iva_incluido;
         if(producto.getTarifa_iva_incluido().equals("1")){
             precio_sin_iva = precio_producto_iva_incluido/(1+iva_producto/100);
@@ -432,10 +435,10 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         }
         if(formatoPrecio.isChecked()){
             tv_cantidad_precio.setText(producto.getCantidad() + " " + producto.getUnidades() + getString(R.string.nueva_factura_por) + Metodos.doubleToMoney(precio_sin_iva));
-            tv_precio.setText(Metodos.doubleToMoney(Double.valueOf(producto.getCantidad())*precio_sin_iva));
+            tv_precio.setText(Metodos.doubleToMoney(Metodos.stringToDouble(producto.getCantidad())*precio_sin_iva));
         } else {
             tv_cantidad_precio.setText(producto.getCantidad() + " " + producto.getUnidades() + getString(R.string.nueva_factura_por) + Metodos.doubleToMoney(precio_producto_iva_incluido));
-            tv_precio.setText(Metodos.doubleToMoney(Double.valueOf(producto.getCantidad())*precio_producto_iva_incluido));
+            tv_precio.setText(Metodos.doubleToMoney(Metodos.stringToDouble(producto.getCantidad())*precio_producto_iva_incluido));
         }
         detalle.setTag(producto);
         detalle.setOnClickListener(new View.OnClickListener() {
@@ -473,9 +476,8 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         peticion.execute(parametros);
     }
 
-    public void setCliente(Cliente cliente){
-        clienteSeleccionado = cliente;
-        etCliente.setText(clienteSeleccionado.getNombre_comercial());
+    public void setCliente(){
+        etCliente.setText(actividad.getClienteFactura().getNombre_comercial());
     }
 
     public void setProducto(Producto producto){

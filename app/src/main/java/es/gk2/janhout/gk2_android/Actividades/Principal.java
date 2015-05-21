@@ -164,6 +164,7 @@ public class Principal extends AppCompatActivityBusqueda {
         super.onRestoreInstanceState(savedInstanceState);
         mostrarDialogo = savedInstanceState.getBoolean("mostrarDialogo");
         tituloActividad = savedInstanceState.getString("tituloActividad");
+        fragmentoActual = (ListaFragmentosPrincipal)savedInstanceState.getSerializable("actual");
         getSupportActionBar().setTitle(tituloActividad);
         if(mostrarDialogo){
             mostrarDialogo(this);
@@ -176,6 +177,7 @@ public class Principal extends AppCompatActivityBusqueda {
         outState.putBoolean("mostrarDialogo", mostrarDialogo);
         outState.putString("tituloActividad", tituloActividad);
         outState.putBoolean("fav", inicio);
+        outState.putSerializable("actual", fragmentoActual);
     }
 
     @Override

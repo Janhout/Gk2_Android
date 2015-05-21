@@ -11,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import es.gk2.janhout.gk2_android.util.Metodos;
+
 public class Factura implements Parcelable, Serializable {
 
     private int cliente;
@@ -84,8 +86,8 @@ public class Factura implements Parcelable, Serializable {
                     this.estadoFactura = 2;
                     break;
             }
-            this.importeFactura = Float.parseFloat(facturaJSON.getString("LIQUIDO"));
-            this.importePendiente = Float.parseFloat(facturaJSON.getString("PENDIENTE"));
+            this.importeFactura = Metodos.stringToDFloat(facturaJSON.getString("LIQUIDO"));
+            this.importePendiente = Metodos.stringToDFloat(facturaJSON.getString("PENDIENTE"));
             this.impreso = facturaJSON.getInt("PRINTED");
             this.enviado = facturaJSON.getInt("SENT");
             this.idImpresion = facturaJSON.getInt("ID_S");

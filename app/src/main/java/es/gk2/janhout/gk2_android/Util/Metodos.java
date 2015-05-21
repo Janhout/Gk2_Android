@@ -158,4 +158,34 @@ public class Metodos {
         }
         return valor;
     }
+
+    public static double stringToDouble(String valor){
+        double d;
+        try{
+            d = Double.valueOf(valor);
+        } catch (NumberFormatException e){
+            d = 0;
+        }
+        return d;
+    }
+
+    public static float stringToDFloat(String valor){
+        float d;
+        try{
+            d = Float.valueOf(valor);
+        } catch (NumberFormatException e){
+            d = 0;
+        }
+        return d;
+    }
+
+    public static String stringToMoney(String valor){
+        double d;
+        try{
+            d = Double.valueOf(valor);
+        } catch (NumberFormatException e){
+            d = 0;
+        }
+        return doubleToMoney(d);
+    }
 }
