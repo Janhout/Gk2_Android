@@ -134,27 +134,33 @@ public class Principal extends AppCompatActivityBusqueda {
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         //ocultar todas las opocines de menu o mostrarlas
-        menu.findItem(R.id.action_nuevo_cliente).setVisible(!drawerOpen);
-        if(fragmentoActual == ListaFragmentosPrincipal.clientes) {
-            menu.findItem(R.id.action_nuevo_cliente).setVisible(true);
+        if(drawerOpen) {
+            menu.findItem(R.id.action_nuevo_cliente).setVisible(!drawerOpen);
+            menu.findItem(R.id.action_nuevoGasto).setVisible(!drawerOpen);
+            menu.findItem(R.id.action_search).setVisible(!drawerOpen);
+            menu.findItem(R.id.action_nueva_factura).setVisible(!drawerOpen);
         } else {
-            menu.findItem(R.id.action_nuevo_cliente).setVisible(false);
-        }
-        if(fragmentoActual == ListaFragmentosPrincipal.facturas) {
-            menu.findItem(R.id.action_nueva_factura).setVisible(true);
-        } else {
-            menu.findItem(R.id.action_nueva_factura).setVisible(false);
-        }
-        if(fragmentoActual == ListaFragmentosPrincipal.facturas ||
-                fragmentoActual == ListaFragmentosPrincipal.clientes) {
-            menu.findItem(R.id.action_search).setVisible(true);
-        } else {
-            menu.findItem(R.id.action_search).setVisible(false);
-        }
-        if(fragmentoActual == ListaFragmentosPrincipal.compras){
-            menu.findItem(R.id.action_nuevoGasto).setVisible(true);
-        }else{
-            menu.findItem(R.id.action_nuevoGasto).setVisible(false);
+            if (fragmentoActual == ListaFragmentosPrincipal.clientes) {
+                menu.findItem(R.id.action_nuevo_cliente).setVisible(true);
+            } else {
+                menu.findItem(R.id.action_nuevo_cliente).setVisible(false);
+            }
+            if (fragmentoActual == ListaFragmentosPrincipal.facturas) {
+                menu.findItem(R.id.action_nueva_factura).setVisible(true);
+            } else {
+                menu.findItem(R.id.action_nueva_factura).setVisible(false);
+            }
+            if (fragmentoActual == ListaFragmentosPrincipal.facturas ||
+                    fragmentoActual == ListaFragmentosPrincipal.clientes) {
+                menu.findItem(R.id.action_search).setVisible(true);
+            } else {
+                menu.findItem(R.id.action_search).setVisible(false);
+            }
+            if (fragmentoActual == ListaFragmentosPrincipal.compras) {
+                menu.findItem(R.id.action_nuevoGasto).setVisible(true);
+            } else {
+                menu.findItem(R.id.action_nuevoGasto).setVisible(false);
+            }
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -238,11 +244,11 @@ public class Principal extends AppCompatActivityBusqueda {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer) {
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(tituloActividad);
-                supportInvalidateOptionsMenu();
+                invalidateOptionsMenu();
             }
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(getString(R.string.titulo_navigation_drawer));
-                supportInvalidateOptionsMenu();
+                invalidateOptionsMenu();
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
@@ -376,7 +382,7 @@ public class Principal extends AppCompatActivityBusqueda {
                 break;
         }
 
-        if(position != 5) {
+        if(position != 5 && position != 4) {
             getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
 
             drawerList.setItemChecked(position, true);

@@ -38,10 +38,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hint_nombre_producto" />
 
                 <EditText
                     android:id="@+id/nueva_factura_et_nombre_producto"
@@ -66,7 +62,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/hint_cantidad_producto" />
 
@@ -74,6 +71,8 @@
                     android:id="@+id/nueva_factura_et_cantidad_producto"
                     style="@style/editTextPersonalizado"
                     android:hint="@string/hint_cantidad_producto"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:imeOptions="actionNext"
                     android:inputType="number|numberDecimal"
                     android:nextFocusForward="@+id/nueva_factura_et_precio_producto"/>
@@ -86,7 +85,8 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/hint_precio_producto" />
 
@@ -94,6 +94,8 @@
                     android:id="@+id/nueva_factura_et_precio_producto"
                     style="@style/editTextPersonalizado"
                     android:hint="@string/hint_precio_producto"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:inputType="number|numberDecimal"/>
             </LinearLayout>
 
@@ -103,14 +105,17 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/hint_unidad_producto" />
 
                 <EditText
                     android:id="@+id/nueva_factura_et_unidad_producto"
                     style="@style/editTextPersonalizado"
-                    android:hint="@string/hint_unidad_producto"/>
+                    android:hint="@string/hint_unidad_producto"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"/>
             </LinearLayout>
 
             <LinearLayout
@@ -119,14 +124,17 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/hint_iva_producto" />
 
                 <Spinner
                     android:id="@+id/nueva_factura_sp_iva_producto"
                     style="@style/editTextPersonalizado"
-                    android:focusable="false" />
+                    android:focusable="false"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"/>
             </LinearLayout>
 
             <TextView

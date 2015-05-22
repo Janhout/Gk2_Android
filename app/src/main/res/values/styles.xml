@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/gris_deslizar</item>
         <item name="colorPrimaryDark">@color/azul_barra_estado</item>
-        <item name="colorAccent">@color/azul_logo</item>
+        <item name="colorAccent">@color/mi_material_accent</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 

@@ -29,7 +29,7 @@
     <string name="switch_neto">Neto</string>
     <string name="nueva_factura_subtotal">Subtotal</string>
     <string name="nueva_factura_subtotal_sin_iva">Subtotal sin IVA</string>
-    <string name="nueva_factura_total_euros">Total EUROS</string>
+    <string name="nueva_factura_total_euros">Total</string>
     <string name="nueva_factura_sin_productos">No se han añadido productos</string>
     <string name="nueva_factura_por">&#160;por&#160;</string>
 </resources>

@@ -23,11 +23,6 @@ import android.widget.Toast;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,19 +32,15 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.actividades.NuevaFactura;
-import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.modelos.Producto;
-import es.gk2.janhout.gk2_android.modelos.Tarifa;
 
-public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener,
-        AsyncTaskGet.OnProcessCompleteListener, AsyncTaskPost.OnProcessCompleteListener {
+public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener, AsyncTaskPost.OnProcessCompleteListener {
 
     private NuevaFactura actividad;
-
     private EditText etCliente;
     private EditText etFechaFactura;
     private EditText etFechaVenciminetoFactura;
@@ -62,13 +53,10 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     private TextView tvSubtotal;
     private TextView tvTotal;
 
-    private ArrayList<Tarifa> listaTarifas;
-
     public static final String FECHA_FACTURA_TAG = "fecha_factura";
     public static final String FECHA_VENCIMIENTO_TAG = "fecha_vencimiento";
 
-    public static final int CODIGO_PETICION_TARIFAS = 1;
-    public static final int CODIGO_PETICION_FACTURA = 2;
+    public static final int CODIGO_PETICION_FACTURA = 1;
 
     private static final String PARAMETRO_FECHA = "fecha";
     private static final String PARAMETRO_CLIENTE = "cliente";
@@ -96,7 +84,6 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        cargarListaTarifas();
         cargarView();
         if(savedInstanceState != null) {
             listaProductos = (ArrayList) savedInstanceState.getParcelableArrayList("listaProductos");
@@ -208,12 +195,6 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         cargarTotales();
     }
 
-    private void cargarListaTarifas(){
-        listaTarifas = new ArrayList<>();
-        AsyncTaskGet h = new AsyncTaskGet(getActivity(), this, Constantes.PRODUCTOS_TARIFAS, false, CODIGO_PETICION_TARIFAS);
-        h.execute(new Hashtable<String, String>());
-    }
-
     private void cargarTotales(){
         Hashtable<Double, Double> tablaIva = new Hashtable<>();
         double subtotal = 0.0;
@@ -257,6 +238,9 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
             View detalle = View.inflate(actividad, R.layout.detalle_totales_iva, null);
             TextView tv_etiqueta_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_etiqueta);
             TextView tv_total_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_total);
+
+            tv_etiqueta_iva.setTextAppearance(actividad, android.R.style.TextAppearance_DeviceDefault_Medium);
+            tv_total_iva.setTextAppearance(actividad, android.R.style.TextAppearance_DeviceDefault_Medium);
 
             tv_etiqueta_iva.setText("IVA " + key + "% de " + Metodos.doubleToMoney(value));
             tv_total_iva.setText(Metodos.doubleToMoney(value*key/100));
@@ -478,6 +462,19 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
 
     public void setCliente(){
         etCliente.setText(actividad.getClienteFactura().getNombre_comercial());
+        int ivaIncluido = 1;
+        if(actividad.getClienteFactura() != null && actividad.getListaTariafa() != null) {
+            boolean encontrado = false;
+            for (int i = 0; i < actividad.getListaTariafa().size() && !encontrado; i++) {
+                if (actividad.getListaTariafa().get(i).equals(actividad.getClienteFactura().getTarifa())) {
+                    ivaIncluido = actividad.getListaTariafa().get(i).getIva_incluido();
+                    encontrado = true;
+                }
+            }
+        }
+        if(ivaIncluido == 0){
+            formatoPrecio.setChecked(true);
+        }
     }
 
     public void setProducto(Producto producto){
@@ -508,27 +505,6 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     /* *************************************************************************
      ******************** Interfaz OnProcessCompleteListener *******************
      *************************************************************************** */
-
-    @Override
-    public void resultadoGet(String respuesta, int codigo_peticion) {
-        if(respuesta != null){
-            switch (codigo_peticion){
-                case CODIGO_PETICION_TARIFAS:
-                    JSONTokener token = new JSONTokener(respuesta);
-                    JSONArray array;
-                    try {
-                        array = new JSONArray(token);
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject obj = array.getJSONObject(i);
-                            listaTarifas.add(new Tarifa(obj));
-                        }
-                    } catch (JSONException e) {
-                        listaTarifas = null;
-                    }
-                    break;
-            }
-        }
-    }
 
     @Override
     public void resultadoPost(String respuesta, int codigo_peticion) {

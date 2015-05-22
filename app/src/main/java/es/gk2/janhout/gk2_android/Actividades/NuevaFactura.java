@@ -11,6 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
+
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoNuevaFactura;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoNuevaLinea;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoSeleccionarCliente;
@@ -18,9 +26,13 @@ import es.gk2.janhout.gk2_android.fragmentos.FragmentoSeleccionarProducto;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.modelos.Cliente;
 import es.gk2.janhout.gk2_android.modelos.Producto;
+import es.gk2.janhout.gk2_android.modelos.Tarifa;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
+import es.gk2.janhout.gk2_android.util.Constantes;
 
 public class NuevaFactura extends AppCompatActivityBusqueda implements FragmentoSeleccionarCliente.OnClienteSelectedListener,
-        FragmentoSeleccionarProducto.OnProductoListaSelectedListener, FragmentoNuevaLinea.OnProductoSelectedListener {
+        FragmentoSeleccionarProducto.OnProductoListaSelectedListener, FragmentoNuevaLinea.OnProductoSelectedListener,
+        AsyncTaskGet.OnProcessCompleteListener{
 
     private FragmentoNuevaFactura fragmentoPrincipal;
     private FragmentoNuevaLinea fragmentoNuevaLinea;
@@ -28,9 +40,12 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
     private SearchView searchView;
     private boolean inicio;
     private Cliente clienteFactura;
+    private ArrayList<Tarifa> listaTarifas;
 
     private final static String TAG_FRAGMENTO_PRINCIPAL = "fragmento_principal";
     private final static String TAG_FRAGMENTO_NUEVO_PRODUCTO = "fragmento_nuevo_producto";
+
+    public static final int CODIGO_PETICION_TARIFAS = 1;
 
     public static enum ListaFragmentosNuevaFactura {
         ninguno,
@@ -69,6 +84,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_factura);
         inicio = true;
+        listaTarifas = new ArrayList<>();
         if(savedInstanceState != null) {
             inicio = savedInstanceState.getBoolean("ini");
             clienteFactura = savedInstanceState.getParcelable("clienteFactura");
@@ -81,6 +97,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
             }
             mostrarFragmentoNuevaFactura();
         }
+        cargarListaTarifas();
     }
 
     @Override
@@ -180,6 +197,12 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
      **************************** Auxialiares **********************************
      *************************************************************************** */
 
+
+    private void cargarListaTarifas(){
+        AsyncTaskGet h = new AsyncTaskGet(this, this, Constantes.PRODUCTOS_TARIFAS, false, CODIGO_PETICION_TARIFAS);
+        h.execute(new Hashtable<String, String>());
+    }
+
     private Fragment fragmentoClientes(String query){
         Fragment fragment = new FragmentoSeleccionarCliente();
         fragmentoActual = ListaFragmentosNuevaFactura.seleccionCliente;
@@ -200,6 +223,10 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
 
     public Cliente getClienteFactura(){
         return clienteFactura;
+    }
+
+    public ArrayList<Tarifa> getListaTariafa(){
+        return listaTarifas;
     }
 
     private void inicializarToolbar(){
@@ -241,6 +268,17 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
             fragmentoNuevaLinea.setArguments(null);
             b.putParcelable("cliente", clienteFactura);
             b.putParcelable("productoModificar", productoModificar);
+            int ivaIncluido = 1;
+            if(clienteFactura != null) {
+                boolean encontrado = false;
+                for (int i = 0; i < listaTarifas.size() && !encontrado; i++) {
+                    if (listaTarifas.get(i).equals(clienteFactura.getTarifa())) {
+                        ivaIncluido = listaTarifas.get(i).getIva_incluido();
+                        encontrado = true;
+                    }
+                }
+            }
+            b.putInt("iva_incluido", ivaIncluido);
             fragmentoNuevaLinea.setArguments(b);
         }
         invalidateOptionsMenu();
@@ -281,6 +319,31 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
     public void devolverProducto(Producto producto) {
         mostrarFragmentoNuevaFactura();
         fragmentoPrincipal.setProducto(producto);
+    }
+
+    /* *************************************************************************
+     ******************** Interfaz OnProcessCompleteListener *******************
+     *************************************************************************** */
+
+    @Override
+    public void resultadoGet(String respuesta, int codigo_peticion) {
+        if(respuesta != null){
+            switch (codigo_peticion){
+                case CODIGO_PETICION_TARIFAS:
+                    JSONTokener token = new JSONTokener(respuesta);
+                    JSONArray array;
+                    try {
+                        array = new JSONArray(token);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
+                            listaTarifas.add(new Tarifa(obj));
+                        }
+                    } catch (JSONException e) {
+                        listaTarifas = null;
+                    }
+                    break;
+            }
+        }
     }
 }
 
