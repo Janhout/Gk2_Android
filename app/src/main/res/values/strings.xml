@@ -58,5 +58,7 @@
 
     <!-- ERRORES -->
     <string name="e_sesion_expirada">Su sesión ha expirado</string>
+    <string name="e_no_vacio">Este campo no puede estar vacío</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

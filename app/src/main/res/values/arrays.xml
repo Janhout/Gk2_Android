@@ -18,6 +18,7 @@
         <item>Clientes favoritos</item>
         <item>Facturas</item>
         <item>Mis compras</item>
+        <item>Mis productos</item>
         <item>Cerrar sesión</item>
     </string-array>
 
@@ -26,6 +27,7 @@
         <item>@string/icono_clientes_favoritos</item>
         <item>@string/icono_facturas</item>
         <item>@string/icono_compras</item>
+        <item>@string/icono_mis_productos</item>
         <item>@string/icono_cerrar_sesion</item>
     </string-array>
 

@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="es.gk2.janhout.gk2_android.actividades.NuevoProducto">
+    <item
+        android:id="@+id/action_nuevo_producto"
+        android:orderInCategory="100"
+        android:title="@string/s_nuevo_producto_submit"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_accept"/>
+</menu>

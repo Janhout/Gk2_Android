@@ -33,7 +33,7 @@ public class LectorPDF extends AppCompatActivity implements OnPageChangeListener
     private Intent intentCompartir;
     private String fichero;
 
-    private static final String PARAMENTRO_MAILTO = "mailto";
+    private static  final String PARAMENTRO_MAILTO = "mailto";
     private static final String PARAMENTRO_ASUNTO = "asunto";
     private static final String PARAMENTRO_MENSAJE = "mensaje";
 

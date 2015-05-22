@@ -1,12 +1,12 @@
 package es.gk2.janhout.gk2_android.actividades;
 
 import android.app.Dialog;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,13 +20,13 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.adaptadores.AdaptadorListaNavigationDrawer;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoContenedorListaFacturas;
-import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaCompras;
 import es.gk2.janhout.gk2_android.modelos.ItemNavigationDrawer;
-import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.util.Metodos;
 
 public class Principal extends AppCompatActivityBusqueda {
 
@@ -331,15 +331,18 @@ public class Principal extends AppCompatActivityBusqueda {
     private void seleccionarItem(int position) {
         Fragment fragment = null;
         inicio = false;
+        Intent i;
         switch (position){
             case 0:
                 fragment = fragmentoClientes(false, "");
                 fragmentoActual = ListaFragmentosPrincipal.clientes;
                 break;
+
             case 1:
                 fragment = fragmentoClientes(true, "");
                 fragmentoActual = ListaFragmentosPrincipal.clientes_favoritos;
                 break;
+
             case 2:
                 /*fragment = new FragmentoListaFacturas();
                 Bundle bundle = new Bundle();
@@ -353,20 +356,27 @@ public class Principal extends AppCompatActivityBusqueda {
                 bundle.putString("query", "");
                 fragment.setArguments(bundle);
                 break;
+
             case 3:
                 fragment = new FragmentoListaCompras();
                 fragmentoActual = ListaFragmentosPrincipal.compras;
                 break;
+
             case 4:
+                i = new Intent(this, NuevoProducto.class);
+                startActivity(i);
+                break;
+
+            case 5:
                 Metodos.borrarPreferenciasCompartidas(this);
-                Intent i = new Intent(this, Login.class);
+                i = new Intent(this, Login.class);
                 startActivity(i);
                 this.finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.slide_in_left);
                 break;
         }
 
-        if(position != 4) {
+        if(position != 5) {
             getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
 
             drawerList.setItemChecked(position, true);

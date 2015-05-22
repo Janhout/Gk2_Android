@@ -1,0 +1,236 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="es.gk2.janhout.gk2_android.actividades.NuevoProducto">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/dialogo_progreso"
+            layout="@layout/progreso"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
+
+                <TextView
+                    style="@style/titulo"
+                    android:text="@string/s_nuevo_producto_header" />
+
+                <include layout="@layout/linea_separadora_titulo" />
+
+
+                <EditText
+                    android:id="@+id/nuevoProducto_referencia"
+                    style="@style/editTextPersonalizado"
+                    android:hint="@string/s_nuevo_producto_referencia"
+                    android:maxLength="15" />
+
+                <TextView
+                    style="@style/titulo"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/s_nuevo_producto_informacion_producto" />
+
+                <include layout="@layout/linea_separadora_titulo" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:text="Impuesto"/>
+
+                    <Spinner
+                        android:id="@+id/nuevoProducto_impuesto"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:focusable="false" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/s_nuevo_producto_precio_compra" />
+
+                    <EditText
+                        android:id="@+id/nuevoProducto_precio_compra"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:hint="@string/s_nuevo_producto_precio_compra"
+                        android:imeOptions="actionNext"
+                        android:inputType="number|numberDecimal"
+                        android:nextFocusForward="@+id/nuevoProducto_beneficio" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/s_nuevo_producto_beneficio" />
+
+
+                    <EditText
+                        android:id="@+id/nuevoProducto_beneficio"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.8"
+                        android:hint="@string/s_nuevo_producto_beneficio"
+                        android:imeOptions="actionNext"
+                        android:inputType="number|numberDecimal"
+                        android:nextFocusForward="@+id/nuevoProducto_precio_venta" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:text="%"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/s_nuevo_producto_precio_venta" />
+
+                    <EditText
+                        android:id="@+id/nuevoProducto_precio_venta"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:hint="@string/s_nuevo_producto_precio_venta"
+                        android:imeOptions="actionNext"
+                        android:inputType="number|numberDecimal"
+                        android:nextFocusForward="@+id/nuevoProducto_precio_impuestos" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/s_nuevo_producto_precio_impuesto" />
+
+                    <EditText
+                        android:id="@+id/nuevoProducto_precio_impuestos"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:hint="@string/s_nuevo_producto_precio_impuesto"
+                        android:imeOptions="actionNext"
+                        android:inputType="number|numberDecimal"
+                        android:nextFocusForward="@+id/nuevoProducto_unidad" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/hint_unidad_producto"/>
+
+                    <EditText
+                        android:id="@+id/nuevoProducto_unidad"
+                        style="@style/editTextPersonalizado"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:hint="@string/hint_unidad_producto"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@+id/nuevoProducto_descripcion"/>
+                </LinearLayout>
+
+
+
+                <TextView
+                    style="@style/titulo"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/s_nuevo_producto_descripcion" />
+
+                <include layout="@layout/linea_separadora_titulo" />
+
+                <EditText
+                    android:id="@+id/nuevoProducto_descripcion"
+                    style="@style/editTextPersonalizado"
+                    android:layout_marginBottom="14dp"
+                    android:hint="@string/hint_descripcion_producto"
+                    android:maxLength="60" />
+
+                <CheckBox
+                    android:id="@+id/nuevoProducto_estado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:hint="@string/s_nuevo_producto_estado" />
+
+                <CheckBox
+                    android:id="@+id/nuevoProducto_control_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:hint="@string/s_nuevo_producto_controlStock" />
+
+                <CheckBox
+                    android:id="@+id/nuevoProducto_lotes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/s_nuevo_producto_lotes" />
+
+
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</LinearLayout>

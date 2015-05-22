@@ -12,4 +12,5 @@
     <string name="icono_clientes_favoritos">&#xf005;</string>
     <string name="icono_clientes_no_favoritos">&#xf006;</string>
     <string name="icono_nueva_linea">&#xf055;</string>
+    <string name="icono_mis_productos">&#xf02c;</string>
 </resources>
