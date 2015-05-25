@@ -11,7 +11,7 @@
     <style name="action_bar_styles" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColorPrimary">@color/blanco</item>
         <item name="android:textColorSecondary">@color/blanco</item>
-        <item name="actionMenuTextColor">@color/verde</item>
+        <item name="actionMenuTextColor">@android:color/holo_orange_light</item>
     </style>
 
     <!-- ESTILOS ELEMENTOS COMUNES -->

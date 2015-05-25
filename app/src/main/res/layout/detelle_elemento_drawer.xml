@@ -4,24 +4,24 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="@dimen/padding_lista"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:background="@drawable/estilos_item_drawer"
+    >
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/iconoElemento"
-        android:layout_marginRight="@dimen/margen_entre_componentes"
+        android:textColor="@color/negro_texto_drawer"
+        android:layout_marginEnd="@dimen/margen_entre_componentes"
         android:textSize="@dimen/size_icono_botones"
-        android:text="i"
         android:layout_weight="2"/>
 
     <TextView
         android:id="@+id/tituloElemento"
         android:layout_width="0dp"
+        android:textColor="@color/negro_texto_drawer"
         android:layout_height="wrap_content"
-        android:textColor="#ff020202"
-        android:text="elemento lista"
         android:textSize="@dimen/drawer_font_size"
         android:layout_weight="8"/>
-
 </LinearLayout>

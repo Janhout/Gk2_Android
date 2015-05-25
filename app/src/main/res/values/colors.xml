@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="verde" type="color">#B6FFB6</item>
-    <item name="amarillo" type="color">#FFFFCC</item>
-    <item name="azul_logo" type="color">#0091C2</item>
     <item name="rojo" type="color">#FF847C</item>
     <item name="gris_deslizar" type="color">#C5CAE9</item>
     <item name="azul_barra_estado" type="color">#1976D2</item>
 
+    <item name="gris_fondo" type="color">#ffebebeb</item>
+
     <color name="blanco">#FFF</color>
     <color name="negro">#000</color>
     <color name="gris_textos">#ff9d9d9d</color>
+
+    <color name="negro_texto_drawer">#ff020202</color>
 
     <color name="icono_favoritos">#fff0bf0e</color>
 </resources>

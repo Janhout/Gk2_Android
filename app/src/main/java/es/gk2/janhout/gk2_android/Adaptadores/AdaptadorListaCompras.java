@@ -42,9 +42,9 @@ public class AdaptadorListaCompras extends ArrayAdapter<Compra> {
             vh.compra_pendiente = (TextView) convertView.findViewById(R.id.compra_pendiente);
 
             if(datos.get(position).getCompra_estado() == 0) //Sin contabilizar
-                vh.compra_fila.setBackgroundColor(contexto.getResources().getColor(R.color.amarillo));
+                vh.compra_fila.setBackgroundColor(contexto.getResources().getColor(android.R.color.holo_orange_dark));
             else if(datos.get(position).getCompra_estado() == 5) //Contabilizada
-                vh.compra_fila.setBackgroundColor(contexto.getResources().getColor(R.color.verde));
+                vh.compra_fila.setBackgroundColor(contexto.getResources().getColor(android.R.color.holo_orange_light));
             vh.compra_acciones = (Spinner) convertView.findViewById(R.id.sp_acciones_compras);
 
             convertView.setTag(vh);

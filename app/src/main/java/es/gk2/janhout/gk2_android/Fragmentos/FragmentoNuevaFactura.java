@@ -147,7 +147,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
 
     private void cambioFechaVencimiento(int position){
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
         try {
             date = formatoFecha.parse(etFechaFactura.getText().toString());
@@ -397,6 +397,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
             productos.append(obj);
         }
         productos.append("]");
+        Log.v("mio", productos.toString());
         parametros.put(PARAMETRO_DOCUMENTO, productos.toString());
         return parametros;
     }
@@ -451,7 +452,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         String dia = ("0" + d).substring(("0" + d).length()-2);
         String mes = ("0" + m).substring(("0" + m).length()-2);
         String anio = "" + y;
-        return anio + "-" + mes + "-" + dia;
+        return dia + "/" + mes + "/" + anio;
     }
 
     private void guardarFactura(){
@@ -466,7 +467,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         if(actividad.getClienteFactura() != null && actividad.getListaTariafa() != null) {
             boolean encontrado = false;
             for (int i = 0; i < actividad.getListaTariafa().size() && !encontrado; i++) {
-                if (actividad.getListaTariafa().get(i).equals(actividad.getClienteFactura().getTarifa())) {
+                if (actividad.getListaTariafa().get(i).getTarifa().equals(actividad.getClienteFactura().getTarifa())) {
                     ivaIncluido = actividad.getListaTariafa().get(i).getIva_incluido();
                     encontrado = true;
                 }
@@ -511,7 +512,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         if(respuesta != null){
             switch (codigo_peticion){
                 case CODIGO_PETICION_FACTURA:
-                    Log.v("mio", respuesta);
+                    actividad.finish();
                     break;
             }
         }

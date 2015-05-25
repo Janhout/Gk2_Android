@@ -19,11 +19,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nueva_factura_producto"
-                android:textColor="@color/azul_logo"
-                android:textSize="@dimen/title_size" />
+                style="@style/titulo"
+                android:text="@string/nueva_factura_producto"/>
 
             <include layout="@layout/linea_separadora_titulo" />
 
@@ -48,11 +45,8 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nueva_factura_informacion_linea"
-                android:textColor="@color/azul_logo"
-                android:textSize="@dimen/title_size" />
+                style="@style/titulo"
+                android:text="@string/nueva_factura_informacion_linea"/>
 
             <include layout="@layout/linea_separadora_titulo" />
 
@@ -81,8 +75,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_weight="1"
@@ -138,11 +131,8 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hint_descripcion_producto"
-                android:textColor="@color/azul_logo"
-                android:textSize="@dimen/title_size" />
+                style="@style/titulo"
+                android:text="@string/hint_descripcion_producto"/>
 
             <include layout="@layout/linea_separadora_titulo" />
 
