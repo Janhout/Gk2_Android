@@ -24,4 +24,9 @@
         android:icon="@drawable/ic_action_new"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/action_nuevo_producto"
+        android:title="@string/action_nuevo_producto"
+        android:icon="@drawable/ic_action_new"
+        app:showAsAction="ifRoom"/>
+
 </menu>

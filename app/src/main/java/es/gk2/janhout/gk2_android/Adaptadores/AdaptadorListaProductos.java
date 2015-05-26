@@ -23,7 +23,7 @@ import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
 
-public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements AsyncTaskGet.OnProcessCompleteListener{
+public class AdaptadorListaProductos extends ArrayAdapter<Cliente> implements AsyncTaskGet.OnProcessCompleteListener{
 
     private Context contexto;
     private ArrayList<Cliente> datos;
@@ -33,7 +33,7 @@ public class AdaptadorListaClientes extends ArrayAdapter<Cliente> implements Asy
 
     private final static int CODIGO_SET_FAVORITO = 1;
 
-    public AdaptadorListaClientes(Context contexto, int recurso, ArrayList<Cliente> datos) {
+    public AdaptadorListaProductos(Context contexto, int recurso, ArrayList<Cliente> datos) {
         super(contexto, recurso, datos);
         this.contexto = contexto;
         this.recurso = recurso;

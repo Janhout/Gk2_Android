@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.actividades.MostrarCliente;
-import es.gk2.janhout.gk2_android.adaptadores.AdaptadorListaClientes;
+import es.gk2.janhout.gk2_android.adaptadores.AdaptadorListaProductos;
 import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
@@ -30,7 +30,7 @@ import es.gk2.janhout.gk2_android.modelos.Cliente;
 
 public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnProcessCompleteListener {
 
-    private AdaptadorListaClientes ad;
+    private AdaptadorListaProductos ad;
     private ArrayList<Cliente> listaClientes;
     private Context contexto;
 
@@ -111,7 +111,7 @@ public class FragmentoListaClientes extends Fragment implements AsyncTaskGet.OnP
             if (getView() != null) {
                 lv = (ListView) getView().findViewById(R.id.lvLista);
                 textoVacio = (TextView) getView().findViewById(R.id.empty);
-                ad = new AdaptadorListaClientes(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
+                ad = new AdaptadorListaProductos(getActivity(), R.layout.detalle_lista_cliente, listaClientes);
                 lv.setAdapter(ad);
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

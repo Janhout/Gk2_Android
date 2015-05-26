@@ -25,6 +25,7 @@ import es.gk2.janhout.gk2_android.adaptadores.AdaptadorListaNavigationDrawer;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoContenedorListaFacturas;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaClientes;
 import es.gk2.janhout.gk2_android.fragmentos.FragmentoListaCompras;
+import es.gk2.janhout.gk2_android.fragmentos.FragmentoSeleccionarProducto;
 import es.gk2.janhout.gk2_android.modelos.ItemNavigationDrawer;
 import es.gk2.janhout.gk2_android.util.Metodos;
 
@@ -47,7 +48,8 @@ public class Principal extends AppCompatActivityBusqueda {
         compras,
         gastos,
         facturas,
-        clientes_favoritos
+        clientes_favoritos,
+        productos
     }
     public static ListaFragmentosPrincipal fragmentoActual;
 
@@ -121,6 +123,9 @@ public class Principal extends AppCompatActivityBusqueda {
         } else if(id == R.id.action_nueva_factura){
             nuevaFactura();
             return true;
+        } else if (id == R.id.action_nuevo_producto) {
+            nuevoProducto();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -139,6 +144,7 @@ public class Principal extends AppCompatActivityBusqueda {
             menu.findItem(R.id.action_nuevoGasto).setVisible(!drawerOpen);
             menu.findItem(R.id.action_search).setVisible(!drawerOpen);
             menu.findItem(R.id.action_nueva_factura).setVisible(!drawerOpen);
+            menu.findItem(R.id.action_nuevo_producto).setVisible(!drawerOpen);
         } else {
             if (fragmentoActual == ListaFragmentosPrincipal.clientes) {
                 menu.findItem(R.id.action_nuevo_cliente).setVisible(true);
@@ -151,7 +157,8 @@ public class Principal extends AppCompatActivityBusqueda {
                 menu.findItem(R.id.action_nueva_factura).setVisible(false);
             }
             if (fragmentoActual == ListaFragmentosPrincipal.facturas ||
-                    fragmentoActual == ListaFragmentosPrincipal.clientes) {
+                    fragmentoActual == ListaFragmentosPrincipal.clientes ||
+                    fragmentoActual == ListaFragmentosPrincipal.productos) {
                 menu.findItem(R.id.action_search).setVisible(true);
             } else {
                 menu.findItem(R.id.action_search).setVisible(false);
@@ -161,6 +168,9 @@ public class Principal extends AppCompatActivityBusqueda {
             } else {
                 menu.findItem(R.id.action_nuevoGasto).setVisible(false);
             }
+            if (fragmentoActual == ListaFragmentosPrincipal.productos)
+                menu.findItem(R.id.action_nuevo_producto).setVisible(true);
+            else menu.findItem(R.id.action_nuevo_producto).setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -290,17 +300,19 @@ public class Principal extends AppCompatActivityBusqueda {
         } else if (fragmentoActual == ListaFragmentosPrincipal.gastos) {
             f = null;
         } else if (fragmentoActual == ListaFragmentosPrincipal.facturas) {
-            /*f = new FragmentoListaFacturas();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("t odo", true);
-            bundle.putString("query", textoBusqueda);
-            f.setArguments(bundle);*/
             f = new FragmentoContenedorListaFacturas();
             Bundle bundle = new Bundle();
             bundle.putBoolean("todas", true);
             bundle.putString("query", textoBusqueda);
             f.setArguments(bundle);
             fragmentoActual = ListaFragmentosPrincipal.facturas;
+        } else if (fragmentoActual == ListaFragmentosPrincipal.productos) {
+            f = new FragmentoSeleccionarProducto();
+            Bundle bundle = new Bundle();
+            bundle.putString("query", textoBusqueda);
+            bundle.putBoolean("listener", false);
+            f.setArguments(bundle);
+            fragmentoActual = ListaFragmentosPrincipal.productos;
         }
         if (f != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, f).commit();
@@ -321,6 +333,10 @@ public class Principal extends AppCompatActivityBusqueda {
 
     private void nuevoGasto() {
         startActivity(new Intent(this, NuevoGasto.class));
+    }
+
+    private void nuevoProducto() {
+        startActivity(new Intent(this, NuevoProducto.class));
     }
 
     /* *************************************************************************
@@ -369,8 +385,12 @@ public class Principal extends AppCompatActivityBusqueda {
                 break;
 
             case 4:
-                i = new Intent(this, NuevoProducto.class);
-                startActivity(i);
+                fragment = new FragmentoSeleccionarProducto();
+                fragmentoActual = ListaFragmentosPrincipal.productos;
+                Bundle b = new Bundle();
+                b.putString("query", "");
+                b.putBoolean("listener", false);
+                fragment.setArguments(b);
                 break;
 
             case 5:

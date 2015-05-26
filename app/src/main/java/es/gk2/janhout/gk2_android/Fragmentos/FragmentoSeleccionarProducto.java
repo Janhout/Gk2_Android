@@ -56,13 +56,19 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
         super.onActivityCreated(savedInstanceState);
         this.contexto = getActivity();
         query = getArguments().getString("query");
-        listener = (NuevaFactura)getActivity();
         inicializarListView();
-        if(query.length()>1) {
+        if (getArguments().getBoolean("listener")) {
+            listener = (NuevaFactura) getActivity();
+            if(query.length()>1) {
+                cargarLista();
+            } else {
+                textoVacio.setText("lista vacia");
+                lv.setEmptyView(textoVacio);
+            }
+        }
+        else {
+            listener = null;
             cargarLista();
-        } else {
-            textoVacio.setText("lista vacia");
-            lv.setEmptyView(textoVacio);
         }
     }
 
@@ -103,7 +109,7 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        listener.devolverProductoLista(listaProductos.get(position));
+                        if (listener != null) listener.devolverProductoLista(listaProductos.get(position));
                     }
                 });
                 lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {

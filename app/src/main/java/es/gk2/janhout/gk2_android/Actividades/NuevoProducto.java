@@ -216,7 +216,7 @@ public class NuevoProducto extends AppCompatActivity implements AsyncTaskPost.On
                         params.put("control_stock", (controlStock.isChecked() ? "1" : "0"));
                         params.put("lotes", (lotes.isChecked() ? "1" : "0"));
                         //TODO: necesitamos la lista de unidades del servidor
-                        params.put("medida", unidad.getText().toString());
+                        params.put("medida", "-");
                         params.put("id_a", "0");
 
                         AsyncTaskPost crearProducto = new AsyncTaskPost(this, this, Constantes.PRODUCTOS_INSERTAR, CODIGO_INSERTAR_PRODUCTO);

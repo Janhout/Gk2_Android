@@ -16,6 +16,7 @@
     <string name="action_nuevo_cliente">Nuevo cliente</string>
     <string name="action_buscar">Buscar</string>
     <string name="action_nueva_factura">Crear nueva factura</string>
+    <string name="action_nuevo_producto">Crear nuevo producto</string>
     <string name="action_llamar_telefono">Llamar por teléfono</string>
     <string name="action_enviar_correo">Enviar email</string>
     <string name="action_ver_facturas">Ver facturas</string>
@@ -60,5 +61,8 @@
     <string name="e_sesion_expirada">Su sesión ha expirado</string>
     <string name="e_no_vacio">Este campo no puede estar vacío</string>
     <string name="hello_world">Hello world!</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
