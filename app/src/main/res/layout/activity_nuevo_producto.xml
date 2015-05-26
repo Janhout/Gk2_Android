@@ -87,7 +87,7 @@
                         style="@style/editTextPersonalizado"
                         android:layout_width="0dp"
                         android:layout_weight="2"
-                        android:hint="@string/s_nuevo_producto_precio_compra"
+                        android:text="@string/s_nuevo_producto_precio_vacio"
                         android:imeOptions="actionNext"
                         android:inputType="number|numberDecimal"
                         android:nextFocusForward="@+id/nuevoProducto_beneficio" />

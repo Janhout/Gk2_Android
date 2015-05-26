@@ -5,6 +5,7 @@
     <string name="s_nuevo_producto_descripcion">Descripción</string>
 
     <string name="s_nuevo_producto_referencia">Referencia</string>
+    <string name="s_nuevo_producto_precio_vacio">0.00</string>
     <string name="s_nuevo_producto_precio_compra">Precio de compra</string>
     <string name="s_nuevo_producto_beneficio">Beneficio</string>
     <string name="s_nuevo_producto_precio_venta">Precio venta</string>
@@ -13,4 +14,7 @@
     <string name="s_nuevo_producto_controlStock">Control del stock para las ventas y movimientos</string>
     <string name="s_nuevo_producto_lotes">Permite controlar lotes para este producto al comprar y vender</string>
     <string name="s_nuevo_producto_submit">Guardar el producto</string>
+
+    <string name="s_nuevo_producto_succeed">Producto insertado correctamente</string>
+    <string name="e_nuevo_producto_referencia_existe">Ya existe un producto con esa referencia</string>
 </resources>

@@ -34,8 +34,10 @@ public class Constantes {
 
     public final static String PRODUCTOS = MI_URL + "productos/";
     public final static String PRODUCTOS_TARIFAS = PRODUCTOS + "tarifas/";
+    public final static String PRODUCTOS_INSERTAR = PRODUCTOS + "guardar/";
     public final static String PRODUCTOS_LISTAR = PRODUCTOS + "json/";
     public final static String PRODUCTOS_DETALLE = PRODUCTOS + "getinfobybarcode/";
+    public final static String PRODUCTOS_REFERENCIA = PRODUCTOS + "getinfobyreference/";
     public final static String PRODUCTOS_OTROS_DETALLES = PRODUCTOS + "precio/";
 
     //Datos

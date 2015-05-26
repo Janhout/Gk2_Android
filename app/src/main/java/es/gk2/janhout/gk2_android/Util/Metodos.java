@@ -15,9 +15,10 @@ import android.widget.Toast;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.Locale;
 
-import es.gk2.janhout.gk2_android.actividades.Login;
 import es.gk2.janhout.gk2_android.R;
+import es.gk2.janhout.gk2_android.actividades.Login;
 
 public class Metodos {
 
@@ -139,7 +140,7 @@ public class Metodos {
     }
 
     public static String doubleToString(double valor){
-        return String.format("%.2f", Metodos.redondear(valor, 2));
+        return String.format(Locale.US, "%.2f", Metodos.redondear(valor, 2));
     }
 
     public static void redireccionarLogin(Context contexto){
