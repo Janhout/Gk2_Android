@@ -163,8 +163,8 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
             //Segunda comprobación. Mira si existe el DNI del cliente.
             Hashtable<String, String> parametros = new Hashtable<>();
             parametros.put("nif", inputNIF.getText().toString());
-            AsyncTaskGet hebraComprobarCliente = new AsyncTaskGet(this, this, Constantes.CLIENTES_CONSULTA_NIF, false, CODIGO_COMPROBAR_DNI);
-            hebraComprobarCliente.execute(parametros);
+            AsyncTaskGet comprobarCliente = new AsyncTaskGet(this, this, Constantes.CLIENTES_CONSULTA_NIF, false, CODIGO_COMPROBAR_DNI);
+            comprobarCliente.execute(parametros);
         }
     }
 

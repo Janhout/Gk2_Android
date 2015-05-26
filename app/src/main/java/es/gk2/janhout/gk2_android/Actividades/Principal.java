@@ -376,7 +376,7 @@ public class Principal extends AppCompatActivityBusqueda {
                 break;
         }
 
-        if(position != 5) {
+        if(fragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.relativeLayoutPrincipal, fragment).commit();
 
             drawerList.setItemChecked(position, true);
