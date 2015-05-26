@@ -31,6 +31,7 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
     private NuevaFactura actividad;
     private Cliente cliente;
     private Producto producto;
+    private String iva_incluido;
 
     private EditText etNombreProducto;
     private EditText etCantidadProducto;
@@ -64,6 +65,7 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
         listener = (NuevaFactura)getActivity();
         cliente = this.getArguments().getParcelable("cliente");
         producto = this.getArguments().getParcelable("productoModificar");
+        iva_incluido = this.getArguments().getInt("iva_incluido")+"";
         cargarView();
         if(producto != null){
             mostrarDatosProducto();
@@ -91,7 +93,7 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
                 if(producto == null) {
                     producto = new Producto();
                 }
-                String precio = etPrecioProducto.getText().toString().equals("") ? etPrecioProducto.getText().toString():"0";
+                String precio = etPrecioProducto.getText().toString().equals("") ? "0":etPrecioProducto.getText().toString();
                 producto.setPrecio_venta_final(Metodos.stringToDouble(precio)+"");
                 String cantidad = etCantidadProducto.getText().toString();
                 producto.setCantidad(cantidad);
@@ -100,7 +102,7 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
                 producto.setTitulo(etDescripcionProducto.getText().toString());
                 producto.setP_iva(spIva.getSelectedItem().toString());
                 producto.setNotas("");
-                producto.setTarifa_iva_incluido("1");
+                producto.setTarifa_iva_incluido(iva_incluido+"");
                 listener.devolverProducto(producto);
                 return true;
             }

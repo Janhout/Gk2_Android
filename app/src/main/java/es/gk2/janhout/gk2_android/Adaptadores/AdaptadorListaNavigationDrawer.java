@@ -1,6 +1,5 @@
 package es.gk2.janhout.gk2_android.adaptadores;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +45,7 @@ public class AdaptadorListaNavigationDrawer extends ArrayAdapter {
 
         return convertView;
     }
+
     public static class ViewHolder {
         public TextView titulo;
         public TextView icono;

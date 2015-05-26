@@ -16,9 +16,9 @@
             android:width="48dp" />
 
         <gradient
-            android:centerColor="@color/azul_logo"
+            android:centerColor="@color/mi_material_primary"
             android:centerY="0.5"
-            android:endColor="@color/button_background_enabled_end"
+            android:endColor="@color/mi_material_primary_dark"
             android:startColor="@color/blanco"
             android:type="sweep"
             android:useLevel="false" />
