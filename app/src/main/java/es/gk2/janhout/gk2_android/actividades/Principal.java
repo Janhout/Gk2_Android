@@ -359,18 +359,12 @@ public class Principal extends AppCompatActivityBusqueda {
                 fragment = fragmentoClientes(false, "");
                 fragmentoActual = ListaFragmentosPrincipal.clientes;
                 break;
-
             case 1:
                 fragment = fragmentoClientes(true, "");
                 fragmentoActual = ListaFragmentosPrincipal.clientes_favoritos;
                 break;
 
             case 2:
-                /*fragment = new FragmentoListaFacturas();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("t odo", true);
-                bundle.putString("query", "");
-                fragment.setArguments(bundle);*/
                 fragmentoActual = ListaFragmentosPrincipal.facturas;
                 fragment = new FragmentoContenedorListaFacturas();
                 Bundle bundle = new Bundle();
@@ -378,12 +372,10 @@ public class Principal extends AppCompatActivityBusqueda {
                 bundle.putString("query", "");
                 fragment.setArguments(bundle);
                 break;
-
             case 3:
                 fragment = new FragmentoListaCompras();
                 fragmentoActual = ListaFragmentosPrincipal.compras;
                 break;
-
             case 4:
                 fragment = new FragmentoSeleccionarProducto();
                 fragmentoActual = ListaFragmentosPrincipal.productos;
@@ -392,7 +384,6 @@ public class Principal extends AppCompatActivityBusqueda {
                 b.putBoolean("listener", false);
                 fragment.setArguments(b);
                 break;
-
             case 5:
                 Metodos.borrarPreferenciasCompartidas(this);
                 i = new Intent(this, Login.class);

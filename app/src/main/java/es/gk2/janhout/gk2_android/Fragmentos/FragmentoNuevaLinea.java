@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -90,19 +91,21 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
         int id = item.getItemId();
         if(id == R.id.action_guardar_factura){
             if(NuevaFactura.fragmentoActual == NuevaFactura.ListaFragmentosNuevaFactura.nuevaLinea){
-                if(producto == null) {
+                if(producto == null ||
+                        !producto.getArticulo().equals(etNombreProducto.getText().toString())) {
                     producto = new Producto();
+                    producto.setArticulo(".");
+                    producto.setUnidades(etUnidad.getText().toString());
+                    producto.setNotas("");
+                    producto.setTarifa_iva_incluido(iva_incluido+"");
+                    producto.setDescuento("");
                 }
                 String precio = etPrecioProducto.getText().toString().equals("") ? "0":etPrecioProducto.getText().toString();
                 producto.setPrecio_venta_final(Metodos.stringToDouble(precio)+"");
                 String cantidad = etCantidadProducto.getText().toString();
                 producto.setCantidad(cantidad);
-                producto.setArticulo(etNombreProducto.getText().toString());
-                producto.setUnidades(etUnidad.getText().toString());
                 producto.setTitulo(etDescripcionProducto.getText().toString());
                 producto.setP_iva(spIva.getSelectedItem().toString());
-                producto.setNotas("");
-                producto.setTarifa_iva_incluido(iva_incluido+"");
                 listener.devolverProducto(producto);
                 return true;
             }
@@ -160,6 +163,7 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
                     NuevaFactura.fragmentoActual = NuevaFactura.ListaFragmentosNuevaFactura.seleccionarProducto;
                     Bundle bundle = new Bundle();
                     bundle.putString("query", "");
+                    bundle.putBoolean("listener", true);
                     fragment.setArguments(bundle);
                     FragmentoNuevaLinea.this.getActivity().invalidateOptionsMenu();
                     FragmentTransaction ft = getFragmentManager().beginTransaction().replace(R.id.relativeLayoutFactura, fragment);
@@ -194,8 +198,19 @@ public class FragmentoNuevaLinea extends Fragment implements AsyncTaskGet.OnProc
         otrosDatos.execute(parametros);
     }
 
-    public void setProducto(Producto producto){
-        this.producto = producto;
+    public void setProductoSeleccionado(Producto producto){
+        this.producto = new Producto();
+        this.producto.setCantidad(producto.getCantidad());
+        this.producto.setArticulo(producto.getArticulo());
+        this.producto.setTitulo(producto.getTitulo());
+        this.producto.setP_coste(producto.getP_coste());
+        this.producto.setId_a(producto.getId_a());
+        this.producto.setFamilia(producto.getFamilia());
+        this.producto.setPrecio_venta(producto.getPrecio_venta());
+        this.producto.setControl_stock(producto.getControl_stock());
+        this.producto.setLotes(producto.getLotes());
+        this.producto.setDisponibilidad(producto.getDisponibilidad());
+
         AsyncTaskGet datosAdicionales = new AsyncTaskGet(actividad, this, Constantes.PRODUCTOS_DETALLE, false, CODIGO_DATOS_ADICIONALES);
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put("q", producto.getArticulo());

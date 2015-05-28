@@ -31,6 +31,15 @@ public class AsyncTaskPost extends AsyncTask<Hashtable<String, String>, Void, St
     protected void onPreExecute() {
         layoutProgreso.bringToFront();
         layoutProgreso.setVisibility(View.VISIBLE);
+        if(!Metodos.comprobarConexion(contexto) || !Metodos.comprobarIntenet()){
+            cancel(true);
+        }
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        listener.resultadoPost(null, codigo_peticion);
     }
 
     @Override

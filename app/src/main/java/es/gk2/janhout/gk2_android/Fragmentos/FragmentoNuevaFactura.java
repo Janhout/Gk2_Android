@@ -1,10 +1,11 @@
 package es.gk2.janhout.gk2_android.fragmentos;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -174,8 +175,8 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         }
         if(position != 0) {
             cal.add(Calendar.DAY_OF_MONTH, dias);
-            etFechaVenciminetoFactura.setText(formatearFecha(cal.get(Calendar.DAY_OF_MONTH),
-                    cal.get(Calendar.MONTH)+1,
+            etFechaVenciminetoFactura.setText(formatearFechaMostrar(cal.get(Calendar.DAY_OF_MONTH),
+                    cal.get(Calendar.MONTH) + 1,
                     cal.get(Calendar.YEAR)));
         }
     }
@@ -233,8 +234,6 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         while(keys.hasMoreElements()) {
             double key = keys.nextElement();
             double value = tablaIva.get(key);
-            //LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //View detalle = inflador.inflate(R.layout.detalle_totales_iva, null);
             View detalle = View.inflate(actividad, R.layout.detalle_totales_iva, null);
             TextView tv_etiqueta_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_etiqueta);
             TextView tv_total_iva = (TextView)detalle.findViewById(R.id.detalle_totales_iva_total);
@@ -303,8 +302,8 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
                 }
             }
         });
-        etFechaFactura.setText(formatearFecha(cal.get(Calendar.DAY_OF_MONTH),
-                cal.get(Calendar.MONTH)+1,
+        etFechaFactura.setText(formatearFechaMostrar(cal.get(Calendar.DAY_OF_MONTH),
+                cal.get(Calendar.MONTH) + 1,
                 cal.get(Calendar.YEAR)));
 
         spCondiciones_pago.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -367,11 +366,11 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
 
     private Hashtable<String, String> crearParametros(){
         Hashtable<String, String> parametros = new Hashtable<>();
-        parametros.put(PARAMETRO_VENCIMIENTO, etFechaVenciminetoFactura.getText().toString());
+        parametros.put(PARAMETRO_VENCIMIENTO, formatearFechaMySql(etFechaVenciminetoFactura.getText().toString()));
         parametros.put(PARAMETRO_ALMACEN, "000");
-        parametros.put(PARAMETRO_CLIENTE, actividad.getClienteFactura().getId()+"");//clienteSeleccionado.getId()+"");
+        parametros.put(PARAMETRO_CLIENTE, actividad.getClienteFactura().getId()+"");
         parametros.put(PARAMETRO_DESCRIPCION, "");
-        parametros.put(PARAMETRO_FECHA, etFechaFactura.getText().toString());
+        parametros.put(PARAMETRO_FECHA, formatearFechaMySql(etFechaFactura.getText().toString()));
         parametros.put(PARAMETRO_ID_DOCUMENTO, "0");
         parametros.put(PARAMETRO_LOTES, "[[],[],[]]");
         parametros.put(PARAMETRO_NOTAS, etNotas.getText().toString());
@@ -397,14 +396,11 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
             productos.append(obj);
         }
         productos.append("]");
-        Log.v("mio", productos.toString());
         parametros.put(PARAMETRO_DOCUMENTO, productos.toString());
         return parametros;
     }
 
     private void crearViewLinea(final Producto producto){
-        //LayoutInflater inflador = (LayoutInflater) actividad.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //View detalle = inflador.inflate(R.layout.detalle_linea_factura, null);
         View detalle = View.inflate(actividad, R.layout.detalle_linea_factura, null);
         TextView tv_cantidad_precio = (TextView)detalle.findViewById(R.id.detalle_linea_tv_cantidad_precio);
         TextView tv_producto = (TextView)detalle.findViewById(R.id.detalle_linea_tv_producto);
@@ -437,18 +433,47 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         detalle.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Producto pos = (Producto) v.getTag();
-                listaProductos.remove(pos);
-                cargarListaProductos();
-
-      ////////////////////////////////////////////////////////          // mostrar dialogo para borarr / editar
+                Producto p = (Producto) v.getTag();
+                accionLinea(p);
                 return true;
             }
         });
         llLineas.addView(detalle);
     }
 
-    private String formatearFecha(int d, int m, int y){
+    private void accionLinea(final Producto p){
+        AlertDialog.Builder builder = new AlertDialog.Builder(actividad);
+        builder.setTitle(actividad.getString(R.string.titulo_navigation_drawer));
+        final CharSequence ops[] = new CharSequence[] {"Borrar", "Modificar"};
+        builder.setItems(ops, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String opcion = ops[which].toString();
+                if (opcion.equals("Borrar")) {
+                    listaProductos.remove(p);
+                    cargarListaProductos();
+                } else if (opcion.equals("Modificar")) {
+                    productoModificar = listaProductos.indexOf(p);
+                    actividad.mostrarFragmentoNuevaLinea(true, p);
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private String formatearFechaMySql(String fecha){
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            Date f = format1.parse(fecha);
+            return format2.format(f);
+        } catch (ParseException ignored) {
+        }
+        return "2000-01-01";
+    }
+
+    private String formatearFechaMostrar(int d, int m, int y){
         String dia = ("0" + d).substring(("0" + d).length()-2);
         String mes = ("0" + m).substring(("0" + m).length()-2);
         String anio = "" + y;
@@ -495,7 +520,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
         if(datePickerDialog.getTag().equals(FECHA_FACTURA_TAG)) {
-            etFechaFactura.setText(formatearFecha(day, month + 1, year));
+            etFechaFactura.setText(formatearFechaMostrar(day, month + 1, year));
             cambioFechaVencimiento(spCondiciones_pago.getSelectedItemPosition());
         } else if(datePickerDialog.getTag().equals(FECHA_VENCIMIENTO_TAG)){
             etFechaVenciminetoFactura.setText(day + "/" + (month + 1) + "/" + year);

@@ -312,7 +312,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
     public void devolverProductoLista(Producto producto) {
         FragmentoNuevaFactura.productoModificar = -1;
         mostrarFragmentoNuevaLinea(false, null);
-        fragmentoNuevaLinea.setProducto(producto);
+        fragmentoNuevaLinea.setProductoSeleccionado(producto);
     }
 
     @Override

@@ -32,6 +32,9 @@ public class AsyncTaskGet extends AsyncTask<Hashtable<String, String>, Void, Str
     protected void onPreExecute() {
         layoutProgreso.bringToFront();
         layoutProgreso.setVisibility(View.VISIBLE);
+        if(!Metodos.comprobarConexion(contexto) || !Metodos.comprobarIntenet()){
+            cancel(true);
+        }
     }
 
     @Override
@@ -43,6 +46,12 @@ public class AsyncTaskGet extends AsyncTask<Hashtable<String, String>, Void, Str
             resultado = Peticiones.peticionGetJSON(contexto, url, params[0]);
         }
         return resultado;
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        listener.resultadoGet(null, codigo_peticion);
     }
 
     @Override

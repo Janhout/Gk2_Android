@@ -70,6 +70,56 @@ public class Producto implements Parcelable, Serializable {
     public Producto(){
     }
 
+    public Producto(Producto producto){
+        this.id_a = producto.getId_a();
+        this.articulo = producto.getArticulo();
+        this.titulo = producto.getTitulo();
+        this.p_coste = producto.getP_coste();
+        this.familia = producto.getFamilia();
+        this.precio_venta = producto.getPrecio_venta();
+        this.control_stock = producto.getControl_stock();
+        this.lotes = producto.getLotes();
+        this.disponibilidad = producto.getDisponibilidad();
+        this.precio_venta_final = producto.getPrecio_venta_final();
+        this.descuento = producto.getDescuento();
+        this.modo = producto.getModo();
+        this.modo_txt = producto.getModo_txt();
+        this.tarifa = producto.getTarifa();
+        this.tarifa_titulo = producto.getTarifa_titulo();
+        this.tarifa_iva_incluido = producto.getTarifa_iva_incluido();
+        this.tipo_iva = producto.getTipo_iva();
+        this.notas = producto.getNotas();
+        this.unidades = producto.getUnidades();
+        this.p_iva = producto.getP_iva();
+        this.cantidad = producto.getCantidad();
+    }
+
+    public Producto clonarProducto(){
+        Producto p = new Producto();
+        p.id_a = this.getId_a();
+        p.articulo = this.getArticulo();
+        p.titulo = this.getTitulo();
+        p.p_coste = this.getP_coste();
+        p.familia = this.getFamilia();
+        p.precio_venta = this.getPrecio_venta();
+        p.control_stock = this.getControl_stock();
+        p.lotes = this.getLotes();
+        p.disponibilidad = this.getDisponibilidad();
+        p.precio_venta_final = this.getPrecio_venta_final();
+        p.descuento = this.getDescuento();
+        p.modo = this.getModo();
+        p.modo_txt = this.getModo_txt();
+        p.tarifa = this.getTarifa();
+        p.tarifa_titulo = this.getTarifa_titulo();
+        p.tarifa_iva_incluido = this.getTarifa_iva_incluido();
+        p.tipo_iva = this.getTipo_iva();
+        p.notas = this.getNotas();
+        p.unidades = this.getUnidades();
+        p.p_iva = this.getP_iva();
+        p.cantidad = this.getCantidad();
+        return p;
+    }
+
     public Producto(JSONObject obj){
         try {
             this.id_a = obj.getInt("ID_A");

@@ -217,7 +217,7 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
                     parametros.put("inputProvincia", PROVINCIA_SELECCIONADA);
                     parametros.put("inputCodigoPostal", CODIGO_POSTAL_SELECCIONADO);
                     parametros.put("inputLocalidad", LOCALIDAD_SELECCIONADA);
-                    parametros.put("inputEmail", "pepesillo@toloquepuedas.com");//inputEmail.getText().toString());
+                    parametros.put("inputEmail", inputEmail.getText().toString());
                     parametros.put("inputWeb", "");
                     parametros.put("inputObservaciones", "");
                     parametros.put("inputTel01", inputTelefono1.getText().toString());
@@ -304,8 +304,6 @@ public class NuevoCliente extends AppCompatActivity implements AsyncTaskPost.OnP
                 }
                 break;
         }
-
-
     }
 
     public void iniciarSpinners() {
