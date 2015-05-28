@@ -24,6 +24,8 @@
 
     <string name="action_settings">Esto hay que borrarlo</string>
 
+    <string name="confirmar_salir">Pulsa de nuevo para salir</string>
+
 
     <string name="action_compartir">Compartir</string>
     <string name="action_guardar">Guardar</string>

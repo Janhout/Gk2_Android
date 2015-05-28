@@ -5,7 +5,7 @@
 
     <string name="hint_pulsar_seleccionar_cliente">Seleccionar un cliente</string>
     <string name="hint_pulsar_seleccionar_producto">Seleccionar un producto</string>
-    <string name="hint_nombre_producto">Nombre</string>
+    <string name="hint_nombre_producto">Producto</string>
     <string name="hint_cantidad_producto">Cantidad</string>
     <string name="hint_descripcion_producto">Descripción</string>
     <string name="hint_iva_producto">IVA</string>

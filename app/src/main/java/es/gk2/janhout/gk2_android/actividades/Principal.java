@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -55,6 +57,8 @@ public class Principal extends AppCompatActivityBusqueda {
 
     private Toolbar toolbar;
 
+    private boolean clickDobleSalida;
+
     /* *************************************************************************
      **************************** Métodos on... ********************************
      *************************************************************************** */
@@ -64,13 +68,25 @@ public class Principal extends AppCompatActivityBusqueda {
         switch (fragmentoActual){
             case ninguno:
             case clientes_favoritos:
-            case clientes:
-            case facturas:
-                super.onBackPressed();
+                if (clickDobleSalida) {
+                    super.onBackPressed();
+                    return;
+                }
+                this.clickDobleSalida = true;
+                Toast.makeText(this, getString(R.string.confirmar_salir), Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        clickDobleSalida = false;
+                    }
+                }, 1500);
                 break;
+            case facturas:
+            case clientes:
+            case productos:
             case compras:
             case gastos:
-                seleccionarItem(0);
+                seleccionarItem(1);
                 break;
         }
     }
@@ -80,6 +96,7 @@ public class Principal extends AppCompatActivityBusqueda {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
         inicio = true;
+        clickDobleSalida = false;
         if(savedInstanceState != null) {
             inicio = savedInstanceState.getBoolean("fav");
         }
