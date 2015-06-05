@@ -203,6 +203,10 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         h.execute(new Hashtable<String, String>());
     }
 
+    public void completarCliente(JSONObject j){
+        clienteFactura.datosAdicionales(j);
+    }
+
     private Fragment fragmentoClientes(String query){
         Fragment fragment = new FragmentoSeleccionarCliente();
         fragmentoActual = ListaFragmentosNuevaFactura.seleccionCliente;
@@ -217,6 +221,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         fragmentoActual = ListaFragmentosNuevaFactura.seleccionarProducto;
         Bundle bundle = new Bundle();
         bundle.putString("query", query);
+        bundle.putBoolean("listener", true);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -225,7 +230,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
         return clienteFactura;
     }
 
-    public ArrayList<Tarifa> getListaTariafa(){
+    public ArrayList<Tarifa> getListaTarifa(){
         return listaTarifas;
     }
 
@@ -272,7 +277,7 @@ public class NuevaFactura extends AppCompatActivityBusqueda implements Fragmento
             if(clienteFactura != null) {
                 boolean encontrado = false;
                 for (int i = 0; i < listaTarifas.size() && !encontrado; i++) {
-                    if (listaTarifas.get(i).equals(clienteFactura.getTarifa())) {
+                    if (listaTarifas.get(i).getTarifa().equals(clienteFactura.getTarifa())) {
                         ivaIncluido = listaTarifas.get(i).getIva_incluido();
                         encontrado = true;
                     }

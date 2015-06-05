@@ -24,6 +24,9 @@ import android.widget.Toast;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog.OnDateSetListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,13 +36,15 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import es.gk2.janhout.gk2_android.actividades.NuevaFactura;
+import es.gk2.janhout.gk2_android.util.AsyncTaskGet;
 import es.gk2.janhout.gk2_android.util.AsyncTaskPost;
 import es.gk2.janhout.gk2_android.util.Constantes;
 import es.gk2.janhout.gk2_android.util.Metodos;
 import es.gk2.janhout.gk2_android.R;
 import es.gk2.janhout.gk2_android.modelos.Producto;
 
-public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener, AsyncTaskPost.OnProcessCompleteListener {
+public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener, AsyncTaskPost.OnProcessCompleteListener,
+            AsyncTaskGet.OnProcessCompleteListener {
 
     private NuevaFactura actividad;
     private EditText etCliente;
@@ -58,6 +63,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     public static final String FECHA_VENCIMIENTO_TAG = "fecha_vencimiento";
 
     public static final int CODIGO_PETICION_FACTURA = 1;
+    private static final int CODIGO_PEDIR_CLIENTE = 2;
 
     private static final String PARAMETRO_FECHA = "fecha";
     private static final String PARAMETRO_CLIENTE = "cliente";
@@ -364,6 +370,26 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         llTotalesIva = (LinearLayout)getView().findViewById(R.id.nueva_factura_layout_totales_iva);
     }
 
+    private void completarDatosCliente(JSONObject jsonObject) {
+        if (jsonObject != null) {
+            actividad.completarCliente(jsonObject);
+        }
+        etCliente.setText(actividad.getClienteFactura().getNombre_comercial());
+        int ivaIncluido = 1;
+        if(actividad.getClienteFactura() != null && actividad.getListaTarifa() != null) {
+            boolean encontrado = false;
+            for (int i = 0; i < actividad.getListaTarifa().size() && !encontrado; i++) {
+                if (actividad.getListaTarifa().get(i).getTarifa().equals(actividad.getClienteFactura().getTarifa())) {
+                    ivaIncluido = actividad.getListaTarifa().get(i).getIva_incluido();
+                    encontrado = true;
+                }
+            }
+        }
+        if(ivaIncluido == 0){
+            formatoPrecio.setChecked(true);
+        }
+    }
+
     private Hashtable<String, String> crearParametros(){
         Hashtable<String, String> parametros = new Hashtable<>();
         parametros.put(PARAMETRO_VENCIMIENTO, formatearFechaMySql(etFechaVenciminetoFactura.getText().toString()));
@@ -487,20 +513,10 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     }
 
     public void setCliente(){
-        etCliente.setText(actividad.getClienteFactura().getNombre_comercial());
-        int ivaIncluido = 1;
-        if(actividad.getClienteFactura() != null && actividad.getListaTariafa() != null) {
-            boolean encontrado = false;
-            for (int i = 0; i < actividad.getListaTariafa().size() && !encontrado; i++) {
-                if (actividad.getListaTariafa().get(i).getTarifa().equals(actividad.getClienteFactura().getTarifa())) {
-                    ivaIncluido = actividad.getListaTariafa().get(i).getIva_incluido();
-                    encontrado = true;
-                }
-            }
-        }
-        if(ivaIncluido == 0){
-            formatoPrecio.setChecked(true);
-        }
+        String url;
+        url = Constantes.CLIENTES_DETALLE + actividad.getClienteFactura().getId();
+        AsyncTaskGet asyncTask = new AsyncTaskGet(actividad, this, url, false, CODIGO_PEDIR_CLIENTE);
+        asyncTask.execute(new Hashtable<String, String>());
     }
 
     public void setProducto(Producto producto){
@@ -531,6 +547,25 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     /* *************************************************************************
      ******************** Interfaz OnProcessCompleteListener *******************
      *************************************************************************** */
+
+    @Override
+    public void resultadoGet(String respuesta, int codigo) {
+        if (respuesta != null) {
+            switch (codigo) {
+                case CODIGO_PEDIR_CLIENTE:
+                    JSONObject clienteJSON;
+                    try {
+                        clienteJSON = new JSONObject(respuesta);
+                    } catch (JSONException e) {
+                        clienteJSON = null;
+                    }
+                    completarDatosCliente(clienteJSON);
+                    break;
+            }
+        } else {
+            Metodos.redireccionarLogin(actividad);
+        }
+    }
 
     @Override
     public void resultadoPost(String respuesta, int codigo_peticion) {

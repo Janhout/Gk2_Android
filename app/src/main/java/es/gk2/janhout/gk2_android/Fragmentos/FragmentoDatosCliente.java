@@ -118,17 +118,6 @@ public class FragmentoDatosCliente extends Fragment implements AsyncTaskGet.OnPr
 
     private void completarDatosCliente() {
         if (clienteJSON != null) {
-            /*try {
-                s_nombreComercial = cliente.getString("cliente_name");
-                s_nif = cliente.getString("cliente_nif");
-                telf1 = cliente.getString("cliente_tlf1");
-                telf2 = cliente.getString("cliente_tlf2");
-                s_direccion = cliente.getString("cliente_direccion");
-                s_email = cliente.getString("cliente_mail");
-                s_numeroCuenta = cliente.getString("cliente_ccc");
-                s_favorito = cliente.getInt("favorito") == 1;
-            } catch (JSONException ignored) {
-            }*/
             clienteMostrar.datosAdicionales(clienteJSON);
             actividad.setCliente(clienteMostrar);
         }

@@ -11,9 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 
 import java.io.File;
 
@@ -45,10 +43,7 @@ public class NuevoGasto extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_gasto);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGasto_concepto, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner nuevoGasto_spinner = (Spinner) findViewById(R.id.nuevoGasto_concepto);
-        nuevoGasto_spinner.setAdapter(adapter);
+
         fotoTomada = (ImageView) findViewById(R.id.nuevoGasto_imagen);
     }
 

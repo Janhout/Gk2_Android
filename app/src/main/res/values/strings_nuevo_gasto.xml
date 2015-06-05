@@ -2,5 +2,8 @@
 <resources>
     <string name="s_nuevoGasto_insertar">Añadir gasto</string>
     <string name="s_nuevoGasto_otros_detalles">Otros detalles</string>
+    <string name="s_nuevoGasto_concepto">Concepto</string>
     <string name="s_nuevoGasto_importe">Importe</string>
+    <string name="s_nuevoGasto_titulo">Gasto</string>
+    <string name="s_nuevoGasto_foto">Foto</string>
 </resources>

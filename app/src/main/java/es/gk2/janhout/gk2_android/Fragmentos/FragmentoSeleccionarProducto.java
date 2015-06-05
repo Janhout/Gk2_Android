@@ -3,6 +3,7 @@ package es.gk2.janhout.gk2_android.fragmentos;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,8 +66,7 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
                 textoVacio.setText("lista vacia");
                 lv.setEmptyView(textoVacio);
             }
-        }
-        else {
+        } else {
             listener = null;
             cargarLista();
         }
@@ -109,7 +109,9 @@ public class FragmentoSeleccionarProducto extends Fragment implements AsyncTaskG
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (listener != null) listener.devolverProductoLista(listaProductos.get(position));
+                        if (listener != null){
+                            listener.devolverProductoLista(listaProductos.get(position));
+                        }
                     }
                 });
                 lv.setOnScrollListener(new ScrollInfinito(ITEMS_BAJO_LISTA) {
