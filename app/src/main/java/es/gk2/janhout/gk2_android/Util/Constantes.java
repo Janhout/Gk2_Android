@@ -45,4 +45,7 @@ public class Constantes {
     public final static String PROVINCIAS = CLIENTES + "get_provincias/ESP/";
     public final static String TIPOS_DIRECCION = CLIENTES + "get_tipo_direccion/";
 
+    public final static String TIPOS_IVA = PRODUCTOS + "json_getiva/";
+
+
 }

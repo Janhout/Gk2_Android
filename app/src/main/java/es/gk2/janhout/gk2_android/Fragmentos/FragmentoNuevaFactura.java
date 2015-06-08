@@ -62,8 +62,9 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     public static final String FECHA_FACTURA_TAG = "fecha_factura";
     public static final String FECHA_VENCIMIENTO_TAG = "fecha_vencimiento";
 
-    public static final int CODIGO_PETICION_FACTURA = 1;
-    private static final int CODIGO_PEDIR_CLIENTE = 2;
+    public static final int CODIGO_PETICION_FACTURA = -1;
+    private static final int CODIGO_PEDIR_CLIENTE = -2;
+
 
     private static final String PARAMETRO_FECHA = "fecha";
     private static final String PARAMETRO_CLIENTE = "cliente";
@@ -151,6 +152,24 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
     /* *************************************************************************
      **************************** Auxialiares **********************************
      *************************************************************************** */
+
+    private void actualizarListaProductos(){
+        if(listaProductos.size()>0) {
+            for (int i = 0; i < listaProductos.size(); i++) {
+                Producto producto = listaProductos.get(i);
+                AsyncTaskGet otrosDatos = new AsyncTaskGet(actividad, FragmentoNuevaFactura.this, Constantes.PRODUCTOS_OTROS_DETALLES, false, i);
+                Hashtable<String, String> parametros = new Hashtable<>();
+                parametros.put("articulo", producto.getArticulo());
+                String tarifa = (actividad.getClienteFactura()==null) ? "NOR":actividad.getClienteFactura().getTarifa();
+                parametros.put("tarifa", tarifa);
+                parametros.put("unidades", producto.getCantidad());
+                String idCliente = (actividad.getClienteFactura()==null) ? "":actividad.getClienteFactura().getId()+"";
+                parametros.put("cliente", idCliente);
+                otrosDatos.execute(parametros);
+            }
+            cargarListaProductos();
+        }
+    }
 
     private void cambioFechaVencimiento(int position){
         Calendar cal = Calendar.getInstance();
@@ -388,6 +407,7 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
         if(ivaIncluido == 0){
             formatoPrecio.setChecked(true);
         }
+        actualizarListaProductos();
     }
 
     private Hashtable<String, String> crearParametros(){
@@ -560,6 +580,13 @@ public class FragmentoNuevaFactura extends Fragment implements OnDateSetListener
                         clienteJSON = null;
                     }
                     completarDatosCliente(clienteJSON);
+                    break;
+                default:
+                    try {
+                        JSONObject obj = new JSONObject(respuesta);
+                        listaProductos.get(codigo).otrosDetalles(obj);
+                    } catch (JSONException ignored) {
+                    }
                     break;
             }
         } else {
